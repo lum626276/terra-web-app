@@ -12,7 +12,8 @@ import useForm from "../libs/useForm"
 import { validate as v, placeholder, step, toBase64 } from "../libs/formHelpers"
 import { renderBalance } from "../libs/formHelpers"
 import getLpName from "../libs/getLpName"
-import { useRefetch, useContractsAddress, useContract } from "../hooks"
+import { useContractsAddress, useContract } from "../hooks"
+import { useRefetch, usePolling } from "../hooks"
 import { PriceKey, BalanceKey } from "../hooks/contractKeys"
 
 import FormGroup from "../components/FormGroup"
@@ -42,6 +43,8 @@ const PoolForm = ({ type, tab }: { type: Type; tab: Tab }) => {
   const { state } = useLocation<{ token: string }>()
   const { whitelist, getSymbol, toToken } = useContractsAddress()
   const { find } = useContract()
+  usePolling()
+
   // Refetch the balance of stakable LP even on stake
   useRefetch([
     priceKey,
@@ -74,10 +77,10 @@ const PoolForm = ({ type, tab }: { type: Type; tab: Tab }) => {
   const price = gt(pairPrice, 0) ? pairPrice : oraclePrice
 
   /* form:focus input on select asset */
-  const valueRef = useRef<HTMLInputElement>(null!)
+  const valueRef = useRef<HTMLInputElement>()
   const onSelect = (token: string) => {
     setValue(Key.token, token)
-    !value && valueRef.current.focus()
+    !value && valueRef.current?.focus()
   }
 
   /* estimate:uusd */
@@ -163,7 +166,7 @@ const PoolForm = ({ type, tab }: { type: Type; tab: Tab }) => {
         label: (
           <TooltipIcon content={Tooltip.Pool.Output}>Received</TooltipIcon>
         ),
-        value: fromLP?.text,
+        value: fromLP?.text ?? "-",
       },
     }[type],
   }

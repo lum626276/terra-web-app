@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom"
 import { UST, UUSD } from "../../constants"
 import Tooltip from "../../lang/Tooltip.json"
-import { lt, gt } from "../../libs/math"
+import { lt, gt, div, minus } from "../../libs/math"
 import { format, formatAsset } from "../../libs/parse"
+import { percent } from "../../libs/num"
 import { useContractsAddress, useContract, useRefetch } from "../../hooks"
 import { AssetInfoKey, PriceKey } from "../../hooks/contractKeys"
 import { StatsNetwork } from "../../statistics/useDashboard"
@@ -27,10 +28,12 @@ const TopTrading = ({ network }: { network: StatsNetwork }) => {
   const { loading, data } = useRefetch(keys)
 
   const dataSource = listed
+    .filter(({ token }) => gt(liquidity[token] ?? 0, 0))
     .map((item) => {
       const { token } = item
       const pair = find(PriceKey.PAIR, token)
       const oracle = find(PriceKey.ORACLE, token)
+      const premium = minus(div(pair, oracle), 1)
 
       return {
         ...item,
@@ -48,6 +51,7 @@ const TopTrading = ({ network }: { network: StatsNetwork }) => {
             yesterday: yesterday[PriceKey.ORACLE][token],
           }),
         },
+        premium,
         liquidity: liquidity[token] ?? "0",
         volume: volume[token] ?? "0",
       }
@@ -127,6 +131,13 @@ const TopTrading = ({ network }: { network: StatsNetwork }) => {
                 <Change>{change}</Change>
               ),
               narrow: ["left"],
+            },
+            {
+              key: "premium",
+              dataIndex: "premium",
+              title: "Spread",
+              render: (value) => percent(value),
+              align: "right",
             },
           ]}
           dataSource={dataSource}

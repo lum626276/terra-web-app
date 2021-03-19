@@ -6,16 +6,19 @@ import useNewContractMsg from "../terra/useNewContractMsg"
 import { COMMISSION, MAX_SPREAD, MIR, UUSD } from "../constants"
 import Tooltip from "../lang/Tooltip.json"
 import { div, gt, isFinite } from "../libs/math"
-import { useRefetch } from "../hooks"
+import { usePolling, useRefetch } from "../hooks"
 import { format, lookup, lookupSymbol } from "../libs/parse"
 import { decimal } from "../libs/parse"
 import { toAmount } from "../libs/parse"
 import useForm from "../libs/useForm"
-import { validate as v, placeholder, step } from "../libs/formHelpers"
+import { placeholder, step } from "../libs/formHelpers"
+import { validate as v, validateSlippage } from "../libs/formHelpers"
 import { renderBalance } from "../libs/formHelpers"
+import useLocalStorage from "../libs/useLocalStorage"
 import calc from "../helpers/calc"
 import { useContractsAddress, useContract } from "../hooks"
 import { PriceKey, BalanceKey } from "../hooks/contractKeys"
+import useTax from "../graphql/useTax"
 
 import FormGroup from "../components/FormGroup"
 import Count from "../components/Count"
@@ -29,7 +32,6 @@ import useSelectAsset from "./useSelectAsset"
 import FormContainer from "./FormContainer"
 import FormIcon from "./FormIcon"
 import SetSlippageTolerance from "./SetSlippageTolerance"
-import useLocalStorage from "../libs/useLocalStorage"
 
 enum Key {
   token = "token",
@@ -46,13 +48,16 @@ const TradeForm = ({ type, tab }: { type: Type; tab: Tab }) => {
   const { whitelist, getToken, getSymbol, toToken } = useContractsAddress()
   const { find } = useContract()
   useRefetch([priceKey, balanceKey])
+  usePolling()
 
   /* form:slippage */
   const slippageState = useLocalStorage("slippage", "1")
   const [slippageValue] = slippageState
-  const slippage = isFinite(slippageValue)
-    ? div(slippageValue, 100)
-    : MAX_SPREAD
+  const slippageError = validateSlippage(slippageValue)
+  const slippage =
+    isFinite(slippageValue) && !slippageError
+      ? div(slippageValue, 100)
+      : MAX_SPREAD
 
   /* form:validate */
   const validate = ({ value1, value2, token }: Values<Key>) => {
@@ -89,11 +94,11 @@ const TradeForm = ({ type, tab }: { type: Type; tab: Tab }) => {
   const uusd = { [Type.BUY]: amount1, [Type.SELL]: amount2 }[type]
 
   /* form:focus input on select asset */
-  const value1Ref = useRef<HTMLInputElement>(null!)
-  const value2Ref = useRef<HTMLInputElement>(null!)
+  const value1Ref = useRef<HTMLInputElement>()
+  const value2Ref = useRef<HTMLInputElement>()
   const onSelect = (token: string) => {
     setValue(Key.token, token)
-    !value1 && value1Ref.current.focus()
+    !value1 && value1Ref.current?.focus()
   }
 
   /* simulation */
@@ -121,6 +126,12 @@ const TradeForm = ({ type, tab }: { type: Type; tab: Tab }) => {
   const select = useSelectAsset(config)
   const delisted = whitelist[token1]?.["status"] === "DELISTED"
 
+  const { getMax } = useTax()
+  const max = {
+    [Type.BUY]: lookup(getMax(balance), UUSD),
+    [Type.SELL]: lookup(balance, symbol),
+  }[type]
+
   const fields = getFields({
     [Key.value1]: {
       label: "From",
@@ -136,10 +147,7 @@ const TradeForm = ({ type, tab }: { type: Type; tab: Tab }) => {
         [Type.BUY]: lookupSymbol(symbol1),
         [Type.SELL]: delisted ? symbol1 : select.button,
       }[type],
-      max:
-        type === Type.SELL && gt(balance, 0)
-          ? () => setValue(Key.value1, lookup(balance, symbol))
-          : undefined,
+      max: gt(max, 0) ? () => setValue(Key.value1, max) : undefined,
       assets: type === Type.SELL && select.assets,
       help: renderBalance(find(balanceKey, token1), symbol1),
       focused: type === Type.SELL && select.isOpen,
@@ -243,7 +251,7 @@ const TradeForm = ({ type, tab }: { type: Type; tab: Tab }) => {
 
   return (
     <FormContainer {...container} {...tax}>
-      <SetSlippageTolerance state={slippageState} />
+      <SetSlippageTolerance state={slippageState} error={slippageError} />
       <FormGroup {...fields[Key.value1]} />
       <FormIcon name="arrow_downward" />
       <FormGroup {...fields[Key.value2]} />
