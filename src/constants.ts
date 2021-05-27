@@ -13,6 +13,7 @@ export const MIR = "MIR"
 export const UUSD = "uusd"
 export const UST = "UST"
 export const LP = "LP"
+export const SLP = "sLP"
 
 /* mirror:configs */
 export const GENESIS = 1607022000000

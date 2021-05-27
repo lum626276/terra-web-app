@@ -10,7 +10,7 @@ import LinkButton from "../../components/LinkButton"
 import DoughnutChart from "../../containers/DoughnutChart"
 import { My } from "./types"
 
-const TotalValue = ({ total, holdings, mint, pool, stake }: My) => {
+const TotalValue = ({ total, holdings, mint, stake }: My) => {
   const { value } = total
   const { totalRewards, totalRewardsValue } = stake
   const { uusd } = useContract()
@@ -43,7 +43,7 @@ const TotalValue = ({ total, holdings, mint, pool, stake }: My) => {
               label: "Mint",
               value: minus(mint.totalCollateralValue, mint.totalMintedValue),
             },
-            { label: "Stake", value: pool.totalWithdrawableValue },
+            { label: "Stake", value: stake.totalWithdrawableValue },
           ]}
           format={(value) => formatAsset(value, UUSD)}
         />

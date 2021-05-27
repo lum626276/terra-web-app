@@ -3,8 +3,8 @@ import { DataKey } from "../../hooks/useContract"
 export interface My {
   holdings: MyHoldings
   mint: MyMint
-  pool: MyPool
   stake: MyStake
+  gov: MyGov
   orders: MyOrders
   total: MyTotal
   loading: boolean
@@ -56,19 +56,6 @@ export interface MyMintAssetData extends Asset {
   delisted: boolean
 }
 
-export interface MyPool {
-  keys: DataKey[]
-  loading: boolean
-  totalWithdrawableValue: string
-  dataSource: MyPoolRow[]
-}
-
-export interface MyPoolRow extends ListedItem {
-  balance: string
-  withdrawable: { value: string; text: string }
-  share: string
-}
-
 export interface MyStake {
   keys: DataKey[]
   loading: boolean
@@ -76,16 +63,29 @@ export interface MyStake {
   govStakedValue: string
   totalRewards: string
   totalRewardsValue: string
+  totalWithdrawableValue: string
   dataSource: MyStakeRow[]
 }
 
+export type FarmType = "long" | "short"
+
 export interface MyStakeRow extends ListedItem {
+  type: FarmType
   apr?: string
   staked: string
-  stakable: string
   reward?: string
   gov?: boolean
 }
+
+export interface MyGov {
+  keys: DataKey[]
+  loading: boolean
+  staked: string
+  stakedValue: string
+  dataSource: MyGovRow[]
+}
+
+export interface MyGovRow {}
 
 export interface MyOrders {
   keys: DataKey[]

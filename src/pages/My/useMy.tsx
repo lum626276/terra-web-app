@@ -5,20 +5,20 @@ import { AccountInfoKey } from "../../hooks/contractKeys"
 import { DataKey, useContract } from "../../hooks/useContract"
 import useMyHoldings from "./useMyHoldings"
 import useMyMint from "./useMyMint"
-import useMyPool from "./useMyPool"
 import useMyStake from "./useMyStake"
+import useMyGov from "./useMyGov"
 import useMyOrders from "./useMyOrders"
 import { My } from "./types"
 
 const useMy = (): My => {
   const holdings = useMyHoldings()
   const mint = useMyMint()
-  const pool = useMyPool()
   const stake = useMyStake()
+  const gov = useMyGov()
   const orders = useMyOrders()
 
   const keys = uniq(
-    [holdings, mint, pool, stake, orders].reduce<DataKey[]>(
+    [holdings, mint, stake, gov, orders].reduce<DataKey[]>(
       (acc, { keys }) => [...acc, ...keys],
       []
     )
@@ -33,16 +33,16 @@ const useMy = (): My => {
     holdings: holdings.totalValue,
     minted: mint.totalMintedValue,
     collateral: mint.totalCollateralValue,
-    withdrawble: pool.totalWithdrawableValue,
+    withdrawble: stake.totalWithdrawableValue,
     reward: stake.totalRewardsValue,
-    govStaked: stake.govStakedValue,
+    govStaked: gov.stakedValue,
     orders: orders.total,
   }
 
   const loading = !data
   const total = { value: calcTotalValue(values), loading }
 
-  return { holdings, mint, pool, stake, orders, total, loading }
+  return { holdings, mint, stake, gov, orders, total, loading }
 }
 
 export default useMy

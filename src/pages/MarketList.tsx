@@ -158,13 +158,13 @@ const MarketList = () => {
             align: "right",
           },
           {
-            key: "oracle",
+            key: "oracle.price",
             title: (
               <TooltipIcon content={Tooltip.TopTrading.Oracle}>
                 Oracle Price
               </TooltipIcon>
             ),
-            render: ({ price }) =>
+            render: (price) =>
               gt(price, 0) && <Formatted unit={UST}>{price}</Formatted>,
             align: "right",
             narrow: ["right"],

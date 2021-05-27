@@ -1,11 +1,10 @@
 import { useRouteMatch } from "react-router-dom"
 
 import { MIR, UUSD } from "../../constants"
-import { minus, gt, number } from "../../libs/math"
+import { gt } from "../../libs/math"
 import { useRefetch } from "../../hooks"
 import { useContract, useContractsAddress } from "../../hooks"
 import { BalanceKey, AssetInfoKey } from "../../hooks/contractKeys"
-import useAssetStats from "../../statistics/useAssetStats"
 
 import Grid from "../../components/Grid"
 import StakeItemCard from "../../components/StakeItemCard"
@@ -24,13 +23,11 @@ const StakeList = () => {
   /* context */
   const { listedAll, getSymbol } = useContractsAddress()
   const { find } = useContract()
-  const stats = useAssetStats()
-  const { apr } = stats
   const getPool = usePool()
 
   const getItem = (item: ListedItem) => {
     const { token } = item
-    const apr = stats?.apr?.[token]?.long ?? "0"
+    const apr = "0"
     const symbol = getSymbol(token)
 
     const totalStakedLP = find(AssetInfoKey.LPTOTALSTAKED, token)
@@ -70,9 +67,6 @@ const StakeList = () => {
               status === "LISTED" || gt(find(BalanceKey.LPSTAKED, token), 0)
           )
           .map(getItem)
-          .sort(({ token: a }, { token: b }) =>
-            number(minus(apr?.[b]?.long, apr?.[a]?.long))
-          )
           .sort(
             ({ symbol: a }, { symbol: b }) =>
               Number(b === "MIR") - Number(a === "MIR")

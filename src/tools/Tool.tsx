@@ -114,17 +114,15 @@ const Data = () => {
       </Grid>
 
       <Grid>
-        <Card>
-          <Table
-            columns={[
-              { key: "symbol" },
-              { key: "token" },
-              { key: "pair" },
-              { key: "lpToken" },
-            ]}
-            dataSource={listed}
-          />
-        </Card>
+        <Table
+          columns={[
+            { key: "symbol" },
+            { key: "token" },
+            { key: "pair" },
+            { key: "lpToken" },
+          ]}
+          dataSource={listed}
+        />
       </Grid>
     </Page>
   )

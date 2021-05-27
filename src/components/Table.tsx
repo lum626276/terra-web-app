@@ -22,9 +22,9 @@ interface Row {
 
 interface Column<T> {
   key: string
-  title?: ReactNode
+  title?: ReactNode | ReactNode[]
   dataIndex?: string
-  render?: (value: any, record: T, index: number) => ReactNode
+  render?: (value: any, record: T, index: number) => ReactNode | ReactNode[]
   children?: Column<T>[]
 
   colSpan?: number
@@ -109,7 +109,19 @@ function Table<T extends DefaultRecordType>(props: Props<T>) {
         style={{ width }}
         key={key}
       >
-        {title ?? key}
+        {title ? (
+          Array.isArray(title) ? (
+            <ul>
+              {title.map((title, index) => (
+                <li key={index}>{title}</li>
+              ))}
+            </ul>
+          ) : (
+            title
+          )
+        ) : (
+          key
+        )}
       </th>
     )
   }
@@ -137,6 +149,7 @@ function Table<T extends DefaultRecordType>(props: Props<T>) {
               const { className, bold, width } = column
               const value = path<any>((dataIndex ?? key).split(SEP), record)
               const tdClassName = cx({ bold }, styles.td, className)
+              const content = render?.(value, record, index)
 
               return (
                 <td
@@ -144,7 +157,19 @@ function Table<T extends DefaultRecordType>(props: Props<T>) {
                   style={{ width }}
                   key={key}
                 >
-                  {render?.(value, record, index) ?? value}
+                  {content ? (
+                    Array.isArray(content) ? (
+                      <ul>
+                        {content.map((content, index) => (
+                          <li key={index}>{content}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      content
+                    )
+                  ) : (
+                    value
+                  )}
                 </td>
               )
             }

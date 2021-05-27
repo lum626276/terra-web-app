@@ -47,26 +47,27 @@ const Orders = ({ loading, dataSource, total, more }: MyOrders) => {
           }
           columns={[
             {
-              key: "order_id",
-              title: "ID",
-              render: (id, { status }) => (
+              key: "type",
+              title: ["Order Type", "ID"],
+              render: (value, { status, order_id }) => (
                 <>
                   {status === "DELISTED" && <Delisted />}
-                  {id}
+                  <h1>{capitalize(value)}</h1>
+                  {order_id}
                 </>
               ),
-              bold: true,
-            },
-            {
-              key: "type",
-              title: "Order Type",
-              render: capitalize,
               align: "center",
             },
             {
-              key: "terraswapPrice",
-              title: "Terraswap Price",
-              render: (value) => `${format(value)} ${UST}`,
+              key: "asset",
+              title: [
+                "Order Amount",
+                renderTooltip("Order Value", Tooltip.My.OrderValue),
+              ],
+              render: (asset, { uusd }) => [
+                formatAsset(asset.amount, asset.symbol),
+                formatAsset(uusd.amount, uusd.symbol),
+              ],
               align: "right",
             },
             {
@@ -76,15 +77,9 @@ const Orders = ({ loading, dataSource, total, more }: MyOrders) => {
               align: "right",
             },
             {
-              key: "asset",
-              title: "Order Amount",
-              render: ({ amount, symbol }) => formatAsset(amount, symbol),
-              align: "right",
-            },
-            {
-              key: "uusd",
-              title: renderTooltip("Order Value", Tooltip.My.OrderValue),
-              render: ({ amount, symbol }) => formatAsset(amount, symbol),
+              key: "terraswapPrice",
+              title: "Terraswap Price",
+              render: (value) => `${format(value)} ${UST}`,
               align: "right",
             },
             {

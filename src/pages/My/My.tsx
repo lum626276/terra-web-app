@@ -17,9 +17,9 @@ import useMy from "./useMy"
 import TotalValue from "./TotalValue"
 import Holdings from "./Holdings"
 import Mint from "./Mint"
-import Pool from "./Pool"
 import Stake from "./Stake"
 import Orders from "./Orders"
+import Gov from "./Gov"
 import HistoryList from "./HistoryList"
 
 enum Tabs {
@@ -35,15 +35,16 @@ const My = () => {
   const address = useAddress()
   const { disconnect } = useWallet()
   const my = useMy()
-  const { loading, holdings, mint, pool, stake, orders } = my
+  const { loading, holdings, mint, stake, gov, orders } = my
   const shouldBuyUST = useShouldBuyUST()
   const txs = useTxs()
 
   const holdingsLength = holdings.dataSource.length
   const ordersLength = orders.dataSource.length
   const mintLength = mint.dataSource.length
-  const poolLength = pool.dataSource.length
   const stakeLength = stake.dataSource.length
+  const govLength = gov.dataSource.length
+  const govStakedValue = gov.stakedValue
   const txsLength = txs.data.length
 
   const tabs = useMemo(
@@ -52,16 +53,17 @@ const My = () => {
         { label: Tabs.HOLDINGS, hidden: !holdingsLength },
         { label: Tabs.ORDERS, hidden: !ordersLength },
         { label: Tabs.BORROW, hidden: !mintLength },
-        { label: Tabs.FARMING, hidden: !poolLength },
-        { label: Tabs.GOVERN, hidden: !stakeLength },
+        { label: Tabs.FARMING, hidden: !stakeLength },
+        { label: Tabs.GOVERN, hidden: !govLength && !gt(govStakedValue, 0) },
         { label: Tabs.HISTORY, hidden: !txsLength },
       ].filter(({ hidden }) => !hidden),
     [
       holdingsLength,
       ordersLength,
       mintLength,
-      poolLength,
       stakeLength,
+      govLength,
+      govStakedValue,
       txsLength,
     ]
   )
@@ -76,8 +78,8 @@ const My = () => {
     { key: Tabs.HOLDINGS, component: <Holdings {...holdings} /> },
     { key: Tabs.ORDERS, component: <Orders {...orders} /> },
     { key: Tabs.BORROW, component: <Mint {...mint} /> },
-    { key: Tabs.FARMING, component: <Pool {...pool} /> },
-    { key: Tabs.GOVERN, component: <Stake {...stake} /> },
+    { key: Tabs.FARMING, component: <Stake {...stake} /> },
+    { key: Tabs.GOVERN, component: <Gov {...gov} /> },
     { key: Tabs.HISTORY, component: <HistoryList {...txs} /> },
   ].filter(({ key }) => tab === key)
 

@@ -9,7 +9,7 @@ const DelistAlert = () => {
   const filter = <T extends { token: string }>({ token }: T) => !!delist[token]
 
   const my = useMy()
-  const { holdings, mint, pool, stake, orders } = my
+  const { holdings, mint, stake, orders } = my
 
   const delistedHoldings = holdings.dataSource.filter(filter).map(getToken)
 
@@ -21,14 +21,12 @@ const DelistAlert = () => {
     []
   )
 
-  const delistedPoolTokens = pool.dataSource.filter(filter).map(getToken)
   const delistedStakedTokens = stake.dataSource.filter(filter).map(getToken)
   const delistedOrderTokens = orders.dataSource.filter(filter).map(getToken)
 
   const delistedTokens = uniq([
     ...delistedHoldings,
     ...delistedMintTokens,
-    ...delistedPoolTokens,
     ...delistedStakedTokens,
     ...delistedOrderTokens,
   ])

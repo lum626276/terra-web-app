@@ -1,9 +1,7 @@
 import MESSAGE from "../../lang/MESSAGE.json"
 import Tooltip from "../../lang/Tooltip.json"
 import { UST, UUSD } from "../../constants"
-import { div } from "../../libs/math"
 import { format, formatAsset } from "../../libs/parse"
-import { percent } from "../../libs/num"
 import { getPath, MenuKey } from "../../routes"
 import Table from "../../components/Table"
 import Caption from "../../components/Caption"
@@ -45,15 +43,29 @@ const Holdings = ({ loading, totalValue, dataSource }: MyHoldings) => {
         {
           key: "symbol",
           title: "Ticker",
-          render: (symbol, { status }) => (
+          render: (symbol, { status, name }) => (
             <>
               {status === "DELISTED" && <Delisted />}
-              {symbol}
+              <h1>{symbol}</h1>
+              {name}
             </>
           ),
           bold: true,
         },
-        { key: "name", title: "Underlying Name" },
+        {
+          key: "value",
+          title: <TooltipIcon content={Tooltip.My.Value}>Value</TooltipIcon>,
+          render: (value) => formatAsset(value, UUSD),
+          align: "right",
+        },
+        {
+          key: "balance",
+          title: (
+            <TooltipIcon content={Tooltip.My.Balance}>Balance</TooltipIcon>
+          ),
+          render: (value, { symbol }) => format(value, symbol),
+          align: "right",
+        },
         {
           key: "price",
           render: (value) => `${format(value)} ${UST}`,
@@ -65,31 +77,6 @@ const Holdings = ({ loading, totalValue, dataSource }: MyHoldings) => {
           title: "",
           render: (change: string) => <Change>{change}</Change>,
           narrow: ["left"],
-        },
-        {
-          key: "balance",
-          title: (
-            <TooltipIcon content={Tooltip.My.Balance}>Balance</TooltipIcon>
-          ),
-          render: (value, { symbol }) => format(value, symbol),
-          align: "right",
-        },
-        {
-          key: "value",
-          title: <TooltipIcon content={Tooltip.My.Value}>Value</TooltipIcon>,
-          render: (value) => formatAsset(value, UUSD),
-          align: "right",
-        },
-        {
-          key: "ratio",
-          dataIndex: "value",
-          title: (
-            <TooltipIcon content={Tooltip.My.PortfolioRatio}>
-              Port. Ratio
-            </TooltipIcon>
-          ),
-          render: (value) => percent(div(value, totalValue)),
-          align: "right",
         },
         {
           key: "actions",

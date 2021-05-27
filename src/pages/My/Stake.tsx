@@ -1,10 +1,7 @@
-import classNames from "classnames"
-
-import { LP, MIR, UST, UUSD } from "../../constants"
+import { LP, MIR, SLP, UUSD } from "../../constants"
 import MESSAGE from "../../lang/MESSAGE.json"
 import Tooltip from "../../lang/Tooltip.json"
-import { gt } from "../../libs/math"
-import { format, formatAsset } from "../../libs/parse"
+import { formatAsset } from "../../libs/parse"
 import { percent } from "../../libs/num"
 import getLpName from "../../libs/getLpName"
 import { getPath, MenuKey } from "../../routes"
@@ -20,7 +17,7 @@ import NoAssets from "./NoAssets"
 import { MyStake } from "./types"
 
 const Stake = ({ loading, dataSource, ...props }: MyStake) => {
-  const { price, totalRewards, totalRewardsValue } = props
+  const { totalRewards, totalRewardsValue } = props
 
   const dataExists = !!dataSource.length
   const description = dataExists && (
@@ -29,10 +26,6 @@ const Stake = ({ loading, dataSource, ...props }: MyStake) => {
         {
           title: "Total Reward",
           content: formatAsset(totalRewards, MIR),
-        },
-        {
-          title: `${MIR} Price`,
-          content: `${format(price)} ${UST}`,
         },
         {
           title: "Total Reward Value",
@@ -54,58 +47,46 @@ const Stake = ({ loading, dataSource, ...props }: MyStake) => {
       columns={[
         {
           key: "symbol",
-          title: "Pool Name",
-          render: (symbol, { status, gov }) => (
-            <>
-              {status === "DELISTED" && <Delisted />}
-              {!gov ? getLpName(symbol) : `${symbol} (${MenuKey.GOV})`}
-            </>
-          ),
+          title: [
+            "Pool Name",
+            <TooltipIcon content={Tooltip.My.APR}>APR</TooltipIcon>,
+          ],
+          render: (symbol, { status, apr, type }) => [
+            status === "DELISTED" && <Delisted />,
+            getLpName(symbol, type),
+            percent(apr),
+          ],
           bold: true,
-        },
-        {
-          key: "apr",
-          title: <TooltipIcon content={Tooltip.My.APR}>APR</TooltipIcon>,
-          render: (value = "0") => percent(value),
-          align: "right",
         },
         {
           key: "staked",
           title: <TooltipIcon content={Tooltip.My.Staked}>Staked</TooltipIcon>,
-          render: (value, { gov }) => formatAsset(value, !gov ? LP : MIR),
+          render: (value, { type }) =>
+            formatAsset(value, type === "long" ? LP : SLP),
           align: "right",
         },
         {
-          key: "stakable",
-          render: (value, { gov }) => (
-            <span className={classNames({ red: !gov && gt(value, 0) })}>
-              {formatAsset(value, !gov ? LP : MIR)}
-            </span>
+          key: "withdrawable",
+          title: (
+            <TooltipIcon content={Tooltip.My.Withdrawable}>
+              Withdrawable Asset
+            </TooltipIcon>
           ),
+          render: ({ text, value }) => [text, formatAsset(value, UUSD)],
           align: "right",
         },
         {
           key: "reward",
           title: <TooltipIcon content={Tooltip.My.Reward}>Reward</TooltipIcon>,
-          render: (value, { gov }) =>
-            !gov ? (
-              formatAsset(value, MIR)
-            ) : (
-              <TooltipIcon content={Tooltip.My.GovReward}>
-                Automatically re-staked
-              </TooltipIcon>
-            ),
+          render: (value) => formatAsset(value, MIR),
           align: "right",
         },
         {
           key: "actions",
           dataIndex: "token",
-          render: (token, { status, gov }) => {
-            const edit = !gov
-              ? `${getPath(MenuKey.STAKE)}/${token}`
-              : `${getPath(MenuKey.GOV)}/stake`
-
-            const claim = !gov ? `${getPath(MenuKey.STAKE)}/${token}/claim` : ``
+          render: (token, { status }) => {
+            const edit = `${getPath(MenuKey.STAKE)}/${token}`
+            const claim = `${getPath(MenuKey.STAKE)}/${token}/claim`
 
             const stakeItem = {
               to: { pathname: edit, hash: Type.STAKE },

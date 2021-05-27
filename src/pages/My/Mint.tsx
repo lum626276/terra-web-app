@@ -52,7 +52,9 @@ const Mint = ({ loading, dataSource, ...props }: MyMint) => {
         <Table
           caption={
             <Caption
-              title={<TooltipIcon content={Tooltips.My.Mint}>Mint</TooltipIcon>}
+              title={
+                <TooltipIcon content={Tooltips.My.Mint}>Borrowed</TooltipIcon>
+              }
               description={description}
               loading={loading}
             />
@@ -62,42 +64,29 @@ const Mint = ({ loading, dataSource, ...props }: MyMint) => {
           })}
           columns={[
             {
-              key: "idx",
-              title: "ID",
-              render: (idx, { warning, danger, status }) => {
+              key: "asset.symbol",
+              title: "Ticker",
+              render: (symbol, { idx, warning, danger, status }) => {
                 const shouldWarn = warning || danger
                 const className = classNames(styles.idx, { red: shouldWarn })
                 const tooltip = warning
                   ? Tooltips.My.PositionWarning
                   : Tooltips.My.PositionDanger
 
-                return (
-                  <>
-                    {status === "DELISTED" && <Delisted />}
-                    <span className={className}>
-                      {idx}
-                      {shouldWarn && (
-                        <Tooltip content={tooltip}>
-                          <MaterialIcon name="warning" size={16} />
-                        </Tooltip>
-                      )}
-                    </span>
-                  </>
-                )
+                return [
+                  status === "DELISTED" && <Delisted />,
+                  <span className={className}>
+                    {shouldWarn && (
+                      <Tooltip content={tooltip}>
+                        <MaterialIcon name="warning" size={16} />
+                      </Tooltip>
+                    )}
+                    {lookupSymbol(symbol)}
+                  </span>,
+                  idx,
+                ]
               },
               bold: true,
-            },
-            {
-              key: "asset.symbol",
-              title: "Ticker",
-              render: (symbol) => lookupSymbol(symbol),
-              bold: true,
-            },
-            {
-              key: "asset.price",
-              title: "Oracle Price",
-              render: (value) => `${format(value)} ${UST}`,
-              align: "right",
             },
             {
               key: "balance",
@@ -114,6 +103,12 @@ const Mint = ({ loading, dataSource, ...props }: MyMint) => {
                   formatAsset(asset.amount, asset.symbol),
                   formatAsset(collateral.amount, collateral.symbol),
                 ]),
+              align: "right",
+            },
+            {
+              key: "asset.price",
+              title: "Oracle Price",
+              render: (value) => `${format(value)} ${UST}`,
               align: "right",
             },
             {
@@ -146,13 +141,14 @@ const Mint = ({ loading, dataSource, ...props }: MyMint) => {
             },
             {
               key: "ratio",
-              title: (
+              title: [
                 <TooltipIcon content={Tooltips.My.CollateralRatio}>
-                  Col. Ratio (Min.)
-                </TooltipIcon>
-              ),
+                  Col. Ratio
+                </TooltipIcon>,
+                "Min.",
+              ],
               render: (value, { minRatio, warning, danger }) => {
-                const content = `${percent(value)} (${percent(minRatio)})`
+                const content = [percent(value), percent(minRatio)]
                 return warning || danger ? (
                   <strong className="red">{content}</strong>
                 ) : (
