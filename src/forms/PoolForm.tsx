@@ -33,7 +33,7 @@ enum Key {
   value = "value",
 }
 
-const PoolForm = ({ type }: { type: Type }) => {
+const PoolForm = ({ type, poolOnly }: { type: Type; poolOnly?: boolean }) => {
   const priceKey = PriceKey.PAIR
   const balanceKey = {
     [Type.LONG]: BalanceKey.TOKEN,
@@ -226,12 +226,15 @@ const PoolForm = ({ type }: { type: Type }) => {
     : {
         [Type.LONG]: [
           newContractMsg(token, {
-            increase_allowance: { amount, spender: pair },
+            increase_allowance: {
+              amount,
+              spender: poolOnly ? pair : contracts["staking"],
+            },
           }),
           newContractMsg(
-            contracts["staking"],
+            poolOnly ? pair : contracts["staking"],
             {
-              auto_stake: {
+              [poolOnly ? "provide_liquidity" : "auto_stake"]: {
                 assets: [
                   toToken({ amount, token }),
                   toToken({ amount: estimated, token: UUSD }),
