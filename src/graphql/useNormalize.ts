@@ -40,6 +40,8 @@ export default () => {
       dict(lpTokenBalance, ({ balance }) => balance),
     [BalanceKey.LPSTAKED]: (stakingReward: StakingReward) =>
       reduceBondAmount(stakingReward),
+    [BalanceKey.SLPSTAKED]: (stakingReward: StakingReward) =>
+      reduceBondAmount(stakingReward, true),
     [BalanceKey.MIRGOVSTAKED]: (govStake: Balance) => {
       const token = getToken(MIR)
       return { [token]: govStake.balance }
@@ -107,11 +109,14 @@ const reduceLP = (
     {}
   )
 
-const reduceBondAmount = ({ reward_infos }: StakingReward) =>
+const reduceBondAmount = ({ reward_infos }: StakingReward, short = false) =>
   reward_infos.reduce<Dictionary<string>>(
-    (acc, { asset_token, bond_amount }) => {
-      return { ...acc, [asset_token]: bond_amount }
-    },
+    (acc, { asset_token, bond_amount, is_short }) =>
+      Object.assign(
+        {},
+        acc,
+        is_short === short && { [asset_token]: bond_amount }
+      ),
     {}
   )
 

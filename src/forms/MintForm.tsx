@@ -457,7 +457,7 @@ const MintForm = ({ position, type, tab, message }: Props) => {
         collateral_ratio: div(ratio, 100),
         asset_info: toAssetInfo(token2),
       },
-      short && { shortParams: {} }
+      short && { short_params: {} }
     ),
   }
 
