@@ -39,9 +39,10 @@ const useMy = (): My => {
     orders: orders.total,
   }
 
-  const total = { value: calcTotalValue(values), loading: !data }
+  const loading = !data
+  const total = { value: calcTotalValue(values), loading }
 
-  return { holdings, mint, pool, stake, orders, total }
+  return { holdings, mint, pool, stake, orders, total, loading }
 }
 
 export default useMy

@@ -56,7 +56,7 @@ const useTxs = () => {
 
   const more = done ? undefined : () => setOffset((n) => n + LIMIT)
 
-  return { ...query, txs, more }
+  return { ...query, data: txs, more }
 }
 
 export default useTxs

@@ -1,21 +1,24 @@
 import Button from "../../components/Button"
 import Card from "../../components/Card"
-import useTxs from "../../statistics/useTxs"
 import DownloadCSV from "./DownloadCSV"
 import HistoryItem from "./HistoryItem"
 import styles from "./HistoryList.module.scss"
 
-const HistoryList = () => {
-  const { txs, loading, more } = useTxs()
+interface Props {
+  data: Tx[]
+  loading: boolean
+  more?: () => void
+}
 
-  return !txs.length ? null : (
+const HistoryList = ({ data, loading, more }: Props) => {
+  return !data.length ? null : (
     <Card
       title="Transaction History"
       loading={loading}
-      action={<DownloadCSV txs={txs} />}
+      action={<DownloadCSV txs={data} />}
     >
       <ul className={styles.list}>
-        {txs.map((item, index) => (
+        {data.map((item, index) => (
           <li className={styles.item} key={index}>
             <HistoryItem {...item} />
           </li>

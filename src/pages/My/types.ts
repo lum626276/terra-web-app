@@ -7,6 +7,7 @@ export interface My {
   stake: MyStake
   orders: MyOrders
   total: MyTotal
+  loading: boolean
 }
 
 export interface MyTotal {

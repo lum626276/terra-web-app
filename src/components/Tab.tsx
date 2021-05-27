@@ -1,10 +1,12 @@
 import { FC } from "react"
 import { Link, useLocation } from "react-router-dom"
-import classNames from "classnames"
+import classNames from "classnames/bind"
 import { TooltipIcon } from "./Tooltip"
 import styles from "./Tab.module.scss"
 
-const Tab: FC<Tab> = ({ tabs, tooltips, current, shadow, children }) => {
+const cx = classNames.bind(styles)
+
+const Tab: FC<Tab> = ({ tabs, tooltips, current, children, onClick }) => {
   const { search, state } = useLocation()
 
   return !current ? null : (
@@ -19,14 +21,18 @@ const Tab: FC<Tab> = ({ tabs, tooltips, current, shadow, children }) => {
             tab
           )
 
-          return tab === current ? (
-            <span className={classNames(styles.tab, styles.active)} key={tab}>
-              {label}
-            </span>
+          const attrs = {
+            className: cx(styles.tab, { active: tab === current }),
+            key: tab,
+            children: label,
+          }
+
+          return onClick ? (
+            <button {...attrs} onClick={() => onClick(tab)} />
+          ) : tab === current ? (
+            <span {...attrs} />
           ) : (
-            <Link replace to={to} className={styles.tab} key={tab}>
-              {label}
-            </Link>
+            <Link {...attrs} replace to={to} />
           )
         })}
       </section>

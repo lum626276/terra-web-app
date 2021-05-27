@@ -69,7 +69,7 @@ interface Tab {
   tabs: string[]
   tooltips?: string[]
   current?: string
-  shadow?: boolean
+  onClick?: (tab: string) => void
 }
 
 /* Modal */

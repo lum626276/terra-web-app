@@ -2,9 +2,7 @@ import { ChartData, ChartOptions, ScatterDataPoint } from "chart.js"
 import { Line, Bar } from "react-chartjs-2"
 import "chartjs-adapter-date-fns"
 import { format as formatDate } from "date-fns"
-import classNames from "classnames"
 import { format } from "../libs/parse"
-import styles from "./ChartContainer.module.scss"
 
 /* styles */
 const $font = "'Gotham A', 'Gotham B'"

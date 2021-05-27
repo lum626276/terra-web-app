@@ -1,14 +1,18 @@
+import { useEffect, useMemo, useState } from "react"
 import { useWallet } from "@terra-money/wallet-provider"
 import { gt } from "../../libs/math"
 import { MenuKey } from "../../routes"
 import { useAddress, useContract, useRefetch } from "../../hooks"
 import { AccountInfoKey } from "../../hooks/contractKeys"
+import useTxs from "../../statistics/useTxs"
 
 import Page from "../../components/Page"
+import Tab from "../../components/Tab"
 import Grid from "../../components/Grid"
 import Button from "../../components/Button"
 import BuyLinks from "../../components/BuyLinks"
 import ConnectionRequired from "../../containers/ConnectionRequired"
+
 import useMy from "./useMy"
 import TotalValue from "./TotalValue"
 import Holdings from "./Holdings"
@@ -18,40 +22,64 @@ import Stake from "./Stake"
 import Orders from "./Orders"
 import HistoryList from "./HistoryList"
 
+enum Tabs {
+  HOLDINGS = "Holdings",
+  ORDERS = "Limit Orders",
+  BORROW = "Borrow",
+  FARMING = "Farming",
+  GOVERN = "Govern",
+  HISTORY = "History",
+}
+
 const My = () => {
   const address = useAddress()
   const { disconnect } = useWallet()
   const my = useMy()
-  const { holdings, mint, pool, stake, orders } = my
+  const { loading, holdings, mint, pool, stake, orders } = my
   const shouldBuyUST = useShouldBuyUST()
+  const txs = useTxs()
+
+  const holdingsLength = holdings.dataSource.length
+  const ordersLength = orders.dataSource.length
+  const mintLength = mint.dataSource.length
+  const poolLength = pool.dataSource.length
+  const stakeLength = stake.dataSource.length
+  const txsLength = txs.data.length
+
+  const tabs = useMemo(
+    () =>
+      [
+        { label: Tabs.HOLDINGS, hidden: !holdingsLength },
+        { label: Tabs.ORDERS, hidden: !ordersLength },
+        { label: Tabs.BORROW, hidden: !mintLength },
+        { label: Tabs.FARMING, hidden: !poolLength },
+        { label: Tabs.GOVERN, hidden: !stakeLength },
+        { label: Tabs.HISTORY, hidden: !txsLength },
+      ].filter(({ hidden }) => !hidden),
+    [
+      holdingsLength,
+      ordersLength,
+      mintLength,
+      poolLength,
+      stakeLength,
+      txsLength,
+    ]
+  )
+
+  const [tab, setTab] = useState<Tabs>()
+
+  useEffect(() => {
+    tabs.length && setTab(tabs[0].label)
+  }, [loading, tabs])
 
   const contents = [
-    {
-      key: "holdings",
-      dataSource: holdings.dataSource,
-      component: <Holdings {...holdings} />,
-    },
-    {
-      key: "mint",
-      dataSource: mint.dataSource,
-      component: <Mint {...mint} />,
-    },
-    {
-      key: "pool",
-      dataSource: pool.dataSource,
-      component: <Pool {...pool} />,
-    },
-    {
-      key: "stake",
-      dataSource: stake.dataSource,
-      component: <Stake {...stake} />,
-    },
-    {
-      key: "orders",
-      dataSource: orders.dataSource,
-      component: <Orders {...orders} />,
-    },
-  ]
+    { key: Tabs.HOLDINGS, component: <Holdings {...holdings} /> },
+    { key: Tabs.ORDERS, component: <Orders {...orders} /> },
+    { key: Tabs.BORROW, component: <Mint {...mint} /> },
+    { key: Tabs.FARMING, component: <Pool {...pool} /> },
+    { key: Tabs.GOVERN, component: <Stake {...stake} /> },
+    { key: Tabs.HISTORY, component: <HistoryList {...txs} /> },
+  ].filter(({ key }) => tab === key)
 
   return (
     <Page title={MenuKey.MY} doc="/user-guide/getting-started/sending-tokens">
@@ -63,13 +91,17 @@ const My = () => {
 
           <TotalValue {...my} />
 
+          <Grid>
+            <Tab
+              tabs={tabs.map(({ label }) => label)}
+              current={tab}
+              onClick={(tab) => setTab(tab as Tabs)}
+            />
+          </Grid>
+
           {contents.map(({ component, key }) => (
             <Grid key={key}>{component}</Grid>
           ))}
-
-          <Grid>
-            <HistoryList />
-          </Grid>
 
           {disconnect && (
             <Button onClick={disconnect} color="secondary" outline block submit>

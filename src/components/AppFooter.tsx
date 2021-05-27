@@ -5,7 +5,6 @@ import twitter from "./Community/twitter.png"
 import github from "./Community/github.png"
 
 import ExtLink from "./ExtLink"
-import MaterialIcon from "./MaterialIcon"
 import styles from "./AppFooter.module.scss"
 
 interface Props {

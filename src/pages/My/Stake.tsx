@@ -12,25 +12,15 @@ import { getPath, MenuKey } from "../../routes"
 import Table from "../../components/Table"
 import Caption from "../../components/Caption"
 import Dl from "../../components/Dl"
-import LinkButton from "../../components/LinkButton"
 import { TooltipIcon } from "../../components/Tooltip"
 import Delisted from "../../components/Delisted"
 import DashboardActions from "../../components/DashboardActions"
-import { menu as stakeMenu, MenuKey as StakeMenuKey, Type } from "../Stake"
+import { MenuKey as StakeMenuKey, Type } from "../Stake"
 import NoAssets from "./NoAssets"
 import { MyStake } from "./types"
 
 const Stake = ({ loading, dataSource, ...props }: MyStake) => {
   const { price, totalRewards, totalRewardsValue } = props
-
-  const claimAll = {
-    to: getPath(MenuKey.STAKE) + stakeMenu[StakeMenuKey.CLAIMALL].path,
-    children: StakeMenuKey.CLAIMALL,
-    disabled: !gt(totalRewards, 0),
-    color: "aqua",
-    size: "sm" as const,
-    outline: true,
-  }
 
   const dataExists = !!dataSource.length
   const description = dataExists && (
