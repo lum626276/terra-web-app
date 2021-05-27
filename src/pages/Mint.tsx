@@ -7,6 +7,7 @@ import MintForm from "../forms/MintForm"
 
 export enum Type {
   BORROW = "borrow",
+  SHORT = "short",
   CLOSE = "close",
   DEPOSIT = "deposit",
   WITHDRAW = "withdraw",

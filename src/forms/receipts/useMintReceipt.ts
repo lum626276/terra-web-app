@@ -36,6 +36,10 @@ export default (type: Type, prev?: MintPosition) => (logs: TxLog[]) => {
       amount: collateral.amount,
       token: collateral.token,
     },
+    [Type.SHORT]: {
+      amount: collateral.amount,
+      token: collateral.token,
+    },
     [Type.DEPOSIT]: {
       amount: plus(prevCollateral?.amount, deposit.amount),
       token: prevCollateral?.token,

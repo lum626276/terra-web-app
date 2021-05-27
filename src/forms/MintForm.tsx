@@ -67,6 +67,7 @@ const MintForm = ({ position, type, tab, message }: Props) => {
 
   /* context:position */
   const open = !position
+  const short = type === Type.SHORT
   const close = type === Type.CLOSE
   const custom = type === Type.CUSTOM
 
@@ -382,6 +383,7 @@ const MintForm = ({ position, type, tab, message }: Props) => {
 
   const contents = {
     [Type.BORROW]: !gt(price, 0) ? undefined : [priceContents],
+    [Type.SHORT]: !gt(price, 0) ? undefined : [priceContents],
 
     [Type.CLOSE]: [
       {
@@ -449,11 +451,14 @@ const MintForm = ({ position, type, tab, message }: Props) => {
   })
 
   const openPosition = {
-    open_position: {
-      collateral,
-      collateral_ratio: div(ratio, 100),
-      asset_info: toAssetInfo(token2),
-    },
+    open_position: Object.assign(
+      {
+        collateral,
+        collateral_ratio: div(ratio, 100),
+        asset_info: toAssetInfo(token2),
+      },
+      short && { shortParams: {} }
+    ),
   }
 
   const deposit = {
@@ -492,6 +497,14 @@ const MintForm = ({ position, type, tab, message }: Props) => {
 
   const data = {
     [Type.BORROW]: [
+      isCollateralUST
+        ? newContractMsg(contracts["mint"], openPosition, {
+            amount: amount1,
+            denom: UUSD,
+          })
+        : newContractMsg(token1, createSend(openPosition, amount1)),
+    ],
+    [Type.SHORT]: [
       isCollateralUST
         ? newContractMsg(contracts["mint"], openPosition, {
             amount: amount1,
