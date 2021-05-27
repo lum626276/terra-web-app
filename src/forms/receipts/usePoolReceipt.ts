@@ -1,11 +1,11 @@
 import { formatAsset } from "../../libs/parse"
 import getLpName from "../../libs/getLpName"
 import { useContractsAddress } from "../../hooks"
-import { Type } from "../../pages/Pool"
+import { PoolType } from "../../types/Types"
 import usePoolShare from "../usePoolShare"
 import { findValue, fromContract, parseTokenText } from "./receiptHelpers"
 
-export default (type: Type) => (logs: TxLog[]) => {
+export default (type: PoolType) => (logs: TxLog[]) => {
   const { getSymbol } = useContractsAddress()
   const getPoolShare = usePoolShare()
   const val = findValue(logs)
@@ -28,7 +28,7 @@ export default (type: Type) => (logs: TxLog[]) => {
 
   /* contents */
   return {
-    [Type.LONG]: [
+    [PoolType.PROVIDE]: [
       {
         title: "Received",
         content: formatAsset(received, getLpName(symbol)),
@@ -39,7 +39,7 @@ export default (type: Type) => (logs: TxLog[]) => {
         content: join(deposit),
       },
     ],
-    [Type.SHORT]: [
+    [PoolType.WITHDRAW]: [
       {
         title: "Refund",
         content: join(refund),

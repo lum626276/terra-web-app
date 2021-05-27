@@ -4,24 +4,16 @@ import { useRefetch } from "../hooks"
 import { PriceKey, AssetInfoKey } from "../hooks/contractKeys"
 import useMintPosition from "../graphql/queries/useMintPosition"
 import MintForm from "../forms/MintForm"
-
-export enum Type {
-  BORROW = "borrow",
-  SHORT = "short",
-  CLOSE = "close",
-  DEPOSIT = "deposit",
-  WITHDRAW = "withdraw",
-  CUSTOM = "custom",
-}
+import { MintType } from "../types/Types"
 
 const Mint = () => {
-  const { hash: type } = useHash<Type>()
+  const { hash: type } = useHash<MintType>()
   const keys = [PriceKey.ORACLE, AssetInfoKey.MINCOLLATERALRATIO]
   useRefetch(keys)
 
   /* type */
-  const tab = [Type.DEPOSIT, Type.WITHDRAW].includes(type)
-    ? { tabs: [Type.DEPOSIT, Type.WITHDRAW], current: type }
+  const tab = [MintType.DEPOSIT, MintType.WITHDRAW].includes(type)
+    ? { tabs: [MintType.DEPOSIT, MintType.WITHDRAW], current: type }
     : undefined
 
   /* idx */

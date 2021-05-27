@@ -14,7 +14,7 @@ import Formatted from "../components/Formatted"
 import Percent from "../components/Percent"
 import Search from "../components/Search"
 import { TooltipIcon } from "../components/Tooltip"
-import { Type } from "./Market"
+import { MarketType } from "../types/Types"
 import styles from "./MarketList.module.scss"
 
 interface Item extends ListedItem {
@@ -115,7 +115,7 @@ const MarketList = () => {
             key: "symbol",
             title: "Ticker",
             render: (symbol, { token, name }) => {
-              const to = { hash: Type.BUY, state: { token } }
+              const to = { hash: MarketType.BUY, state: { token } }
 
               return (
                 <div className={styles.asset}>

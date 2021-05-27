@@ -14,7 +14,7 @@ import { BalanceKey } from "../hooks/contractKeys"
 import FormGroup from "../components/FormGroup"
 import FormFeedback from "../components/FormFeedback"
 import WithPriceChart from "../containers/WithPriceChart"
-import { Type } from "../pages/Stake"
+import { StakeType } from "../types/Types"
 import useStakeReceipt from "./receipts/useStakeReceipt"
 import { toBase64 } from "../libs/formHelpers"
 import FormContainer from "./FormContainer"
@@ -24,8 +24,8 @@ enum Key {
 }
 
 interface Props {
-  type: Type
-  token: string
+  type: StakeType
+  token?: string
   tab?: Tab
   /** Gov stake */
   gov?: boolean
@@ -35,14 +35,14 @@ const StakeForm = ({ type, tab, gov, ...props }: Props) => {
   const balanceKey = (
     !gov
       ? {
-          [Type.STAKE]: BalanceKey.LPSTAKABLE,
-          [Type.UNSTAKE]: BalanceKey.LPSTAKED,
+          [StakeType.STAKE]: BalanceKey.LPSTAKABLE,
+          [StakeType.UNSTAKE]: BalanceKey.LPSTAKED,
         }
       : {
-          [Type.STAKE]: BalanceKey.TOKEN,
-          [Type.UNSTAKE]: BalanceKey.MIRGOVSTAKED,
+          [StakeType.STAKE]: BalanceKey.TOKEN,
+          [StakeType.UNSTAKE]: BalanceKey.MIRGOVSTAKED,
         }
-  )[type as Type]
+  )[type as StakeType]
 
   /* context */
   const { state } = useLocation<{ token: string }>()
@@ -66,7 +66,7 @@ const StakeForm = ({ type, tab, gov, ...props }: Props) => {
     const balance = find(balanceKey, token)
     const locked = getLocked()
 
-    return gov && type === Type.UNSTAKE && gt(locked, 0)
+    return gov && type === StakeType.UNSTAKE && gt(locked, 0)
       ? minus(balance, locked)
       : balance
   }
@@ -124,10 +124,10 @@ const StakeForm = ({ type, tab, gov, ...props }: Props) => {
 
   /* submit */
   const newContractMsg = useNewContractMsg()
-  const { lpToken } = whitelist[token] ?? {}
+  const { pair, lpToken } = whitelist[token] ?? {}
   const assetToken = { asset_token: token }
   const data = {
-    [Type.STAKE]: [
+    [StakeType.STAKE]: [
       gov
         ? newContractMsg(contracts["mirrorToken"], {
             send: {
@@ -144,19 +144,28 @@ const StakeForm = ({ type, tab, gov, ...props }: Props) => {
             },
           }),
     ],
-    [Type.UNSTAKE]: [
-      gov
-        ? newContractMsg(contracts["gov"], {
+    [StakeType.UNSTAKE]: gov
+      ? [
+          newContractMsg(contracts["gov"], {
             withdraw_voting_tokens: { amount },
-          })
-        : newContractMsg(contracts["staking"], {
+          }),
+        ]
+      : [
+          newContractMsg(contracts["staking"], {
             unbond: { ...assetToken, amount },
           }),
-    ],
-  }[type as Type]
+          newContractMsg(lpToken, {
+            send: {
+              amount,
+              contract: pair,
+              msg: toBase64({ withdraw_liquidity: {} }),
+            },
+          }),
+        ],
+  }[type as StakeType]
 
   const messages =
-    gov && type === Type.UNSTAKE && gt(locked, 0)
+    gov && type === StakeType.UNSTAKE && gt(locked, 0)
       ? [`${formatAsset(locked, MIR)} are voted in poll ${lockedIds}`]
       : undefined
 
@@ -172,7 +181,7 @@ const StakeForm = ({ type, tab, gov, ...props }: Props) => {
       <FormContainer {...container}>
         <FormGroup {...fields[Key.value]} />
 
-        {gov && type === Type.STAKE && (
+        {gov && type === StakeType.STAKE && (
           <FormFeedback help>{Tooltip.My.GovReward}</FormFeedback>
         )}
       </FormContainer>

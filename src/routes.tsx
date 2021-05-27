@@ -15,11 +15,11 @@ import Auth from "./pages/Auth"
 import Trade from "./pages/Trade"
 import Mint from "./pages/Mint"
 import Pool from "./pages/Pool"
-import Stake from "./pages/Stake"
+import Unstake from "./pages/Unstake"
 
 import Send from "./pages/Send"
 import Burn from "./pages/Burn"
-import Claim from "./pages/Stake/Claim"
+import Claim from "./pages/Claim"
 import Airdrop from "./pages/Airdrop"
 import LimitOrder from "./pages/LimitOrder" // Cancel limit order
 
@@ -41,7 +41,7 @@ export enum MenuKey {
   TRADE = "Trade",
   MINT = "Mint",
   POOL = "Pool",
-  STAKE = "Stake",
+  UNSTAKE = "Unstake",
 
   SEND = "Send",
   BURN = "Burn",
@@ -64,7 +64,7 @@ export const menu: Dictionary<RouteProps> = {
   [MenuKey.TRADE]: { path: "/trade", component: Trade },
   [MenuKey.MINT]: { path: "/mint", component: Mint },
   [MenuKey.POOL]: { path: "/pool", component: Pool },
-  [MenuKey.STAKE]: { path: "/stake", component: Stake },
+  [MenuKey.UNSTAKE]: { path: "/unstake", component: Unstake },
 
   [MenuKey.SEND]: { path: "/send", component: Send },
   [MenuKey.BURN]: { path: "/burn/:token", component: Burn },

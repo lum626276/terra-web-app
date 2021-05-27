@@ -4,18 +4,14 @@ import Tab from "../components/Tab"
 import FarmList from "./FarmList"
 import Pool from "./Pool"
 import Mint from "./Mint"
-
-export enum Type {
-  LONG = "long",
-  SHORT = "short",
-}
+import { FarmType, PoolType } from "../types/Types"
 
 const Farm = () => {
-  const { hash } = useHash<Type>()
+  const { hash } = useHash<FarmType>()
 
   const render = {
-    [Type.LONG]: () => <Pool />,
-    [Type.SHORT]: () => <Mint />,
+    [FarmType.LONG]: () => <Pool type={PoolType.PROVIDE} />,
+    [FarmType.SHORT]: () => <Mint />,
   }
 
   return (
@@ -23,7 +19,7 @@ const Farm = () => {
       {!hash ? (
         <FarmList />
       ) : (
-        <Tab tabs={[Type.LONG, Type.SHORT]} current={hash}>
+        <Tab tabs={[FarmType.LONG, FarmType.SHORT]} current={hash}>
           {render[hash]()}
         </Tab>
       )}

@@ -31,7 +31,7 @@ import Caution from "../components/Caution"
 import ExtLink from "../components/ExtLink"
 import MaterialIcon from "../components/MaterialIcon"
 import WithPriceChart from "../containers/WithPriceChart"
-import { Type } from "../pages/Mint"
+import { MintType } from "../types/Types"
 import useMintReceipt from "./receipts/useMintReceipt"
 import FormContainer from "./FormContainer"
 import useSelectAsset, { Config } from "./useSelectAsset"
@@ -50,7 +50,7 @@ enum Key {
 
 interface Props {
   position?: MintPosition
-  type: Type
+  type: MintType
   tab?: Tab
   message?: string
 }
@@ -67,13 +67,15 @@ const MintForm = ({ position, type, tab, message }: Props) => {
 
   /* context:position */
   const open = !position
-  const short = type === Type.SHORT
-  const close = type === Type.CLOSE
-  const custom = type === Type.CUSTOM
+  const short = type === MintType.SHORT
+  const close = type === MintType.CLOSE
+  const custom = type === MintType.CUSTOM
 
   /* form:validate */
   const getMax = (token: string) =>
-    type === Type.WITHDRAW ? prevCollateral?.amount : find(balanceKey, token)
+    type === MintType.WITHDRAW
+      ? prevCollateral?.amount
+      : find(balanceKey, token)
 
   const validate = ({ token1, token2, value1, value2, ratio }: Values<Key>) => {
     const symbol1 = getSymbol(token1)
@@ -96,7 +98,8 @@ const MintForm = ({ position, type, tab, message }: Props) => {
       [Key.token2]: open ? v.required(token2) : "",
       [Key.ratio]: custom
         ? ""
-        : prevRatio && !(type === Type.DEPOSIT ? gt : lt)(nextRatio, prevRatio)
+        : prevRatio &&
+          !(type === MintType.DEPOSIT ? gt : lt)(nextRatio, prevRatio)
         ? MESSAGE.Form.Validate.CollateralRatio.Current
         : !gte(nextRatio, find(AssetInfoKey.MINCOLLATERALRATIO, token2))
         ? MESSAGE.Form.Validate.CollateralRatio.Minimum
@@ -164,7 +167,8 @@ const MintForm = ({ position, type, tab, message }: Props) => {
   const price1 = find(priceKey1, token1)
   const price2 = find(priceKey2, token2)
   const reversed = !!form.changed && form.changed !== Key.value1
-  const operate = type === Type.DEPOSIT || type === Type.CUSTOM ? plus : minus
+  const operate =
+    type === MintType.DEPOSIT || type === MintType.CUSTOM ? plus : minus
   const nextCollateralAmount = max([
     operate(prevCollateral?.amount, amount1),
     "0",
@@ -207,7 +211,7 @@ const MintForm = ({ position, type, tab, message }: Props) => {
     : !reversed
     ? lookup(times(calculated.ratio, 100))
     : lookup(
-        type === Type.DEPOSIT
+        type === MintType.DEPOSIT
           ? minus(calculated.collateral.amount, prevCollateral?.amount)
           : minus(prevCollateral?.amount, calculated.collateral.amount),
         prevCollateral?.symbol
@@ -382,10 +386,10 @@ const MintForm = ({ position, type, tab, message }: Props) => {
     prevAssetDelisted && prevAsset && gt(prevAsset.amount, 0)
 
   const contents = {
-    [Type.BORROW]: !gt(price, 0) ? undefined : [priceContents],
-    [Type.SHORT]: !gt(price, 0) ? undefined : [priceContents],
+    [MintType.BORROW]: !gt(price, 0) ? undefined : [priceContents],
+    [MintType.SHORT]: !gt(price, 0) ? undefined : [priceContents],
 
-    [Type.CLOSE]: [
+    [MintType.CLOSE]: [
       {
         title: "Burn Amount",
         content: <Count symbol={prevAsset?.symbol}>{prevAsset?.amount}</Count>,
@@ -414,8 +418,8 @@ const MintForm = ({ position, type, tab, message }: Props) => {
       },
     ],
 
-    [Type.DEPOSIT]: collateralContents,
-    [Type.WITHDRAW]: [
+    [MintType.DEPOSIT]: collateralContents,
+    [MintType.WITHDRAW]: [
       ...collateralContents,
       {
         title: (
@@ -431,7 +435,7 @@ const MintForm = ({ position, type, tab, message }: Props) => {
       },
     ],
 
-    [Type.CUSTOM]: [
+    [MintType.CUSTOM]: [
       ...collateralContents,
       {
         title: "Total asset",
@@ -496,7 +500,7 @@ const MintForm = ({ position, type, tab, message }: Props) => {
   ]
 
   const data = {
-    [Type.BORROW]: [
+    [MintType.BORROW]: [
       isCollateralUST
         ? newContractMsg(contracts["mint"], openPosition, {
             amount: amount1,
@@ -504,7 +508,7 @@ const MintForm = ({ position, type, tab, message }: Props) => {
           })
         : newContractMsg(token1, createSend(openPosition, amount1)),
     ],
-    [Type.SHORT]: [
+    [MintType.SHORT]: [
       isCollateralUST
         ? newContractMsg(contracts["mint"], openPosition, {
             amount: amount1,
@@ -512,7 +516,7 @@ const MintForm = ({ position, type, tab, message }: Props) => {
           })
         : newContractMsg(token1, createSend(openPosition, amount1)),
     ],
-    [Type.CLOSE]: [
+    [MintType.CLOSE]: [
       prevAsset && gt(prevAsset.amount, 0)
         ? newContractMsg(token2, createSend(burn, prevAsset?.amount))
         : undefined,
@@ -520,7 +524,7 @@ const MintForm = ({ position, type, tab, message }: Props) => {
         ? undefined
         : newContractMsg(contracts["mint"], withdraw),
     ],
-    [Type.DEPOSIT]: [
+    [MintType.DEPOSIT]: [
       isCollateralUST
         ? newContractMsg(contracts["mint"], deposit, {
             amount: amount1,
@@ -528,8 +532,8 @@ const MintForm = ({ position, type, tab, message }: Props) => {
           })
         : newContractMsg(token1, createSend(deposit, amount1)),
     ],
-    [Type.WITHDRAW]: [newContractMsg(contracts["mint"], withdraw)],
-    [Type.CUSTOM]: gt(amount1, 0) ? reverse(customData) : customData,
+    [MintType.WITHDRAW]: [newContractMsg(contracts["mint"], withdraw)],
+    [MintType.CUSTOM]: gt(amount1, 0) ? reverse(customData) : customData,
   }[type]?.filter(Boolean) as MsgExecuteContract[]
 
   const ratioMessages = errors[Key.ratio]
@@ -578,12 +582,13 @@ const MintForm = ({ position, type, tab, message }: Props) => {
   const parseTx = useMintReceipt(type, position)
 
   const container = { tab, attrs, contents, messages, label, disabled, data }
-  const deduct = type === Type.WITHDRAW || close || (custom && lt(amount1, 0))
+  const deduct =
+    type === MintType.WITHDRAW || close || (custom && lt(amount1, 0))
   const tax = { pretax: uusd, deduct }
 
   return (
     <WithPriceChart token={token2}>
-      {type === Type.CLOSE ? (
+      {type === MintType.CLOSE ? (
         <FormContainer {...container} {...tax} parseTx={parseTx} />
       ) : (
         <FormContainer {...container} {...tax} parseTx={parseTx}>

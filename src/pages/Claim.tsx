@@ -1,6 +1,6 @@
-import Page from "../../components/Page"
-import ClaimForm from "../../forms/ClaimForm"
-import { MenuKey } from "../../routes"
+import Page from "../components/Page"
+import ClaimForm from "../forms/ClaimForm"
+import { MenuKey } from "../routes"
 
 const Claim = () => {
   return (

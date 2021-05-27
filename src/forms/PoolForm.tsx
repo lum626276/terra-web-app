@@ -20,7 +20,7 @@ import FormGroup from "../components/FormGroup"
 import Count from "../components/Count"
 import { TooltipIcon } from "../components/Tooltip"
 import WithPriceChart from "../containers/WithPriceChart"
-import { Type } from "../pages/Pool"
+import { PoolType } from "../types/Types"
 import usePoolReceipt from "./receipts/usePoolReceipt"
 import useSelectAsset from "./useSelectAsset"
 import usePool from "./usePool"
@@ -33,11 +33,17 @@ enum Key {
   value = "value",
 }
 
-const PoolForm = ({ type, poolOnly }: { type: Type; poolOnly?: boolean }) => {
+const PoolForm = ({
+  type,
+  poolOnly,
+}: {
+  type: PoolType
+  poolOnly?: boolean
+}) => {
   const priceKey = PriceKey.PAIR
   const balanceKey = {
-    [Type.LONG]: BalanceKey.TOKEN,
-    [Type.SHORT]: BalanceKey.LPSTAKABLE,
+    [PoolType.PROVIDE]: BalanceKey.TOKEN,
+    [PoolType.WITHDRAW]: BalanceKey.LPSTAKABLE,
   }[type]
 
   /* context */
@@ -96,20 +102,20 @@ const PoolForm = ({ type, poolOnly }: { type: Type; poolOnly?: boolean }) => {
   const estimated = pool?.toLP.estimated
 
   const uusd = {
-    [Type.LONG]: estimated,
-    [Type.SHORT]: fromLP?.uusd.amount,
+    [PoolType.PROVIDE]: estimated,
+    [PoolType.WITHDRAW]: fromLP?.uusd.amount,
   }[type]
 
   const total = find(BalanceKey.LPTOTAL, token)
   const lpAfterTx = {
-    [Type.LONG]: plus(total, toLP?.value),
-    [Type.SHORT]: max([minus(total, amount), "0"]),
+    [PoolType.PROVIDE]: plus(total, toLP?.value),
+    [PoolType.WITHDRAW]: max([minus(total, amount), "0"]),
   }[type]
 
   /* share of pool */
   const modifyTotal = {
-    [Type.LONG]: (total: string) => plus(total, toLP?.value),
-    [Type.SHORT]: (total: string) => minus(total, amount),
+    [PoolType.PROVIDE]: (total: string) => plus(total, toLP?.value),
+    [PoolType.WITHDRAW]: (total: string) => minus(total, amount),
   }[type]
 
   const getPoolShare = usePoolShare(modifyTotal)
@@ -122,8 +128,8 @@ const PoolForm = ({ type, poolOnly }: { type: Type; poolOnly?: boolean }) => {
     onSelect,
     priceKey,
     balanceKey,
-    formatTokenName: type === Type.SHORT ? getLpName : undefined,
-    showDelisted: type === Type.SHORT,
+    formatTokenName: type === PoolType.WITHDRAW ? getLpName : undefined,
+    showDelisted: type === PoolType.WITHDRAW,
   }
 
   const select = useSelectAsset(config)
@@ -133,10 +139,12 @@ const PoolForm = ({ type, poolOnly }: { type: Type; poolOnly?: boolean }) => {
     ...getFields({
       [Key.value]: {
         label: {
-          [Type.LONG]: (
+          [PoolType.PROVIDE]: (
             <TooltipIcon content={Tooltip.Pool.InputAsset}>Asset</TooltipIcon>
           ),
-          [Type.SHORT]: <TooltipIcon content={Tooltip.Pool.LP}>LP</TooltipIcon>,
+          [PoolType.WITHDRAW]: (
+            <TooltipIcon content={Tooltip.Pool.LP}>LP</TooltipIcon>
+          ),
         }[type],
         input: {
           type: "number",
@@ -151,18 +159,18 @@ const PoolForm = ({ type, poolOnly }: { type: Type; poolOnly?: boolean }) => {
           : undefined,
         assets: select.assets,
         help: renderBalance(balance, symbol),
-        focused: type === Type.SHORT && select.isOpen,
+        focused: type === PoolType.WITHDRAW && select.isOpen,
       },
     }),
 
     estimated: {
-      [Type.LONG]: {
+      [PoolType.PROVIDE]: {
         label: <TooltipIcon content={Tooltip.Pool.InputUST}>{UST}</TooltipIcon>,
         value: toLP?.text,
         help: renderBalance(find(balanceKey, UUSD), UUSD),
         unit: UST,
       },
-      [Type.SHORT]: {
+      [PoolType.WITHDRAW]: {
         label: (
           <TooltipIcon content={Tooltip.Pool.Output}>Received</TooltipIcon>
         ),
@@ -172,8 +180,8 @@ const PoolForm = ({ type, poolOnly }: { type: Type; poolOnly?: boolean }) => {
   }
 
   const icons = {
-    [Type.LONG]: <FormIcon name="add" />,
-    [Type.SHORT]: <FormIcon name="arrow_downward" />,
+    [PoolType.PROVIDE]: <FormIcon name="add" />,
+    [PoolType.WITHDRAW]: <FormIcon name="arrow_downward" />,
   }
 
   /* confirm */
@@ -193,7 +201,7 @@ const PoolForm = ({ type, poolOnly }: { type: Type; poolOnly?: boolean }) => {
             </Count>
           ),
         },
-        ...insertIf(type === Type.LONG, {
+        ...insertIf(type === PoolType.PROVIDE, {
           title: (
             <TooltipIcon content={Tooltip.Pool.LPfromTx}>
               LP from Tx
@@ -201,7 +209,7 @@ const PoolForm = ({ type, poolOnly }: { type: Type; poolOnly?: boolean }) => {
           ),
           content: <Count symbol={LP}>{toLP?.value}</Count>,
         }),
-        ...insertIf(type === Type.SHORT || gt(balance, 0), {
+        ...insertIf(type === PoolType.WITHDRAW || gt(balance, 0), {
           title: "LP after Tx",
           content: <Count symbol={LP}>{lpAfterTx}</Count>,
         }),
@@ -224,7 +232,7 @@ const PoolForm = ({ type, poolOnly }: { type: Type; poolOnly?: boolean }) => {
   const data = !estimated
     ? []
     : {
-        [Type.LONG]: [
+        [PoolType.PROVIDE]: [
           newContractMsg(token, {
             increase_allowance: {
               amount,
@@ -244,7 +252,7 @@ const PoolForm = ({ type, poolOnly }: { type: Type; poolOnly?: boolean }) => {
             { amount: estimated, denom: UUSD }
           ),
         ],
-        [Type.SHORT]: [
+        [PoolType.WITHDRAW]: [
           newContractMsg(lpToken, {
             send: {
               amount,
@@ -256,13 +264,13 @@ const PoolForm = ({ type, poolOnly }: { type: Type; poolOnly?: boolean }) => {
       }[type]
 
   const insufficient = !!estimated && gt(estimated, find(balanceKey, UUSD))
-  const disabled = invalid || (type === Type.LONG && insufficient)
+  const disabled = invalid || (type === PoolType.PROVIDE && insufficient)
 
   /* result */
   const parseTx = usePoolReceipt(type)
 
   const container = { attrs, contents, disabled, data, parseTx }
-  const tax = { pretax: uusd, deduct: type === Type.SHORT }
+  const tax = { pretax: uusd, deduct: type === PoolType.WITHDRAW }
 
   return (
     <WithPriceChart token={token}>

@@ -1,13 +1,7 @@
-import useHash from "../libs/useHash"
 import PoolForm from "../forms/PoolForm"
+import { PoolType } from "../types/Types"
 
-export enum Type {
-  LONG = "long",
-  SHORT = "short",
-}
-
-const Pool = () => {
-  const { hash: type } = useHash<Type>()
+const Pool = ({ type }: { type: PoolType }) => {
   return <PoolForm type={type} key={type} />
 }
 

@@ -3,14 +3,14 @@ import { equals } from "ramda"
 import { div, gt } from "../libs/math"
 import { useContractsAddress } from "../hooks"
 import { useLazyContractQuery } from "../graphql/useContractQuery"
-import { Type } from "../pages/Trade"
+import { TradeType } from "../types/Types"
 
 interface Params {
   amount: string
   token: string
   pair: string
   reverse: boolean
-  type: Type
+  type: TradeType
 }
 
 interface SimulatedData {
@@ -71,10 +71,10 @@ export default ({ amount, token, pair, reverse, type }: Params) => {
   const commission = parsed?.commission_amount
 
   const price = {
-    [Type.BUY]: !reverse
+    [TradeType.BUY]: !reverse
       ? div(amount, simulatedAmount)
       : div(simulatedAmount, amount),
-    [Type.SELL]: !reverse
+    [TradeType.SELL]: !reverse
       ? div(simulatedAmount, amount)
       : div(amount, simulatedAmount),
   }[type]

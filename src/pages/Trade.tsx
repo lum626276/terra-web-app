@@ -1,13 +1,9 @@
 import useHash from "../libs/useHash"
 import TradeForm from "../forms/TradeForm"
-
-export enum Type {
-  BUY = "buy",
-  SELL = "sell",
-}
+import { TradeType } from "../types/Types"
 
 const Trade = () => {
-  const { hash: type } = useHash<Type>()
+  const { hash: type } = useHash<TradeType>()
   return <TradeForm type={type} key={type} />
 }
 

@@ -4,20 +4,15 @@ import Tab from "../components/Tab"
 import MarketList from "./MarketList"
 import Trade from "./Trade"
 import Mint from "./Mint"
-
-export enum Type {
-  BUY = "buy",
-  SELL = "sell",
-  BORROW = "borrow",
-}
+import { MarketType } from "../types/Types"
 
 const Market = () => {
-  const { hash } = useHash<Type>()
+  const { hash } = useHash<MarketType>()
 
   const render = {
-    [Type.BUY]: () => <Trade />,
-    [Type.SELL]: () => <Trade />,
-    [Type.BORROW]: () => <Mint />,
+    [MarketType.BUY]: () => <Trade />,
+    [MarketType.SELL]: () => <Trade />,
+    [MarketType.BORROW]: () => <Mint />,
   }
 
   return (
@@ -25,7 +20,10 @@ const Market = () => {
       {!hash ? (
         <MarketList />
       ) : (
-        <Tab tabs={[Type.BUY, Type.SELL, Type.BORROW]} current={hash}>
+        <Tab
+          tabs={[MarketType.BUY, MarketType.SELL, MarketType.BORROW]}
+          current={hash}
+        >
           {render[hash]()}
         </Tab>
       )}

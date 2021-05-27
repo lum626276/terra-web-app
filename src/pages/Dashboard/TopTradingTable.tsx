@@ -11,7 +11,7 @@ import AssetIcon from "../../components/AssetIcon"
 import Formatted from "../../components/Formatted"
 import { TooltipIcon } from "../../components/Tooltip"
 import { getPath, MenuKey } from "../../routes"
-import { Type } from "../Market"
+import { MarketType } from "../../types/Types"
 import styles from "./TopTradingTable.module.scss"
 
 const MarketList = () => {
@@ -64,7 +64,7 @@ const MarketList = () => {
           render: (symbol, { token, name }) => {
             const to = {
               pathname: getPath(MenuKey.MARKET),
-              hash: Type.BUY,
+              hash: MarketType.BUY,
               state: { token },
             }
 

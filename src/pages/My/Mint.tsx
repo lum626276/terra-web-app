@@ -15,7 +15,7 @@ import Change from "../../components/Change"
 import Tooltip, { TooltipIcon } from "../../components/Tooltip"
 import Delisted from "../../components/Delisted"
 import DashboardActions from "../../components/DashboardActions"
-import { Type } from "../Mint"
+import { MintType } from "../../types/Types"
 import NoAssets from "./NoAssets"
 import { MyMint } from "./types"
 import styles from "./Mint.module.scss"
@@ -167,18 +167,18 @@ const Mint = ({ loading, dataSource, ...props }: MyMint) => {
                 }
 
                 const depositItem = {
-                  to: { ...to, hash: Type.DEPOSIT },
-                  children: Type.DEPOSIT,
+                  to: { ...to, hash: MintType.DEPOSIT },
+                  children: MintType.DEPOSIT,
                 }
 
                 const withdrawItem = {
-                  to: { ...to, hash: Type.WITHDRAW },
-                  children: Type.WITHDRAW,
+                  to: { ...to, hash: MintType.WITHDRAW },
+                  children: MintType.WITHDRAW,
                 }
 
                 const closeItem = {
-                  to: { ...to, hash: Type.CLOSE },
-                  children: `${Type.CLOSE} position`,
+                  to: { ...to, hash: MintType.CLOSE },
+                  children: `${MintType.CLOSE} position`,
                 }
 
                 const list =

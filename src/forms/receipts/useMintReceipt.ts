@@ -3,13 +3,13 @@ import { formatAsset, lookupSymbol } from "../../libs/parse"
 import { percent } from "../../libs/num"
 import { useContract, useContractsAddress, useRefetch } from "../../hooks"
 import { PriceKey } from "../../hooks/contractKeys"
-import { Type } from "../../pages/Mint"
+import { MintType } from "../../types/Types"
 import { findValue, splitTokenText } from "./receiptHelpers"
 
-export default (type: Type, prev?: MintPosition) => (logs: TxLog[]) => {
-  const open = type === Type.BORROW
-  const close = type === Type.CLOSE
-  const custom = type === Type.CUSTOM
+export default (type: MintType, prev?: MintPosition) => (logs: TxLog[]) => {
+  const open = type === MintType.BORROW
+  const close = type === MintType.CLOSE
+  const custom = type === MintType.CUSTOM
   useRefetch([PriceKey.ORACLE, PriceKey.END])
 
   /* context */
@@ -32,30 +32,30 @@ export default (type: Type, prev?: MintPosition) => (logs: TxLog[]) => {
   const protocolFee = splitTokenText(val("protocol_fee", Number(custom)))
 
   const nextCollateral = {
-    [Type.BORROW]: {
+    [MintType.BORROW]: {
       amount: collateral.amount,
       token: collateral.token,
     },
-    [Type.SHORT]: {
+    [MintType.SHORT]: {
       amount: collateral.amount,
       token: collateral.token,
     },
-    [Type.DEPOSIT]: {
+    [MintType.DEPOSIT]: {
       amount: plus(prevCollateral?.amount, deposit.amount),
       token: prevCollateral?.token,
     },
-    [Type.WITHDRAW]: {
+    [MintType.WITHDRAW]: {
       amount: minus(
         minus(prevCollateral?.amount, withdraw.amount),
         protocolFee.amount
       ),
       token: prevCollateral?.token,
     },
-    [Type.CLOSE]: {
+    [MintType.CLOSE]: {
       amount: minus(prevCollateral?.amount, protocolFee.amount),
       token: prevCollateral?.token,
     },
-    [Type.CUSTOM]: {
+    [MintType.CUSTOM]: {
       amount: deposit.amount
         ? plus(prevCollateral?.amount, deposit.amount)
         : withdraw.amount

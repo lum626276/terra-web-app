@@ -12,7 +12,7 @@ import Dl from "../../components/Dl"
 import { TooltipIcon } from "../../components/Tooltip"
 import Delisted from "../../components/Delisted"
 import DashboardActions from "../../components/DashboardActions"
-import { MenuKey as StakeMenuKey, Type } from "../Stake"
+import { MintType, StakeType } from "../../types/Types"
 import NoAssets from "./NoAssets"
 import { MyStake } from "./types"
 
@@ -84,30 +84,19 @@ const Stake = ({ loading, dataSource, ...props }: MyStake) => {
         {
           key: "actions",
           dataIndex: "token",
-          render: (token, { status }) => {
-            const edit = `${getPath(MenuKey.STAKE)}/${token}`
-            const claim = `${getPath(MenuKey.STAKE)}/${token}/claim`
-
-            const stakeItem = {
-              to: { pathname: edit, hash: Type.STAKE },
-              children: Type.STAKE,
-            }
-
-            const defaultList = [
+          render: (token, { type }) => {
+            const list = [
               {
-                to: { pathname: edit, hash: Type.UNSTAKE },
-                children: Type.UNSTAKE,
-              },
-              {
-                to: claim,
-                children: StakeMenuKey.CLAIMSYMBOL,
+                to: {
+                  pathname: getPath(MenuKey.UNSTAKE),
+                  hash: StakeType.UNSTAKE,
+                  state: { token },
+                },
+                children: StakeType.UNSTAKE,
               },
             ]
 
-            const list =
-              status === "LISTED" ? [stakeItem, ...defaultList] : defaultList
-
-            return <DashboardActions list={list} />
+            return type === "long" && <DashboardActions list={list} />
           },
           align: "right",
           fixed: "right",
@@ -116,7 +105,10 @@ const Stake = ({ loading, dataSource, ...props }: MyStake) => {
       dataSource={dataSource}
     />
   ) : !loading ? (
-    <NoAssets description={MESSAGE.MyPage.Empty.Staked} link={MenuKey.STAKE} />
+    <NoAssets
+      description={MESSAGE.MyPage.Empty.Staked}
+      link={MenuKey.UNSTAKE}
+    />
   ) : null
 }
 

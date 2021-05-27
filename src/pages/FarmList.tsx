@@ -7,7 +7,7 @@ import useYesterday, { calcChange } from "../statistics/useYesterday"
 import Table from "../components/Table"
 import AssetIcon from "../components/AssetIcon"
 import Percent from "../components/Percent"
-import { Type } from "./Farm"
+import { FarmType } from "../types/Types"
 import styles from "./FarmList.module.scss"
 
 const FarmList = () => {
@@ -75,7 +75,7 @@ const FarmList = () => {
           key: "apr.long",
           title: "Long",
           render: (value, { token }) => (
-            <Link to={{ hash: Type.LONG, state: { token } }}>
+            <Link to={{ hash: FarmType.LONG, state: { token } }}>
               <Percent color={"blue"}>{value}</Percent>
               <p className="small">Long Farm</p>
             </Link>
@@ -86,7 +86,7 @@ const FarmList = () => {
           key: "apr.short",
           title: "Short",
           render: (value, { token }) => (
-            <Link to={{ hash: Type.LONG, state: { token } }}>
+            <Link to={{ hash: FarmType.LONG, state: { token } }}>
               <Percent color={"red"}>{value}</Percent>
               <p className="small">Short Farm</p>
             </Link>

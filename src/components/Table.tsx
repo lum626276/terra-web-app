@@ -157,7 +157,7 @@ function Table<T extends DefaultRecordType>(props: Props<T>) {
                   style={{ width }}
                   key={key}
                 >
-                  {content ? (
+                  {render ? (
                     Array.isArray(content) ? (
                       <ul>
                         {content.map((content, index) => (

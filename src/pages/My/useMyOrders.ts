@@ -6,7 +6,7 @@ import { useContractsAddress, useContract } from "../../hooks"
 import { useCombineKeys, useAddress } from "../../hooks"
 import { PriceKey } from "../../hooks/contractKeys"
 import { div, minus, sum, times } from "../../libs/math"
-import { Type } from "../Trade"
+import { TradeType } from "../../types/Types"
 
 const useMyOrders = () => {
   const priceKey = PriceKey.PAIR
@@ -36,19 +36,23 @@ const useMyOrders = () => {
       amount: minus(askToken.amount, filled_ask_amount),
     }
 
-    const type = offerAsset.token === UUSD ? Type.BUY : Type.SELL
+    const type = offerAsset.token === UUSD ? TradeType.BUY : TradeType.SELL
 
-    const asset = { [Type.BUY]: askAsset, [Type.SELL]: offerAsset }[type]
-    const uusd = { [Type.BUY]: offerAsset, [Type.SELL]: askAsset }[type]
+    const asset = { [TradeType.BUY]: askAsset, [TradeType.SELL]: offerAsset }[
+      type
+    ]
+    const uusd = { [TradeType.BUY]: offerAsset, [TradeType.SELL]: askAsset }[
+      type
+    ]
 
     const limitPrice = {
-      [Type.BUY]: div(offerToken.amount, askToken.amount),
-      [Type.SELL]: div(askToken.amount, offerToken.amount),
+      [TradeType.BUY]: div(offerToken.amount, askToken.amount),
+      [TradeType.SELL]: div(askToken.amount, offerToken.amount),
     }[type]
 
     const terraswapPrice = {
-      [Type.BUY]: find(priceKey, askAsset.token),
-      [Type.SELL]: find(priceKey, offerAsset.token),
+      [TradeType.BUY]: find(priceKey, askAsset.token),
+      [TradeType.SELL]: find(priceKey, offerAsset.token),
     }[type]
 
     const offerPrice = find(priceKey, offerAsset.token)

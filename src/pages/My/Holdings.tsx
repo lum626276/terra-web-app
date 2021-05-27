@@ -10,7 +10,7 @@ import Change from "../../components/Change"
 import { TooltipIcon } from "../../components/Tooltip"
 import Delisted from "../../components/Delisted"
 import DashboardActions from "../../components/DashboardActions"
-import { Type } from "../Trade"
+import { TradeType } from "../../types/Types"
 import NoAssets from "./NoAssets"
 import { MyHoldings } from "./types"
 
@@ -90,8 +90,14 @@ const Holdings = ({ loading, totalValue, dataSource }: MyHoldings) => {
             const list =
               status === "LISTED"
                 ? [
-                    { to: { ...to, hash: Type.BUY }, children: Type.BUY },
-                    { to: { ...to, hash: Type.SELL }, children: Type.SELL },
+                    {
+                      to: { ...to, hash: TradeType.BUY },
+                      children: TradeType.BUY,
+                    },
+                    {
+                      to: { ...to, hash: TradeType.SELL },
+                      children: TradeType.SELL,
+                    },
                     {
                       to: { ...to, pathname: getPath(MenuKey.SEND) },
                       children: MenuKey.SEND,
