@@ -1,76 +1,79 @@
 import { Switch, Route, RouteProps, Redirect } from "react-router-dom"
 import { Dictionary } from "ramda"
 
+/* Menu */
 import Dashboard from "./pages/Dashboard"
-import Info from "./pages/Info"
-import Auth from "./pages/Auth"
 import My from "./pages/My/My"
-import Send from "./pages/Send"
-import Airdrop from "./pages/Airdrop"
-import Trade from "./pages/Trade"
-import Mint from "./pages/Mint"
-import Burn from "./pages/Burn"
-import Pool from "./pages/Pool"
-import Stake from "./pages/Stake"
+import Market from "./pages/Market"
+import Farm from "./pages/Farm"
 import Gov from "./pages/Gov"
 
-import Auction from "./pages/Auction"
-import Reward from "./pages/Reward"
+/* Auth */
+import Auth from "./pages/Auth"
+
+/* Txs */
+import Trade from "./pages/Trade"
+import Mint from "./pages/Mint"
+import Pool from "./pages/Pool"
+import Stake from "./pages/Stake"
+
+import Send from "./pages/Send"
+import Burn from "./pages/Burn"
+import Claim from "./pages/Stake/Claim"
+import Airdrop from "./pages/Airdrop"
+import LimitOrder from "./pages/LimitOrder" // Cancel limit order
+
+/* Informations */
 import Caution from "./forms/Caution"
+import Info from "./pages/Info"
 import Data from "./tools/Data"
 import Tool from "./tools/Tool"
-import LimitOrder from "./pages/LimitOrder"
 
 export enum MenuKey {
   DASHBOARD = "Dashboard",
-  INFO = "Info",
-  AUTH = "Auth",
   MY = "My Page",
-  SEND = "Send",
-  AIRDROP = "Airdrop",
+  MARKET = "Market",
+  FARM = "Farm",
+  GOV = "Govern",
+
+  AUTH = "Auth",
+
   TRADE = "Trade",
   MINT = "Mint",
-  BURN = "Burn",
   POOL = "Pool",
   STAKE = "Stake",
-  GOV = "Governance",
+
+  SEND = "Send",
+  BURN = "Burn",
+  CLAIM = "Claim",
+  AIRDROP = "Airdrop",
   LIMIT = "Limit order",
 }
 
-export const omit = [
-  MenuKey.DASHBOARD,
-  MenuKey.AUTH,
-  MenuKey.INFO,
-  MenuKey.SEND,
-  MenuKey.BURN,
-  MenuKey.AIRDROP,
-  MenuKey.LIMIT,
-]
+export const gnb = [MenuKey.MARKET, MenuKey.FARM, MenuKey.GOV]
 
 export const menu: Dictionary<RouteProps> = {
-  // Not included in navigation bar
   [MenuKey.DASHBOARD]: { path: "/", exact: true, component: Dashboard },
+  [MenuKey.MY]: { path: "/my", component: My },
+  [MenuKey.MARKET]: { path: "/market", component: Market },
+  [MenuKey.FARM]: { path: "/farm", component: Farm },
+  [MenuKey.GOV]: { path: "/gov", component: Gov },
+
   [MenuKey.AUTH]: { path: "/auth", component: Auth },
-  [MenuKey.INFO]: { path: "/info", component: Info },
+
+  [MenuKey.TRADE]: { path: "/trade", component: Trade },
+  [MenuKey.MINT]: { path: "/mint", component: Mint },
+  [MenuKey.POOL]: { path: "/pool", component: Pool },
+  [MenuKey.STAKE]: { path: "/stake", component: Stake },
+
   [MenuKey.SEND]: { path: "/send", component: Send },
+  [MenuKey.BURN]: { path: "/burn/:token", component: Burn },
+  [MenuKey.CLAIM]: { path: "/claim", component: Claim },
   [MenuKey.AIRDROP]: { path: "/airdrop", component: Airdrop },
   [MenuKey.LIMIT]: { path: "/limit", component: LimitOrder },
 
-  // Menu
-  [MenuKey.MY]: { path: "/my", component: My },
-  [MenuKey.TRADE]: { path: "/trade", component: Trade },
-  [MenuKey.MINT]: { path: "/mint", component: Mint },
-  [MenuKey.BURN]: { path: "/burn/:token", component: Burn },
-  [MenuKey.POOL]: { path: "/pool", component: Pool },
-  [MenuKey.STAKE]: { path: "/stake", component: Stake },
-  [MenuKey.GOV]: { path: "/gov", component: Gov },
-
-  // For test
-  auction: { path: "/auction", component: Auction },
-  reward: { path: "/reward", component: Reward },
   caution: { path: "/caution", component: Caution },
-
-  // For developers
+  info: { path: "/info", component: Info },
   data: { path: "/data", component: Data },
   tool: { path: "/tool", component: Tool },
 }

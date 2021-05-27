@@ -17,7 +17,6 @@ import useFee from "../graphql/useFee"
 
 import { useModal } from "../containers/Modal"
 import ConnectListModal from "../layouts/ConnectListModal"
-import Container from "../components/Container"
 import Tab from "../components/Tab"
 import Card from "../components/Card"
 import Confirm from "../components/Confirm"
@@ -154,29 +153,23 @@ export const FormContainer = ({ data: msgs, memo, ...props }: Props) => {
           children: MESSAGE.Form.Button.ConnectWallet,
         }
 
+    const txFeeTitle = (
+      <TooltipIcon content={Tooltip.Forms.TxFee}>Tx Fee</TooltipIcon>
+    )
+
     const txFee = (
       <Count symbol={UUSD} dp={6}>
         {plus(tax, fee.amount)}
       </Count>
     )
 
-    const form = (
+    return (
       <>
-        {children}
+        {tab ? <Tab {...tab}>{children}</Tab> : <Card>{children}</Card>}
 
         {contents && (
           <Confirm
-            list={[
-              ...contents,
-              {
-                title: (
-                  <TooltipIcon content={Tooltip.Forms.TxFee}>
-                    Tx Fee
-                  </TooltipIcon>
-                ),
-                content: txFee,
-              },
-            ]}
+            list={[...contents, { title: txFeeTitle, content: txFee }]}
           />
         )}
 
@@ -187,12 +180,10 @@ export const FormContainer = ({ data: msgs, memo, ...props }: Props) => {
         <Button {...next} type="button" size="lg" submit />
       </>
     )
-
-    return tab ? <Tab {...tab}>{form}</Tab> : <Card lg>{form}</Card>
   }
 
   return (
-    <Container sm>
+    <>
       {error || response ? (
         <Result
           response={response}
@@ -212,7 +203,7 @@ export const FormContainer = ({ data: msgs, memo, ...props }: Props) => {
       )}
 
       {!address && <ConnectListModal {...modal} />}
-    </Container>
+    </>
   )
 }
 

@@ -7,7 +7,7 @@ import Card from "../../components/Card"
 import Grid from "../../components/Grid"
 import LoadingTitle from "../../components/LoadingTitle"
 import Button from "../../components/Button"
-import Icon from "../../components/Icon"
+import MaterialIcon from "../../components/MaterialIcon"
 import { TooltipIcon } from "../../components/Tooltip"
 import { isEmphasizedPoll } from "./pollHelpers"
 import { PollStatus } from "./Poll"
@@ -47,7 +47,7 @@ const Polls = ({ title }: { title: string }) => {
               </option>
             ))}
           </select>
-          <Icon name="arrow_drop_down" size={16} />
+          <MaterialIcon name="arrow_drop_down" size={16} />
         </div>
       </header>
 

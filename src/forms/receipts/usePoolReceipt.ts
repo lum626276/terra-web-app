@@ -28,7 +28,7 @@ export default (type: Type) => (logs: TxLog[]) => {
 
   /* contents */
   return {
-    [Type.PROVIDE]: [
+    [Type.LONG]: [
       {
         title: "Received",
         content: formatAsset(received, getLpName(symbol)),
@@ -39,7 +39,7 @@ export default (type: Type) => (logs: TxLog[]) => {
         content: join(deposit),
       },
     ],
-    [Type.WITHDRAW]: [
+    [Type.SHORT]: [
       {
         title: "Refund",
         content: join(refund),

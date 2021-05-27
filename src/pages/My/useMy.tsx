@@ -8,8 +8,9 @@ import useMyMint from "./useMyMint"
 import useMyPool from "./useMyPool"
 import useMyStake from "./useMyStake"
 import useMyOrders from "./useMyOrders"
+import { My } from "./types"
 
-const useMy = () => {
+const useMy = (): My => {
   const holdings = useMyHoldings()
   const mint = useMyMint()
   const pool = useMyPool()
@@ -40,7 +41,7 @@ const useMy = () => {
 
   const total = { value: calcTotalValue(values), loading: !data }
 
-  return { holdings, mint, pool, stake, total, orders }
+  return { holdings, mint, pool, stake, orders, total }
 }
 
 export default useMy

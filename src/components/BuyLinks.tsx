@@ -1,7 +1,7 @@
 import { ReactNode } from "react"
 import classNames from "classnames/bind"
 import ExtLink from "./ExtLink"
-import Icon from "./Icon"
+import MaterialIcon from "./MaterialIcon"
 import { ReactComponent as KuCoin } from "./KuCoin.svg"
 import styles from "./BuyLinks.module.scss"
 
@@ -23,14 +23,14 @@ interface Link {
 interface Props {
   type?: "terra" | "eth"
   action?: ReactNode
-  className: string
+  className?: string
   onClick?: () => void
   links?: Link[]
 }
 
 const BuyLinks = ({ type = "terra", ...props }: Props) => {
   const { action, links = [], className, onClick } = props
-  const arrow = <Icon name="north_east" size={16} />
+  const arrow = <MaterialIcon name="north_east" size={16} />
 
   return (
     <article className={className}>

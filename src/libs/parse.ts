@@ -4,11 +4,11 @@ import { SMALLEST } from "../constants"
 
 BigNumber.config({ EXPONENTIAL_AT: [-18, 20] })
 
-type Formatter = (
+type Formatter<T = string> = (
   amount?: string,
   symbol?: string,
   config?: FormatConfig
-) => string
+) => T
 
 const rm = BigNumber.ROUND_DOWN
 
@@ -42,9 +42,12 @@ export const lookupSymbol = (symbol?: string) =>
     ? symbol.slice(1, 3).toUpperCase() + "T"
     : symbol ?? ""
 
+export const getIsBig: Formatter<boolean> = (amount, symbol) =>
+  new BigNumber(lookup(amount, symbol)).gte(1e6)
+
 export const format: Formatter = (amount, symbol, config) => {
   const value = new BigNumber(lookup(amount, symbol, config))
-  const formatted = value.gte(SMALLEST)
+  const formatted = getIsBig(amount, symbol)
     ? numeral(value.div(1e4).integerValue(rm).times(1e4)).format("0,0.[00]a")
     : numeral(value).format(config?.integer ? "0,0" : "0,0.[000000]")
 

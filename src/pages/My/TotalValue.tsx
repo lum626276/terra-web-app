@@ -1,24 +1,67 @@
-import { UUSD } from "../../constants"
-import Tooltip from "../../lang/Tooltip.json"
-import { gt } from "../../libs/math"
-import { Di } from "../../components/Dl"
-import Count from "../../components/Count"
-import { TooltipIcon } from "../../components/Tooltip"
+import { MIR, UUSD } from "../../constants"
+import { gt, minus } from "../../libs/math"
+import { formatAsset } from "../../libs/parse"
+import { useContract } from "../../hooks"
+import { getPath, MenuKey } from "../../routes"
+import Card, { CardMain } from "../../components/Card"
+import Grid from "../../components/Grid"
+import Formatted from "../../components/Formatted"
+import LinkButton from "../../components/LinkButton"
+import DoughnutChart from "../../containers/DoughnutChart"
+import { My } from "./types"
 
-interface Props {
-  value: string
-  loading: boolean
+const TotalValue = ({ total, holdings, mint, pool, stake }: My) => {
+  const { value } = total
+  const { totalRewards, totalRewardsValue } = stake
+  const { uusd } = useContract()
+
+  const claimAll = (
+    <CardMain>
+      <LinkButton
+        to={getPath(MenuKey.CLAIM)}
+        disabled={!gt(totalRewards, 0)}
+        size="lg"
+        block
+      >
+        Claim All Rewards
+      </LinkButton>
+    </CardMain>
+  )
+
+  return (
+    <Grid>
+      <Card title="Total Value">
+        <Formatted symbol={UUSD} big>
+          {value}
+        </Formatted>
+
+        <DoughnutChart
+          list={[
+            { label: "UST", value: uusd },
+            { label: "Holdings", value: holdings.totalValue },
+            {
+              label: "Mint",
+              value: minus(mint.totalCollateralValue, mint.totalMintedValue),
+            },
+            { label: "Stake", value: pool.totalWithdrawableValue },
+          ]}
+          format={(value) => formatAsset(value, UUSD)}
+        />
+      </Card>
+
+      <Card title="Total Rewards" footer={claimAll}>
+        <p>
+          <Formatted symbol={MIR} big>
+            {totalRewards}
+          </Formatted>
+        </p>
+
+        <p className="muted">
+          <Formatted symbol={UUSD}>{totalRewardsValue}</Formatted>
+        </p>
+      </Card>
+    </Grid>
+  )
 }
-
-const TotalValue = ({ value, loading }: Props) => (
-  <Di
-    title="Total Value"
-    content={
-      <TooltipIcon content={Tooltip.My.TotalValue}>
-        <Count symbol={UUSD}>{loading && gt(value, 0) ? "0" : value}</Count>
-      </TooltipIcon>
-    }
-  />
-)
 
 export default TotalValue

@@ -4,8 +4,9 @@ import { useContractsAddress, useContract, useCombineKeys } from "../../hooks"
 import { BalanceKey, PriceKey } from "../../hooks/contractKeys"
 import usePool from "../../forms/usePool"
 import usePoolShare from "../../forms/usePoolShare"
+import { MyPool } from "./types"
 
-const useMyPool = () => {
+const useMyPool = (): MyPool => {
   const priceKey = PriceKey.PAIR
   const keys = [
     priceKey,

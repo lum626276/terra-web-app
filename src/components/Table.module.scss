@@ -1,8 +1,14 @@
 @import "mixins";
 
+$padding: 20px;
+
 .wrapper {
   width: 100%;
   overflow-x: scroll;
+}
+
+.radius {
+  border-radius: 16px;
 }
 
 .margin {
@@ -10,15 +16,30 @@
 }
 
 .cell {
-  background: $darkblue;
-  padding: 20px;
+  background: $gray-18;
+  color: $white-80;
+  padding: $padding;
   white-space: nowrap;
+
+  .darker & {
+    background-color: $gray-14;
+  }
+}
+
+.caption {
+  background: $gray-14;
+  border-bottom: 1px solid $bg;
+  color: $blue-100;
+  font-size: 14px;
+  font-weight: 500;
+  padding: $padding;
 }
 
 .th {
-  color: $battleship;
+  background: $gray-14;
+  color: $white-44;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
   text-transform: capitalize;
 
   .colspan & {
@@ -30,7 +51,8 @@
 }
 
 .td {
-  border-top: $border;
+  border-top: 2px solid $bg;
+  letter-spacing: -0.3px;
 }
 
 .text-left {

@@ -28,8 +28,8 @@
   @include transition;
 
   flex: none;
-  background-color: $color;
-  border: 1px solid $color;
+  background-color: $gray-18;
+  border: 1px solid $gray-18;
   border-radius: 20px;
   font-size: 14px;
   font-weight: 500;
@@ -85,7 +85,6 @@
 .active {
   background-color: $blue;
   border-color: $blue;
-  color: $darkblue;
 }
 
 .feedback {

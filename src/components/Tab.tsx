@@ -1,7 +1,6 @@
 import { FC } from "react"
 import { Link, useLocation } from "react-router-dom"
 import classNames from "classnames"
-import Card from "./Card"
 import { TooltipIcon } from "./Tooltip"
 import styles from "./Tab.module.scss"
 
@@ -9,7 +8,7 @@ const Tab: FC<Tab> = ({ tabs, tooltips, current, shadow, children }) => {
   const { search, state } = useLocation()
 
   return !current ? null : (
-    <Card full shadow={shadow}>
+    <>
       <section className={styles.tabs}>
         {tabs.map((tab, index) => {
           const to = { hash: tab, search, state }
@@ -32,8 +31,8 @@ const Tab: FC<Tab> = ({ tabs, tooltips, current, shadow, children }) => {
         })}
       </section>
 
-      <section className={styles.content}>{children}</section>
-    </Card>
+      {children && <section className={styles.content}>{children}</section>}
+    </>
   )
 }
 

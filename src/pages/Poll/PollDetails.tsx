@@ -35,9 +35,11 @@ const PollDetails = ({ poll }: { poll: Poll }) => {
           ) : (
             <PollVotes {...poll} lg />
           )}
-
-          <PollVoters id={id} />
         </Card>
+      </Grid>
+
+      <Grid>
+        <PollVoters id={id} />
       </Grid>
     </>
   )

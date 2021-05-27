@@ -1,0 +1,35 @@
+@import "mixins";
+
+.wrapper {
+  @include flex(space-between);
+  margin-top: 60px;
+}
+
+.item + .item {
+  margin-top: 20px;
+}
+
+.header {
+  @include flex(flex-start);
+}
+
+.label {
+  color: $white-44;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+  text-transform: uppercase;
+}
+
+.square {
+  width: 7px;
+  height: 7px;
+  margin-right: 6px;
+}
+
+.value {
+  margin-left: (7px + 6px);
+
+  color: $white-92;
+  font-size: 14px;
+}

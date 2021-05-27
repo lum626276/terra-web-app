@@ -23,7 +23,7 @@ import useTax from "../graphql/useTax"
 import FormGroup from "../components/FormGroup"
 import Count from "../components/Count"
 import { TooltipIcon } from "../components/Tooltip"
-import PriceChart from "../containers/PriceChart"
+import WithPriceChart from "../containers/WithPriceChart"
 import DelistModal from "../layouts/DelistModal"
 import { Type } from "../pages/Trade"
 import useTradeReceipt from "./receipts/useTradeReceipt"
@@ -44,7 +44,7 @@ enum Key {
   value2 = "value2",
 }
 
-const TradeForm = ({ type, tab }: { type: Type; tab: Tab }) => {
+const TradeForm = ({ type }: { type: Type }) => {
   const priceKey = PriceKey.PAIR
   const balanceKey = BalanceKey.TOKEN
 
@@ -373,46 +373,47 @@ const TradeForm = ({ type, tab }: { type: Type; tab: Tab }) => {
   const parseLimitOrder = useLimitOrderReceipt(type)
   const parseTx = isLimitOrder ? parseLimitOrder : parseTrade
 
-  const container = { tab, attrs, contents, data, disabled, messages, parseTx }
+  const container = { attrs, contents, data, disabled, messages, parseTx }
   const tax = { pretax: uusd, deduct: type === Type.SELL }
 
   return (
-    <FormContainer {...container} {...tax}>
+    <WithPriceChart token={token}>
       {type === Type.BUY && !!delist[token] && (
         <DelistModal tokens={[token]} key={token} />
       )}
 
-      <div className={styles.header}>
-        <ToggleLimitOrder state={limitOrderState} />
-        <SetSlippageTolerance state={slippageState} error={slippageError} />
-      </div>
+      <FormContainer {...container} {...tax}>
+        <div className={styles.header}>
+          <ToggleLimitOrder state={limitOrderState} />
+          <SetSlippageTolerance state={slippageState} error={slippageError} />
+        </div>
 
-      {isLimitOrder ? (
-        {
-          [Type.BUY]: (
-            <>
-              <FormGroup {...fields[Key.target]} />
-              <FormGroup {...fields[Key.value2]} />
-              <FormGroup {...fields[Key.value1]} />
-            </>
-          ),
-          [Type.SELL]: (
-            <>
-              <FormGroup {...fields[Key.target]} />
-              <FormGroup {...fields[Key.value1]} />
-              <FormGroup {...fields[Key.value2]} />
-            </>
-          ),
-        }[type]
-      ) : (
-        <>
-          <FormGroup {...fields[Key.value1]} />
-          <FormIcon name="arrow_downward" />
-          <FormGroup {...fields[Key.value2]} />
-        </>
-      )}
-      <PriceChart token={token} symbol={symbol} />
-    </FormContainer>
+        {isLimitOrder ? (
+          {
+            [Type.BUY]: (
+              <>
+                <FormGroup {...fields[Key.target]} />
+                <FormGroup {...fields[Key.value2]} />
+                <FormGroup {...fields[Key.value1]} />
+              </>
+            ),
+            [Type.SELL]: (
+              <>
+                <FormGroup {...fields[Key.target]} />
+                <FormGroup {...fields[Key.value1]} />
+                <FormGroup {...fields[Key.value2]} />
+              </>
+            ),
+          }[type]
+        ) : (
+          <>
+            <FormGroup {...fields[Key.value1]} />
+            <FormIcon name="arrow_downward" />
+            <FormGroup {...fields[Key.value2]} />
+          </>
+        )}
+      </FormContainer>
+    </WithPriceChart>
   )
 }
 

@@ -1,0 +1,10 @@
+@import "mixins";
+
+.bg {
+  @include flex;
+
+  background: $gray-34;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}

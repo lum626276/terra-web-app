@@ -31,7 +31,4 @@ const parse = (assets: AssetStatsData[]) => ({
   apr: assets.reduce((acc, { token, statistic }) => {
     return { ...acc, [token]: statistic.apr }
   }, {}),
-  apy: assets.reduce((acc, { token, statistic }) => {
-    return { ...acc, [token]: statistic.apy }
-  }, {}),
 })

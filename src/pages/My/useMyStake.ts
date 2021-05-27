@@ -5,12 +5,13 @@ import { useContractsAddress, useContract, useCombineKeys } from "../../hooks"
 import { BalanceKey, PriceKey } from "../../hooks/contractKeys"
 import useAssetStats from "../../statistics/useAssetStats"
 import useDashboard from "../../statistics/useDashboard"
+import { MyStake } from "./types"
 
 interface Item extends ListedItem {
   gov?: boolean
 }
 
-const useMyStake = () => {
+const useMyStake = (): MyStake => {
   const priceKey = PriceKey.PAIR
   const keys = [
     priceKey,
@@ -35,7 +36,7 @@ const useMyStake = () => {
 
     return {
       ...item,
-      apr: !gov ? apr?.[token] : dashboard?.govAPR,
+      apr: !gov ? apr?.[token]?.long : dashboard?.govAPR,
       staked: find(!gov ? BalanceKey.LPSTAKED : BalanceKey.MIRGOVSTAKED, token),
       stakable: find(!gov ? BalanceKey.LPSTAKABLE : BalanceKey.TOKEN, token),
       reward: !gov ? find(BalanceKey.REWARD, token) : undefined,

@@ -5,8 +5,8 @@ import { MenuKey } from "../Gov"
 import PollDetails from "./PollDetails"
 
 export enum Type {
-  "END" = "end",
-  "EXECUTE" = "execute",
+  END = "end",
+  EXECUTE = "execute",
 }
 
 export enum PollStatus {

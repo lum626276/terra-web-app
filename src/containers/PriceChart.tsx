@@ -5,6 +5,7 @@ import { startOfMinute, subDays, subMonths, subWeeks, subYears } from "date-fns"
 
 import { format } from "../libs/parse"
 import Change from "../components/Change"
+import AssetIcon from "../components/AssetIcon"
 
 import { UST } from "../constants"
 import { PRICEHISTORY } from "../statistics/gqldocs"
@@ -39,25 +40,25 @@ const PriceChart = ({ token, symbol }: { token: string; symbol: string }) => {
 
   const ranges = [
     {
-      label: "D",
+      label: "Day",
       interval: 60 / 4, // 15 minutes
       from: subDays(now, 1).getTime(),
       fmt: "EEE, LLL dd, HH:mm aa",
     },
     {
-      label: "W",
+      label: "Week",
       interval: 60 * 1, // 1 hour
       from: subWeeks(now, 1).getTime(),
       fmt: "EEE, LLL dd, HH:mm aa",
     },
     {
-      label: "M",
+      label: "Month",
       interval: 60 * 24, // 1 day
       from: subMonths(now, 1).getTime(),
       fmt: "LLL dd, yyyy",
     },
     {
-      label: "Y",
+      label: "Year",
       interval: 60 * 24 * 7, // 1 week
       from: subYears(now, 1).getTime(),
       fmt: "LLL dd, yyyy",
@@ -66,7 +67,7 @@ const PriceChart = ({ token, symbol }: { token: string; symbol: string }) => {
 
   /* request */
   const [range, setRange] = useState(ranges[2])
-  const [data, setDate] = useState<Data>()
+  const [data, setData] = useState<Data>()
   const params = { token, ...range, to: now.getTime(), yesterday }
 
   const client = useStatsClient()
@@ -74,7 +75,7 @@ const PriceChart = ({ token, symbol }: { token: string; symbol: string }) => {
     client,
     variables: params,
     skip: !token,
-    onCompleted: (data) => setDate(data.asset.prices),
+    onCompleted: (data) => setData(data.asset.prices),
   })
 
   /* render */
@@ -82,44 +83,45 @@ const PriceChart = ({ token, symbol }: { token: string; symbol: string }) => {
 
   return !data ? null : (
     <div className={styles.component}>
-      <header className={styles.header}>
-        <section className={styles.token}>
-          <span className={styles.symbol}>{symbol}</span>
+      <section className={styles.header}>
+        <AssetIcon symbol={symbol} />
+
+        <div className={styles.token}>
+          <h1 className={styles.symbol}>{symbol}</h1>
           <Change
             className={styles.price}
             price={`${format(data.price)} ${UST}`}
           >
             {change}
           </Change>
-        </section>
-
-        <section className={styles.ranges}>
-          {ranges.map((r) => (
-            <button
-              type="button"
-              className={cx(styles.button, { active: r.label === range.label })}
-              onClick={() => setRange(r)}
-              key={r.label}
-            >
-              {r.label}
-            </button>
-          ))}
-        </section>
-      </header>
+        </div>
+      </section>
 
       <div className={styles.chart}>
         <ChartContainer
           change={change}
-          datasets={data.history?.map(({ timestamp: t, price: y }) => ({
+          datasets={data.history?.map(({ timestamp: x, price: y }) => ({
             y,
-            t,
+            x,
           }))}
           fmt={{ t: range.fmt }}
-          compact
         />
       </div>
 
-      <section className={styles.description}>
+      <section className={styles.ranges}>
+        {ranges.map((r) => (
+          <button
+            type="button"
+            className={cx(styles.button, { active: r.label === range.label })}
+            onClick={() => setRange(r)}
+            key={r.label}
+          >
+            {r.label}
+          </button>
+        ))}
+      </section>
+
+      <section className={styles.footer}>
         <PriceChartDescription key={token}>
           {description?.[token]}
         </PriceChartDescription>

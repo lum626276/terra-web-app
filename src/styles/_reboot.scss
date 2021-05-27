@@ -7,6 +7,7 @@
 html {
   line-height: $line-height;
   font-family: $font-family, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
@@ -14,6 +15,7 @@ body {
   color: $text;
   margin: 0;
   overflow-x: hidden;
+  overflow-y: auto;
 }
 
 hr {
@@ -54,8 +56,14 @@ ol {
   list-style: none;
 }
 
-strong {
+strong,
+.strong {
   font-weight: 600;
+}
+
+small,
+.small {
+  font-size: 75%;
 }
 
 a {

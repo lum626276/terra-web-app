@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useRef, useState } from "react"
 import useOnClickOutside from "use-onclickoutside"
-import styles from "./WithAbsoulte.module.scss"
+import styles from "./WithAbsolute.module.scss"
 
 interface Params {
   open: () => void

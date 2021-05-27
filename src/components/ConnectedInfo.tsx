@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { LinkProps } from "react-router-dom"
-import Icon from "./Icon"
+import MaterialIcon from "./MaterialIcon"
 import Button from "./Button"
 import Tooltip from "./Tooltip"
 import ExtLink from "./ExtLink"
@@ -24,7 +24,7 @@ const ConnectedInfo = (props: Props) => {
     <div className={styles.wallet}>
       <header className={styles.header}>
         <span className={styles.address}>
-          <Icon name="account_balance_wallet" />
+          <MaterialIcon name="account_balance_wallet" />
           {truncated}
         </span>
 
@@ -45,14 +45,14 @@ const ConnectedInfo = (props: Props) => {
             className={styles.button}
           >
             <>
-              <Icon name="content_paste" />
+              <MaterialIcon name="content_paste" />
               Copy Address
             </>
           </Tooltip>
         </div>
 
         <ExtLink href={link.href} className={styles.button}>
-          <Icon name="launch" />
+          <MaterialIcon name="launch" />
           View on {link.children}
         </ExtLink>
       </section>

@@ -32,7 +32,6 @@ const GovHome = () => {
           <LinkButton {...createLink} />
         </>
       }
-      noBreak
     >
       <GovHomeHeader />
       <Polls title="Polls" />

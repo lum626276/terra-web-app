@@ -4,11 +4,10 @@ import { insertIf } from "../libs/utils"
 import { percent } from "../libs/num"
 import getLpName from "../libs/getLpName"
 import Card from "./Card"
-import Icon from "./Icon"
+import MaterialIcon from "./MaterialIcon"
 import Count from "./Count"
 import TokenPair from "./TokenPair"
 import { DlFooter } from "./Dl"
-import { TooltipIcon } from "./Tooltip"
 import Delisted from "./Delisted"
 import styles from "./StakeItemCard.module.scss"
 
@@ -19,7 +18,6 @@ export interface Props extends ListedItem {
   stakable: boolean
 
   apr: string
-  apy: string
   totalStaked: ReactNode
   price?: ReactNode
 
@@ -30,21 +28,15 @@ export interface Props extends ListedItem {
 
 const StakeItemCard: FC<Props> = ({ token, symbol, name, to, ...item }) => {
   const { status, staked, stakable } = item
-  const { price, apr, apy, totalStaked, action, emphasize, children } = item
+  const { price, apr, totalStaked, action, emphasize, children } = item
 
   const badges = [
     ...insertIf(staked, { label: "Staked", color: "blue" }),
     ...insertIf(stakable, { label: "Stakable", color: "slate" }),
   ]
 
-  const APRTitle = (
-    <TooltipIcon content={`APY: ${percent(apy)} (if compounded daily)`}>
-      APR
-    </TooltipIcon>
-  )
-
   const stats = [
-    { title: APRTitle, content: <Count format={percent}>{apr}</Count> },
+    { title: "APR", content: <Count format={percent}>{apr}</Count> },
     { title: "Total Staked", content: totalStaked },
     { title: "Price", content: price },
   ].filter(({ content }) => content)
@@ -61,7 +53,7 @@ const StakeItemCard: FC<Props> = ({ token, symbol, name, to, ...item }) => {
 
           <header className={cx(styles.header, { to })}>
             <h1 className={styles.heading}>{getLpName(symbol)}</h1>
-            {to && <Icon name="chevron_right" size={20} />}
+            {to && <MaterialIcon name="chevron_right" size={20} />}
           </header>
 
           {price ? (

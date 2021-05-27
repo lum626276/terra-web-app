@@ -1,6 +1,6 @@
 import { FC } from "react"
 import classNames from "classnames/bind"
-import Icon from "./Icon"
+import MaterialIcon from "./MaterialIcon"
 import LoadingTitle from "./LoadingTitle"
 import { Props } from "./Card"
 import styles from "./CardHeader.module.scss"
@@ -56,7 +56,7 @@ const CardHeader: FC<Props> = ({ header, title, ...props }) => {
       <>
         {goBack && (
           <button type="button" className={styles.action} onClick={goBack}>
-            <Icon name="arrow_back_ios" size={24} />
+            <MaterialIcon name="arrow_back_ios" size={24} />
           </button>
         )}
 

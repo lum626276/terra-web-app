@@ -2,25 +2,39 @@
 @import "variables";
 
 .flex {
-  @include flex(flex-start);
+  @include flex;
+}
+
+.left {
+  justify-content: flex-start;
+}
+
+.right {
+  justify-content: flex-end;
 }
 
 .change {
   font-size: 12px;
+  font-weight: 500;
+  letter-spacing: -0.3px;
 
-  &:not(:first-child) {
-    margin-left: 10px;
-  }
-
-  i {
-    margin-right: 5px;
+  svg {
+    margin-right: 2px;
   }
 }
 
 .up {
   color: $aqua;
+
+  svg {
+    fill: $aqua;
+  }
 }
 
 .down {
   color: $red;
+
+  svg {
+    fill: $red;
+  }
 }

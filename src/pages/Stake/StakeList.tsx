@@ -30,8 +30,7 @@ const StakeList = () => {
 
   const getItem = (item: ListedItem) => {
     const { token } = item
-    const apy = stats?.["apy"]?.[token] ?? "0"
-    const apr = stats?.["apr"]?.[token] ?? "0"
+    const apr = stats?.apr?.[token]?.long ?? "0"
     const symbol = getSymbol(token)
 
     const totalStakedLP = find(AssetInfoKey.LPTOTALSTAKED, token)
@@ -44,7 +43,6 @@ const StakeList = () => {
       staked: gt(find(BalanceKey.LPSTAKED, token), 0),
       stakable: gt(find(BalanceKey.LPSTAKABLE, token), 0),
       apr,
-      apy,
       totalStaked: (
         <CountWithResult
           keys={[AssetInfoKey.LPTOTALSTAKED]}
@@ -73,7 +71,7 @@ const StakeList = () => {
           )
           .map(getItem)
           .sort(({ token: a }, { token: b }) =>
-            number(minus(apr?.[b], apr?.[a]))
+            number(minus(apr?.[b]?.long, apr?.[a]?.long))
           )
           .sort(
             ({ symbol: a }, { symbol: b }) =>

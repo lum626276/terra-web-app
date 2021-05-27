@@ -11,18 +11,20 @@ interface Props {
   price?: ReactNode
   className?: string
   children?: string
+  align?: "left" | "center" | "right"
 }
 
-const Change = ({ price, className, children }: Props) => {
+const Change = ({ price, className, children, align = "left" }: Props) => {
   const change = children && (gte(abs(children), 0.0001) ? children : "0")
 
   const render = (change: string) => {
     const up = gt(change, 0)
     const down = lt(change, 0)
-    const icon = up ? "trending_up" : down ? "trending_down" : "arrow_right_alt"
+    const icon: IconNames | "" = up ? "UpSolid" : down ? "DownSolid" : ""
+
     return (
-      <span className={cx(styles.flex, styles.change, { up, down })}>
-        <Icon name={icon} size="150%" />
+      <span className={cx(styles.flex, styles.change, align, { up, down })}>
+        {icon && <Icon name={icon} size={10} />}
         {percent(abs(change))}
       </span>
     )

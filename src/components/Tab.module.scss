@@ -4,39 +4,27 @@
 $radius: 10px;
 
 .tabs {
-  @include flex;
+  @include flex(flex-start);
+  background: $gray-14;
+  border-radius: $border-radius;
+  overflow: hidden;
+  margin-bottom: 16px;
 }
 
 .tab {
   @include flex;
   @include link;
 
-  flex: 1;
+  border-right: 1px solid $bg;
+  color: $gray-34;
+  font-size: 14px;
+  letter-spacing: -0.2px;
 
-  font-size: 18px;
-  font-weight: 500;
+  width: 112px;
   height: 60px;
-  text-transform: capitalize;
-
-  &:only-child {
-    height: unset;
-    margin-top: 30px;
-  }
 
   &.active {
-    border-bottom: 1px solid $darkblue;
+    background: $gray-18;
+    color: $white-80;
   }
-
-  &:not(.active) {
-    background: $saturated-blue;
-    border-bottom: 1px solid $bg;
-  }
-
-  & + & {
-    border-left: 1px solid $bg;
-  }
-}
-
-.content {
-  padding: 30px 25px;
 }

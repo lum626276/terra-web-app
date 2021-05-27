@@ -1,0 +1,38 @@
+@import "mixins";
+
+.card {
+  @include desktop {
+    @include flex;
+    align-items: flex-start;
+
+    > * {
+      flex: 1;
+    }
+  }
+}
+
+.title {
+  color: $white-92;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 56px;
+}
+
+.section .title {
+  color: $white-44;
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 32px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.table {
+  @include desktop {
+    border-left: 2px solid $bg;
+  }
+
+  @include mobile {
+    border-top: 2px solid $bg;
+  }
+}

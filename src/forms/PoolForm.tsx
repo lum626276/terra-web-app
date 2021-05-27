@@ -19,6 +19,7 @@ import { PriceKey, BalanceKey } from "../hooks/contractKeys"
 import FormGroup from "../components/FormGroup"
 import Count from "../components/Count"
 import { TooltipIcon } from "../components/Tooltip"
+import WithPriceChart from "../containers/WithPriceChart"
 import { Type } from "../pages/Pool"
 import usePoolReceipt from "./receipts/usePoolReceipt"
 import useSelectAsset from "./useSelectAsset"
@@ -32,16 +33,16 @@ enum Key {
   value = "value",
 }
 
-const PoolForm = ({ type, tab }: { type: Type; tab: Tab }) => {
+const PoolForm = ({ type }: { type: Type }) => {
   const priceKey = PriceKey.PAIR
   const balanceKey = {
-    [Type.PROVIDE]: BalanceKey.TOKEN,
-    [Type.WITHDRAW]: BalanceKey.LPSTAKABLE,
+    [Type.LONG]: BalanceKey.TOKEN,
+    [Type.SHORT]: BalanceKey.LPSTAKABLE,
   }[type]
 
   /* context */
   const { state } = useLocation<{ token: string }>()
-  const { whitelist, getSymbol, toToken } = useContractsAddress()
+  const { contracts, whitelist, getSymbol, toToken } = useContractsAddress()
   const { find } = useContract()
   usePolling()
 
@@ -95,20 +96,20 @@ const PoolForm = ({ type, tab }: { type: Type; tab: Tab }) => {
   const estimated = pool?.toLP.estimated
 
   const uusd = {
-    [Type.PROVIDE]: estimated,
-    [Type.WITHDRAW]: fromLP?.uusd.amount,
+    [Type.LONG]: estimated,
+    [Type.SHORT]: fromLP?.uusd.amount,
   }[type]
 
   const total = find(BalanceKey.LPTOTAL, token)
   const lpAfterTx = {
-    [Type.PROVIDE]: plus(total, toLP?.value),
-    [Type.WITHDRAW]: max([minus(total, amount), "0"]),
+    [Type.LONG]: plus(total, toLP?.value),
+    [Type.SHORT]: max([minus(total, amount), "0"]),
   }[type]
 
   /* share of pool */
   const modifyTotal = {
-    [Type.PROVIDE]: (total: string) => plus(total, toLP?.value),
-    [Type.WITHDRAW]: (total: string) => minus(total, amount),
+    [Type.LONG]: (total: string) => plus(total, toLP?.value),
+    [Type.SHORT]: (total: string) => minus(total, amount),
   }[type]
 
   const getPoolShare = usePoolShare(modifyTotal)
@@ -121,8 +122,8 @@ const PoolForm = ({ type, tab }: { type: Type; tab: Tab }) => {
     onSelect,
     priceKey,
     balanceKey,
-    formatTokenName: type === Type.WITHDRAW ? getLpName : undefined,
-    showDelisted: type === Type.WITHDRAW,
+    formatTokenName: type === Type.SHORT ? getLpName : undefined,
+    showDelisted: type === Type.SHORT,
   }
 
   const select = useSelectAsset(config)
@@ -132,12 +133,10 @@ const PoolForm = ({ type, tab }: { type: Type; tab: Tab }) => {
     ...getFields({
       [Key.value]: {
         label: {
-          [Type.PROVIDE]: (
+          [Type.LONG]: (
             <TooltipIcon content={Tooltip.Pool.InputAsset}>Asset</TooltipIcon>
           ),
-          [Type.WITHDRAW]: (
-            <TooltipIcon content={Tooltip.Pool.LP}>LP</TooltipIcon>
-          ),
+          [Type.SHORT]: <TooltipIcon content={Tooltip.Pool.LP}>LP</TooltipIcon>,
         }[type],
         input: {
           type: "number",
@@ -152,18 +151,18 @@ const PoolForm = ({ type, tab }: { type: Type; tab: Tab }) => {
           : undefined,
         assets: select.assets,
         help: renderBalance(balance, symbol),
-        focused: type === Type.WITHDRAW && select.isOpen,
+        focused: type === Type.SHORT && select.isOpen,
       },
     }),
 
     estimated: {
-      [Type.PROVIDE]: {
+      [Type.LONG]: {
         label: <TooltipIcon content={Tooltip.Pool.InputUST}>{UST}</TooltipIcon>,
         value: toLP?.text,
         help: renderBalance(find(balanceKey, UUSD), UUSD),
         unit: UST,
       },
-      [Type.WITHDRAW]: {
+      [Type.SHORT]: {
         label: (
           <TooltipIcon content={Tooltip.Pool.Output}>Received</TooltipIcon>
         ),
@@ -173,8 +172,8 @@ const PoolForm = ({ type, tab }: { type: Type; tab: Tab }) => {
   }
 
   const icons = {
-    [Type.PROVIDE]: <FormIcon name="add" />,
-    [Type.WITHDRAW]: <FormIcon name="arrow_downward" />,
+    [Type.LONG]: <FormIcon name="add" />,
+    [Type.SHORT]: <FormIcon name="arrow_downward" />,
   }
 
   /* confirm */
@@ -194,7 +193,7 @@ const PoolForm = ({ type, tab }: { type: Type; tab: Tab }) => {
             </Count>
           ),
         },
-        ...insertIf(type === Type.PROVIDE, {
+        ...insertIf(type === Type.LONG, {
           title: (
             <TooltipIcon content={Tooltip.Pool.LPfromTx}>
               LP from Tx
@@ -202,7 +201,7 @@ const PoolForm = ({ type, tab }: { type: Type; tab: Tab }) => {
           ),
           content: <Count symbol={LP}>{toLP?.value}</Count>,
         }),
-        ...insertIf(type === Type.WITHDRAW || gt(balance, 0), {
+        ...insertIf(type === Type.SHORT || gt(balance, 0), {
           title: "LP after Tx",
           content: <Count symbol={LP}>{lpAfterTx}</Count>,
         }),
@@ -225,14 +224,14 @@ const PoolForm = ({ type, tab }: { type: Type; tab: Tab }) => {
   const data = !estimated
     ? []
     : {
-        [Type.PROVIDE]: [
+        [Type.LONG]: [
           newContractMsg(token, {
             increase_allowance: { amount, spender: pair },
           }),
           newContractMsg(
-            pair,
+            contracts["staking"],
             {
-              provide_liquidity: {
+              auto_stake: {
                 assets: [
                   toToken({ amount, token }),
                   toToken({ amount: estimated, token: UUSD }),
@@ -242,7 +241,7 @@ const PoolForm = ({ type, tab }: { type: Type; tab: Tab }) => {
             { amount: estimated, denom: UUSD }
           ),
         ],
-        [Type.WITHDRAW]: [
+        [Type.SHORT]: [
           newContractMsg(lpToken, {
             send: {
               amount,
@@ -254,20 +253,22 @@ const PoolForm = ({ type, tab }: { type: Type; tab: Tab }) => {
       }[type]
 
   const insufficient = !!estimated && gt(estimated, find(balanceKey, UUSD))
-  const disabled = invalid || (type === Type.PROVIDE && insufficient)
+  const disabled = invalid || (type === Type.LONG && insufficient)
 
   /* result */
   const parseTx = usePoolReceipt(type)
 
-  const container = { tab, attrs, contents, disabled, data, parseTx }
-  const tax = { pretax: uusd, deduct: type === Type.WITHDRAW }
+  const container = { attrs, contents, disabled, data, parseTx }
+  const tax = { pretax: uusd, deduct: type === Type.SHORT }
 
   return (
-    <FormContainer {...container} {...tax}>
-      <FormGroup {...fields[Key.value]} />
-      {icons[type]}
-      <FormGroup {...fields["estimated"]} />
-    </FormContainer>
+    <WithPriceChart token={token}>
+      <FormContainer {...container} {...tax}>
+        <FormGroup {...fields[Key.value]} />
+        {icons[type]}
+        <FormGroup {...fields["estimated"]} />
+      </FormContainer>
+    </WithPriceChart>
   )
 }
 

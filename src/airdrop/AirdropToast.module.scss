@@ -2,7 +2,7 @@
 
 .toast {
   position: fixed;
-  top: ($nav-height + $gutter);
+  top: $gutter;
   right: $gutter;
   z-index: 9999;
 

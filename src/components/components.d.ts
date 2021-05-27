@@ -5,6 +5,7 @@ interface Content {
 
 /* Header */
 interface MenuItem {
+  icon: IconNames
   attrs: { to: string; children: string }
   desktopOnly?: boolean
 }
@@ -89,6 +90,7 @@ interface CountOptions extends FormatConfig {
   children?: string
   /** As a unit. */
   symbol?: string
+  unit?: string
   /** Plus on positive */
   plus?: boolean
   /** Custom formatter */
@@ -108,3 +110,54 @@ interface AssetItem {
   price?: string
   balance?: string
 }
+
+/* icons */
+type IconNames =
+  | "ArrowDown"
+  | "ArrowRightCircleSolid"
+  | "Chart"
+  | "Chat"
+  | "Check"
+  | "ChevronDown"
+  | "ChevronDownThin"
+  | "ChevronRight"
+  | "ChevronUp"
+  | "ChevronUpThin"
+  | "Claim"
+  | "Clock"
+  | "Close"
+  | "CloseCircleSolid"
+  | "CloseCircleSolidBlue"
+  | "Completed"
+  | "Desktop"
+  | "Discord"
+  | "Docs"
+  | "DownSolid"
+  | "Download"
+  | "ExclamationCircle"
+  | "ExclamationCircleSolid"
+  | "ExclamationTriangleSolid"
+  | "External"
+  | "Farm"
+  | "Github"
+  | "Governance"
+  | "GridViewSolid"
+  | "InfoCircle"
+  | "ListView"
+  | "Market"
+  | "Medium"
+  | "Mirror"
+  | "Mobile"
+  | "Mode"
+  | "MoreCircle"
+  | "Plus"
+  | "Poll"
+  | "PollSolid"
+  | "Search"
+  | "Send"
+  | "Settings"
+  | "Telegram"
+  | "Twitter"
+  | "UpSolid"
+  | "VerifiedSolid"
+  | "Wallet"

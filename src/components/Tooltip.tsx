@@ -2,7 +2,7 @@ import { FC } from "react"
 import Tippy, { TippyProps } from "@tippyjs/react"
 import classNames from "classnames"
 import { isNil } from "ramda"
-import Icon from "./Icon"
+import MaterialIcon from "./MaterialIcon"
 
 import "tippy.js/dist/tippy.css"
 import "tippy.js/themes/light-border.css"
@@ -60,7 +60,7 @@ export const TooltipIcon: FC<Props> = ({ children, ...props }) => (
     {children}
     <div className={styles.icon}>
       <Tooltip {...props}>
-        <Icon name="info_outline" size={16} />
+        <MaterialIcon name="info_outline" size={16} />
       </Tooltip>
     </div>
   </div>

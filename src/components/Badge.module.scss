@@ -12,3 +12,9 @@
   font-weight: 500;
   min-width: 90px;
 }
+
+@each $name, $color in $colors {
+  .bg-#{$name} {
+    background: fade-out($color, 0.5);
+  }
+}

@@ -29,17 +29,20 @@ interface AssetStatsData {
   statistic: {
     liquidity: string
     volume: string
-    apr: string
-    apy: string
+    apr: APR
   }
+}
+
+interface APR {
+  long: string
+  short: string
 }
 
 interface AssetStats {
   description: Dict<string | undefined>
   liquidity: Dict<string | undefined>
   volume: Dict<string | undefined>
-  apr: Dict<string | undefined>
-  apy: Dict<string | undefined>
+  apr: Dict<APR | undefined>
 }
 
 /* price */

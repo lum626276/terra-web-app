@@ -6,10 +6,10 @@ import { UST, UUSD } from "../../constants"
 import { format, formatAsset, lookupSymbol } from "../../libs/parse"
 import { percent } from "../../libs/num"
 import { getPath, MenuKey } from "../../routes"
-import Card from "../../components/Card"
 import Table from "../../components/Table"
+import Caption from "../../components/Caption"
 import Dl from "../../components/Dl"
-import Icon from "../../components/Icon"
+import MaterialIcon from "../../components/MaterialIcon"
 import Button from "../../components/Button"
 import Change from "../../components/Change"
 import Tooltip, { TooltipIcon } from "../../components/Tooltip"
@@ -17,35 +17,10 @@ import Delisted from "../../components/Delisted"
 import DashboardActions from "../../components/DashboardActions"
 import { Type } from "../Mint"
 import NoAssets from "./NoAssets"
+import { MyMint } from "./types"
 import styles from "./Mint.module.scss"
 
-interface AssetData extends Asset {
-  price: string
-  value: string
-  change?: string
-  delisted: boolean
-}
-
-interface Data {
-  idx: string
-  status: ListedItemStatus
-  collateral: AssetData
-  asset: AssetData
-  ratio?: string
-  minRatio: string
-  danger: boolean
-  warning: boolean
-}
-
-interface Props {
-  loading: boolean
-  totalMintedValue: string
-  totalCollateralValue: string
-  dataSource: Data[]
-  more?: () => void
-}
-
-const Mint = ({ loading, dataSource, ...props }: Props) => {
+const Mint = ({ loading, dataSource, ...props }: MyMint) => {
   const { totalMintedValue, totalCollateralValue, more } = props
 
   const renderTooltip = (value: string, tooltip: string) => (
@@ -72,13 +47,16 @@ const Mint = ({ loading, dataSource, ...props }: Props) => {
   )
 
   return (
-    <Card
-      title={<TooltipIcon content={Tooltips.My.Mint}>Mint</TooltipIcon>}
-      description={description}
-      loading={loading}
-    >
+    <>
       {dataExists ? (
         <Table
+          caption={
+            <Caption
+              title={<TooltipIcon content={Tooltips.My.Mint}>Mint</TooltipIcon>}
+              description={description}
+              loading={loading}
+            />
+          }
           rows={({ warning, danger }) => ({
             background: warning || danger ? "red" : undefined,
           })}
@@ -100,7 +78,7 @@ const Mint = ({ loading, dataSource, ...props }: Props) => {
                       {idx}
                       {shouldWarn && (
                         <Tooltip content={tooltip}>
-                          <Icon name="warning" size={16} />
+                          <MaterialIcon name="warning" size={16} />
                         </Tooltip>
                       )}
                     </span>
@@ -234,7 +212,7 @@ const Mint = ({ loading, dataSource, ...props }: Props) => {
           More
         </Button>
       )}
-    </Card>
+    </>
   )
 }
 

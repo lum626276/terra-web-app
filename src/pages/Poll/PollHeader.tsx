@@ -3,7 +3,7 @@ import classNames from "classnames"
 import { useContract, useRefetch } from "../../hooks"
 import { BalanceKey } from "../../hooks/contractKeys"
 import LinkButton from "../../components/LinkButton"
-import Icon from "../../components/Icon"
+import MaterialIcon from "../../components/MaterialIcon"
 import { useGov } from "../../graphql/useGov"
 import { PollStatus } from "./Poll"
 import styles from "./PollHeader.module.scss"
@@ -57,7 +57,7 @@ const PollHeader = ({ titleClassName, ...props }: Props) => {
           strike: status === PollStatus.InProgress && end,
         })}
       >
-        <Icon name={icons[status as PollStatus]} size={20} />
+        <MaterialIcon name={icons[status as PollStatus]} size={20} />
         {status.replace("_", " ")}
       </section>
 

@@ -1,3 +1,4 @@
+import { useLocation } from "react-router-dom"
 import Tooltip from "../lang/Tooltip.json"
 import useNewContractMsg from "../terra/useNewContractMsg"
 import { LP, MIR } from "../constants"
@@ -12,6 +13,7 @@ import { BalanceKey } from "../hooks/contractKeys"
 
 import FormGroup from "../components/FormGroup"
 import FormFeedback from "../components/FormFeedback"
+import WithPriceChart from "../containers/WithPriceChart"
 import { Type } from "../pages/Stake"
 import useStakeReceipt from "./receipts/useStakeReceipt"
 import { toBase64 } from "../libs/formHelpers"
@@ -29,7 +31,7 @@ interface Props {
   gov?: boolean
 }
 
-const StakeForm = ({ type, token, tab, gov }: Props) => {
+const StakeForm = ({ type, tab, gov, ...props }: Props) => {
   const balanceKey = (
     !gov
       ? {
@@ -43,6 +45,8 @@ const StakeForm = ({ type, token, tab, gov }: Props) => {
   )[type as Type]
 
   /* context */
+  const { state } = useLocation<{ token: string }>()
+  const token = props.token ?? state?.token
   const { contracts, whitelist, getSymbol } = useContractsAddress()
   const { find, parsed } = useContract()
   useRefetch([balanceKey, !gov ? BalanceKey.LPSTAKED : BalanceKey.MIRGOVSTAKED])
@@ -161,16 +165,18 @@ const StakeForm = ({ type, token, tab, gov }: Props) => {
   /* result */
   const parseTx = useStakeReceipt(!!gov)
 
-  const container = { tab, attrs, contents, messages, disabled, data, parseTx }
+  const container = { attrs, contents, messages, disabled, data, parseTx }
 
   return (
-    <FormContainer {...container}>
-      <FormGroup {...fields[Key.value]} />
+    <WithPriceChart token={token}>
+      <FormContainer {...container}>
+        <FormGroup {...fields[Key.value]} />
 
-      {gov && type === Type.STAKE && (
-        <FormFeedback help>{Tooltip.My.GovReward}</FormFeedback>
-      )}
-    </FormContainer>
+        {gov && type === Type.STAKE && (
+          <FormFeedback help>{Tooltip.My.GovReward}</FormFeedback>
+        )}
+      </FormContainer>
+    </WithPriceChart>
   )
 }
 

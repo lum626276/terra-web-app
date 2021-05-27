@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import Icon from "../../components/Icon"
+import MaterialIcon from "../../components/MaterialIcon"
 import styles from "./CreatePollButton.module.scss"
 
 interface Props {
@@ -16,7 +16,7 @@ const CreatePollButton = ({ hash, title, desc }: Props) => {
         <p className={styles.desc}>{desc}</p>
       </article>
 
-      <Icon name="chevron_right" size={24} />
+      <MaterialIcon name="chevron_right" size={24} />
     </Link>
   )
 }

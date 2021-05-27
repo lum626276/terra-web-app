@@ -5,8 +5,8 @@ import { div } from "../../libs/math"
 import { format, formatAsset } from "../../libs/parse"
 import { percent } from "../../libs/num"
 import { getPath, MenuKey } from "../../routes"
-import Card from "../../components/Card"
 import Table from "../../components/Table"
+import Caption from "../../components/Caption"
 import { Di } from "../../components/Dl"
 import Change from "../../components/Change"
 import { TooltipIcon } from "../../components/Tooltip"
@@ -14,21 +14,9 @@ import Delisted from "../../components/Delisted"
 import DashboardActions from "../../components/DashboardActions"
 import { Type } from "../Trade"
 import NoAssets from "./NoAssets"
+import { MyHoldings } from "./types"
 
-interface Data extends ListedItem {
-  balance: string
-  price: string
-  value: string
-  change?: string
-}
-
-interface Props {
-  loading: boolean
-  totalValue: string
-  dataSource: Data[]
-}
-
-const Holdings = ({ loading, totalValue, dataSource }: Props) => {
+const Holdings = ({ loading, totalValue, dataSource }: MyHoldings) => {
   const renderTooltip = (value: string, tooltip: string) => (
     <TooltipIcon content={tooltip}>{formatAsset(value, UUSD)}</TooltipIcon>
   )
@@ -42,105 +30,102 @@ const Holdings = ({ loading, totalValue, dataSource }: Props) => {
     />
   )
 
-  return (
-    <Card
-      title={<TooltipIcon content={Tooltip.My.Holdings}>Holdings</TooltipIcon>}
-      description={description}
-      loading={loading}
-    >
-      {dataExists ? (
-        <Table
-          columns={[
-            {
-              key: "symbol",
-              title: "Ticker",
-              render: (symbol, { status }) => (
-                <>
-                  {status === "DELISTED" && <Delisted />}
-                  {symbol}
-                </>
-              ),
-              bold: true,
-            },
-            { key: "name", title: "Underlying Name" },
-            {
-              key: "price",
-              render: (value) => `${format(value)} ${UST}`,
-              align: "right",
-              narrow: ["right"],
-            },
-            {
-              key: "change",
-              title: "",
-              render: (change: string) => <Change>{change}</Change>,
-              narrow: ["left"],
-            },
-            {
-              key: "balance",
-              title: (
-                <TooltipIcon content={Tooltip.My.Balance}>Balance</TooltipIcon>
-              ),
-              render: (value, { symbol }) => format(value, symbol),
-              align: "right",
-            },
-            {
-              key: "value",
-              title: (
-                <TooltipIcon content={Tooltip.My.Value}>Value</TooltipIcon>
-              ),
-              render: (value) => formatAsset(value, UUSD),
-              align: "right",
-            },
-            {
-              key: "ratio",
-              dataIndex: "value",
-              title: (
-                <TooltipIcon content={Tooltip.My.PortfolioRatio}>
-                  Port. Ratio
-                </TooltipIcon>
-              ),
-              render: (value) => percent(div(value, totalValue)),
-              align: "right",
-            },
-            {
-              key: "actions",
-              dataIndex: "token",
-              render: (token, { status }) => {
-                const to = {
-                  pathname: getPath(MenuKey.TRADE),
-                  state: { token },
-                }
-
-                const list =
-                  status === "LISTED"
-                    ? [
-                        { to: { ...to, hash: Type.BUY }, children: Type.BUY },
-                        { to: { ...to, hash: Type.SELL }, children: Type.SELL },
-                        {
-                          to: { ...to, pathname: getPath(MenuKey.SEND) },
-                          children: MenuKey.SEND,
-                        },
-                      ]
-                    : [{ to: `/burn/${token}`, children: MenuKey.BURN }]
-
-                return <DashboardActions list={list} />
-              },
-              align: "right",
-              fixed: "right",
-            },
-          ]}
-          dataSource={dataSource}
+  return dataExists ? (
+    <Table
+      caption={
+        <Caption
+          title={
+            <TooltipIcon content={Tooltip.My.Holdings}>Holdings</TooltipIcon>
+          }
+          description={description}
+          loading={loading}
         />
-      ) : (
-        !loading && (
-          <NoAssets
-            description={MESSAGE.MyPage.Empty.Holdings}
-            link={MenuKey.TRADE}
-          />
-        )
-      )}
-    </Card>
-  )
+      }
+      columns={[
+        {
+          key: "symbol",
+          title: "Ticker",
+          render: (symbol, { status }) => (
+            <>
+              {status === "DELISTED" && <Delisted />}
+              {symbol}
+            </>
+          ),
+          bold: true,
+        },
+        { key: "name", title: "Underlying Name" },
+        {
+          key: "price",
+          render: (value) => `${format(value)} ${UST}`,
+          align: "right",
+          narrow: ["right"],
+        },
+        {
+          key: "change",
+          title: "",
+          render: (change: string) => <Change>{change}</Change>,
+          narrow: ["left"],
+        },
+        {
+          key: "balance",
+          title: (
+            <TooltipIcon content={Tooltip.My.Balance}>Balance</TooltipIcon>
+          ),
+          render: (value, { symbol }) => format(value, symbol),
+          align: "right",
+        },
+        {
+          key: "value",
+          title: <TooltipIcon content={Tooltip.My.Value}>Value</TooltipIcon>,
+          render: (value) => formatAsset(value, UUSD),
+          align: "right",
+        },
+        {
+          key: "ratio",
+          dataIndex: "value",
+          title: (
+            <TooltipIcon content={Tooltip.My.PortfolioRatio}>
+              Port. Ratio
+            </TooltipIcon>
+          ),
+          render: (value) => percent(div(value, totalValue)),
+          align: "right",
+        },
+        {
+          key: "actions",
+          dataIndex: "token",
+          render: (token, { status }) => {
+            const to = {
+              pathname: getPath(MenuKey.TRADE),
+              state: { token },
+            }
+
+            const list =
+              status === "LISTED"
+                ? [
+                    { to: { ...to, hash: Type.BUY }, children: Type.BUY },
+                    { to: { ...to, hash: Type.SELL }, children: Type.SELL },
+                    {
+                      to: { ...to, pathname: getPath(MenuKey.SEND) },
+                      children: MenuKey.SEND,
+                    },
+                  ]
+                : [{ to: `/burn/${token}`, children: MenuKey.BURN }]
+
+            return <DashboardActions list={list} />
+          },
+          align: "right",
+          fixed: "right",
+        },
+      ]}
+      dataSource={dataSource}
+    />
+  ) : !loading ? (
+    <NoAssets
+      description={MESSAGE.MyPage.Empty.Holdings}
+      link={MenuKey.TRADE}
+    />
+  ) : null
 }
 
 export default Holdings

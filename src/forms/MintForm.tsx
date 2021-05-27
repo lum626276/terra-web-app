@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react"
+import { useLocation } from "react-router-dom"
 import { reverse } from "ramda"
 import { MsgExecuteContract } from "@terra-money/terra.js"
 
@@ -28,7 +29,8 @@ import Count from "../components/Count"
 import { TooltipIcon } from "../components/Tooltip"
 import Caution from "../components/Caution"
 import ExtLink from "../components/ExtLink"
-import Icon from "../components/Icon"
+import MaterialIcon from "../components/MaterialIcon"
+import WithPriceChart from "../containers/WithPriceChart"
 import { Type } from "../pages/Mint"
 import useMintReceipt from "./receipts/useMintReceipt"
 import FormContainer from "./FormContainer"
@@ -57,8 +59,9 @@ const MintForm = ({ position, type, tab, message }: Props) => {
   const balanceKey = BalanceKey.TOKEN
 
   /* context */
+  const { state } = useLocation<{ token: string }>()
   const { contracts, delist, getIsDelisted, ...helpers } = useContractsAddress()
-  const { getSymbol, parseToken, toToken, toAssetInfo } = helpers
+  const { getSymbol, getToken, parseToken, toToken, toAssetInfo } = helpers
   const { find } = useContract()
   const { loading } = useRefetch([PriceKey.ORACLE, PriceKey.END, balanceKey])
 
@@ -127,7 +130,10 @@ const MintForm = ({ position, type, tab, message }: Props) => {
       (close && lookup(prevCollateral?.amount, prevCollateral?.token)) || "",
     [Key.value2]: "",
     [Key.token1]: prevCollateral?.token ?? UUSD,
-    [Key.token2]: prevAsset?.token ?? "",
+    [Key.token2]:
+      prevAsset?.token ??
+      (state?.token !== getToken(MIR) ? state?.token : "") ??
+      "",
     [Key.ratio]: prevRatio ? lookup(times(prevRatio, 100)) : "200",
   }
 
@@ -375,7 +381,7 @@ const MintForm = ({ position, type, tab, message }: Props) => {
     prevAssetDelisted && prevAsset && gt(prevAsset.amount, 0)
 
   const contents = {
-    [Type.OPEN]: !gt(price, 0) ? undefined : [priceContents],
+    [Type.BORROW]: !gt(price, 0) ? undefined : [priceContents],
 
     [Type.CLOSE]: [
       {
@@ -485,7 +491,7 @@ const MintForm = ({ position, type, tab, message }: Props) => {
   ]
 
   const data = {
-    [Type.OPEN]: [
+    [Type.BORROW]: [
       isCollateralUST
         ? newContractMsg(contracts["mint"], openPosition, {
             amount: amount1,
@@ -532,7 +538,7 @@ const MintForm = ({ position, type, tab, message }: Props) => {
       <ExtLink href={TRADING_HOURS} className={styles.link}>
         market hours
       </ExtLink>
-      <Icon name="launch" size={14} />
+      <MaterialIcon name="launch" size={14} />
     </p>
   )
 
@@ -562,26 +568,30 @@ const MintForm = ({ position, type, tab, message }: Props) => {
   const deduct = type === Type.WITHDRAW || close || (custom && lt(amount1, 0))
   const tax = { pretax: uusd, deduct }
 
-  return type === Type.CLOSE ? (
-    <FormContainer {...container} {...tax} parseTx={parseTx} />
-  ) : (
-    <FormContainer {...container} {...tax} parseTx={parseTx}>
-      {position && (
-        <Dl list={positionInfo} className={styles.dl} align="center" />
-      )}
+  return (
+    <WithPriceChart token={token2}>
+      {type === Type.CLOSE ? (
+        <FormContainer {...container} {...tax} parseTx={parseTx} />
+      ) : (
+        <FormContainer {...container} {...tax} parseTx={parseTx}>
+          {position && (
+            <Dl list={positionInfo} className={styles.dl} align="center" />
+          )}
 
-      <FormGroup {...fields[Key.value1]} />
-      {open && <FormIcon name="arrow_downward" />}
-      {(open || custom) && <FormGroup {...fields[Key.value2]} />}
-      <FormGroup {...fields[Key.ratio]} skipFeedback />
-      {!custom && <CollateralRatio {...ratioProps} />}
+          <FormGroup {...fields[Key.value1]} />
+          {open && <FormIcon name="arrow_downward" />}
+          {(open || custom) && <FormGroup {...fields[Key.value2]} />}
+          <FormGroup {...fields[Key.ratio]} skipFeedback />
+          {!custom && <CollateralRatio {...ratioProps} />}
 
-      {open && (
-        <Caution className={styles.caution}>
-          <strong>Caution</strong>: {Tooltip.Mint.Caution}
-        </Caution>
+          {open && (
+            <Caution className={styles.caution}>
+              <strong>Caution</strong>: {Tooltip.Mint.Caution}
+            </Caution>
+          )}
+        </FormContainer>
       )}
-    </FormContainer>
+    </WithPriceChart>
   )
 }
 

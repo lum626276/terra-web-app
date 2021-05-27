@@ -1,0 +1,17 @@
+@import "mixins";
+
+.flex {
+  @include flex(space-between, flex-start);
+}
+
+.content {
+  flex: 2;
+}
+
+.chart {
+  flex: 1;
+  background: $gray-14;
+  border-radius: $border-radius;
+  margin-left: 24px;
+  overflow: hidden;
+}

@@ -10,12 +10,9 @@ const PriceChartDescription = ({ children = "" }) => {
   const toggle = () => setIsOpen((isOpen) => !isOpen)
 
   return !children ? null : isLong ? (
-    <button
-      className={cx(styles.component, { collapsed: !isOpen })}
-      onClick={toggle}
-    >
-      {children}
-      {isLong && !isOpen && <span className={styles.button}>more</span>}
+    <button className={styles.component} onClick={toggle}>
+      <p className={cx({ collapsed: !isOpen })}>{children}</p>
+      {isLong && !isOpen && <span className={styles.button}>More</span>}
     </button>
   ) : (
     <p className={styles.component}>{children}</p>

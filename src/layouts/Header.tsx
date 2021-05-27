@@ -1,24 +1,20 @@
+import { DOCS } from "../constants"
 import { useNetwork } from "../hooks"
-import { ReactComponent as Logo } from "../images/Logo.svg"
-import AppHeader from "../components/AppHeader"
-import { MenuKey, getPath, omit } from "../routes"
-import Connect from "./Connect"
+import ExtLink from "../components/ExtLink"
+import Badge from "../components/Badge"
+import styles from "./Header.module.scss"
 
 const Header = () => {
-  const menuKeys = Object.values(MenuKey).filter((key) => !omit.includes(key))
-  const menu = menuKeys.map((key: MenuKey) => ({
-    attrs: { to: getPath(key), children: key },
-  }))
-
   const { name } = useNetwork()
 
   return (
-    <AppHeader
-      logo={<Logo height={24} />}
-      menu={menu}
-      connect={<Connect />}
-      testnet={name !== "mainnet"}
-    />
+    <header className={styles.header}>
+      {name !== "mainnet" && <Badge bg="red">Testnet</Badge>}
+
+      <ExtLink href={DOCS} className={styles.item}>
+        Docs
+      </ExtLink>
+    </header>
   )
 }
 

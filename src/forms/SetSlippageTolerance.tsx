@@ -6,7 +6,7 @@ import { gt, gte, isFinite, lt, lte } from "../libs/math"
 import { LocalStorage } from "../libs/useLocalStorage"
 import { DropdownTippyProps, TooltipIcon } from "../components/Tooltip"
 import Dropdown from "../components/Dropdown"
-import Icon from "../components/Icon"
+import MaterialIcon from "../components/MaterialIcon"
 import styles from "./SetSlippageTolerance.module.scss"
 
 const cx = classNames.bind(styles)
@@ -88,7 +88,7 @@ const SetSlippageTolerance = (props: Props) => {
     <div className={styles.component}>
       <Tippy {...DropdownTippyProps} render={renderDropdown}>
         <button type="button" className={styles.button}>
-          <Icon name="settings" size={24} />
+          <MaterialIcon name="settings" size={24} />
         </button>
       </Tippy>
     </div>

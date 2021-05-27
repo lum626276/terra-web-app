@@ -1,0 +1,5 @@
+@import "mixins";
+
+.component {
+  @include flex(space-between);
+}

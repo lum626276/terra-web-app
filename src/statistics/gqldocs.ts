@@ -46,8 +46,10 @@ export const ASSETSTATS = gql`
       statistic {
         liquidity(network: $network)
         volume(network: $network)
-        apr
-        apy
+        apr {
+          long
+          short
+        }
       }
     }
   }

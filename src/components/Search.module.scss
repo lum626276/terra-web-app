@@ -1,0 +1,30 @@
+@import "mixins";
+
+.component {
+  @include flex(flex-start, stretch);
+  background: $gray-14;
+  border-radius: 8px;
+  margin-bottom: $gutter-vertical;
+}
+
+.icon {
+  @include flex;
+  padding: 20px $gutter-horizontal;
+  padding-right: 8px;
+
+  svg {
+    fill: $blue-100;
+  }
+}
+
+.input {
+  flex: 1;
+}
+
+.payload {
+  @include flex;
+  color: $blue-100;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 0 $gutter-horizontal;
+}

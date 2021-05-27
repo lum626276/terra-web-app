@@ -1,26 +1,19 @@
-import { gt } from "../libs/math"
-import { truncate } from "../libs/text"
-import { useContract, useRefetch, useAddress } from "../hooks"
-import { AccountInfoKey } from "../hooks/contractKeys"
-import ConnectedButton from "../components/ConnectedButton"
+import { NavLink } from "react-router-dom"
+import ConnectButton from "../components/ConnectButton"
+import { getPath, MenuKey } from "../routes"
 import Balance from "./Balance"
-import Wallet from "./Wallet"
-import WhereToBuy from "./WhereToBuy"
+import styles from "./Connected.module.scss"
 
 const Connected = () => {
-  const address = useAddress()
-  const { uusd } = useContract()
-  const { data } = useRefetch([AccountInfoKey.UUSD])
-  const shouldBuyUST = !!data && !gt(uusd, 0)
-
   return (
     <>
-      <ConnectedButton
-        address={truncate(address)}
-        balance={<Balance />}
-        info={(close) => <Wallet close={close} />}
-      />
-      {shouldBuyUST && <WhereToBuy />}
+      <NavLink to={getPath(MenuKey.MY)}>
+        <ConnectButton>
+          <div className={styles.button}>
+            <Balance />
+          </div>
+        </ConnectButton>
+      </NavLink>
     </>
   )
 }

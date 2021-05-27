@@ -6,9 +6,14 @@ import styles from "./Table.module.scss"
 const cx = classNames.bind(styles)
 
 interface Props<T> {
+  caption?: ReactNode
   rows?: (record: T) => Row
   columns: Column<T>[]
   dataSource: T[]
+  config?: {
+    hideHeader?: boolean
+    darker?: boolean
+  }
 }
 
 interface Row {
@@ -41,7 +46,7 @@ const SEP = "."
 
 type DefaultRecordType = Record<string, any>
 function Table<T extends DefaultRecordType>(props: Props<T>) {
-  const { rows, columns, dataSource } = props
+  const { caption, rows, columns, dataSource, config } = props
 
   const normalized = columns.reduce<Column<T>[]>(
     (acc, { children, ...column }) => {
@@ -111,15 +116,19 @@ function Table<T extends DefaultRecordType>(props: Props<T>) {
 
   const colspan = columns.some(({ children }) => children)
   return !dataSource.length ? null : (
-    <div className={styles.wrapper}>
-      <table className={cx({ margin: colspan })}>
-        <thead>
-          {colspan && (
-            <tr className={cx({ colspan })}>{columns.map(renderColSpan)}</tr>
-          )}
+    <div className={cx(styles.wrapper, { radius: !config?.hideHeader })}>
+      <table className={cx({ margin: colspan, darker: config?.darker })}>
+        {caption && <caption className={styles.caption}>{caption}</caption>}
 
-          <tr>{normalized.map(renderTh)}</tr>
-        </thead>
+        {!config?.hideHeader && (
+          <thead>
+            {colspan && (
+              <tr className={cx({ colspan })}>{columns.map(renderColSpan)}</tr>
+            )}
+
+            <tr>{normalized.map(renderTh)}</tr>
+          </thead>
+        )}
 
         <tbody>
           {dataSource.map((record, index) => {

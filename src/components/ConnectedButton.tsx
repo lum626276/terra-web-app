@@ -12,11 +12,7 @@ interface Props {
 const ConnectedButton: FC<Props> = ({ address, balance, info }) => (
   <WithAbsolute content={({ close }) => info(close)} trigger={address}>
     {({ toggle }) => (
-      <ConnectButton
-        address={address}
-        className={styles.connected}
-        onClick={toggle}
-      >
+      <ConnectButton onClick={toggle}>
         {balance && <strong className={styles.balance}>{balance}</strong>}
       </ConnectButton>
     )}

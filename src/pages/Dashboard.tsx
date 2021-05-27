@@ -1,10 +1,17 @@
+import { sort } from "ramda"
+import { number } from "../libs/math"
+import { lookup } from "../libs/parse"
 import { MenuKey } from "../routes"
 import useDashboard, { StatsNetwork } from "../statistics/useDashboard"
 import Page from "../components/Page"
-import Grid from "../components/Grid"
-import DashboardHeader from "./Dashboard/DashboardHeader"
-import DashboardCharts from "./Dashboard/DashboardCharts"
-import TopTrading from "./Dashboard/TopTrading"
+import Masonry from "../components/Masonry"
+import MIRPrice from "./Dashboard/MIRPrice"
+import MIRSupply from "./Dashboard/MIRSupply"
+import TVL from "./Dashboard/TVL"
+import LiquidityHistoryChart from "./Dashboard/LiquidityHistoryChart"
+import VolumeHistoryChart from "./Dashboard/VolumeHistoryChart"
+import DashboardFooter from "./Dashboard/DashboardFooter"
+import styles from "./Dashboard.module.scss"
 
 const Dashboard = () => {
   const { dashboard, network, setNetwork } = useDashboard(StatsNetwork.COMBINE)
@@ -28,14 +35,41 @@ const Dashboard = () => {
       select={select}
       doc={"/user-guide/getting-started"}
     >
-      <DashboardHeader {...dashboard} network={network} />
-      <DashboardCharts {...dashboard} />
+      {dashboard && (
+        <Masonry>
+          {[
+            [
+              { flex: 3, component: <MIRPrice /> },
+              { flex: 7, component: <MIRSupply /> },
+              {
+                flex: 6,
+                component: <TVL value={dashboard.totalValueLocked} />,
+              },
+            ],
+            [
+              { component: <LiquidityHistoryChart {...dashboard} /> },
+              { component: <VolumeHistoryChart {...dashboard} /> },
+            ],
+          ]}
+        </Masonry>
+      )}
 
-      <Grid>
-        <TopTrading network={network} />
-      </Grid>
+      {dashboard && (
+        <footer className={styles.footer}>
+          <DashboardFooter network={network} {...dashboard} />
+        </footer>
+      )}
     </Page>
   )
 }
 
 export default Dashboard
+
+/* helpers */
+export const sortByTimestamp = (data: ChartItem[]) =>
+  sort(({ timestamp: a }, { timestamp: b }) => a - b, data)
+
+export const toDatasets = (data: ChartItem[], symbol?: string) =>
+  data.map(({ timestamp, value }) => {
+    return { x: timestamp, y: number(lookup(value, symbol, { integer: true })) }
+  })

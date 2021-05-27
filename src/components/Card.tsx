@@ -6,12 +6,21 @@ import styles from "./Card.module.scss"
 
 const cx = classNames.bind(styles)
 
+interface CardMainProps {
+  full?: boolean
+}
+
+export const CardMain: FC<CardMainProps> = ({ full, children }) => (
+  <section className={cx(styles.main, { full })}>{children}</section>
+)
+
 export interface Props {
   /** Icon above title */
   icon?: ReactNode
   header?: ReactNode
   title?: ReactNode
   description?: ReactNode
+  footer?: ReactNode
 
   /** Card acts as a link */
   to?: string
@@ -42,26 +51,29 @@ interface Badge {
 }
 
 const Card: FC<Props> = (props) => {
-  const { children, to, badges, className, lg, full, shadow } = props
+  const { children, footer, to, className, lg, full, shadow } = props
+
+  const content = (
+    <>
+      <CardHeader {...props} />
+      {full ? children : <CardMain>{children}</CardMain>}
+    </>
+  )
 
   const attrs = {
-    className: cx(styles.card, { lg, full, link: to, shadow }, className),
-    children: (
+    className: cx(
+      styles.card,
+      { lg, full, link: to, shadow, flex: footer },
+      className
+    ),
+
+    children: footer ? (
       <>
-        <CardHeader {...props} />
-
-        {badges && (
-          <section className={styles.badges}>
-            {badges.map(({ label, color }) => (
-              <span className={cx(styles.badge, `bg-${color}`)} key={label}>
-                {label}
-              </span>
-            ))}
-          </section>
-        )}
-
-        <section className={styles.main}>{children}</section>
+        <div>{content}</div>
+        {footer}
       </>
+    ) : (
+      content
     ),
   }
 

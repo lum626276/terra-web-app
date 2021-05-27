@@ -1,6 +1,29 @@
+/* Palette */
+$blue: #78a5ff;
+$blue-38: #4a5460;
+$blue-62: #55779d;
+$blue-100: #66adff;
+$red: #f15e7e;
+$orange: #e8814b;
+
+$gray-08: #141414;
+$gray-11: #1c1c1c;
+$gray-14: #242424;
+$gray-18: #2d2d2e;
+$gray-22: #373738;
+$gray-24: #3d3d3d;
+$gray-34: #555557;
+
+$white-44: #707070;
+$white-52: #858585;
+$white-64: #a4a4a4;
+$white-80: #cccccc;
+$white-92: #ebebeb;
+
 /* Colors */
-$bg: #121a2f !default;
-$darkblue: #172240 !default;
+$bg: $gray-11 !default;
+$sidebar: $gray-14 !default;
+$card: $gray-18 !default;
 $airdrop: #1a314c !default;
 
 $gray: #cccccc !default;
@@ -9,19 +32,13 @@ $light: #f0f0f0 !default;
 $battleship: #6d738c !default;
 $slate: #505466 !default;
 
-$blue: #1eb2ff !default;
-$aqua: #47d7e2 !default;
-$red: #e64c57 !default;
-$orange: #dd794a !default;
+$aqua: $blue-100 !default;
 
 $text: $gray;
 $button: white !default;
-$header: $darkblue !default;
-$saturated-blue: saturate(darken($darkblue, 2%), 6%);
 
 $colors: (
   "bg": $bg,
-  "darkblue": $darkblue,
   "battleship": $battleship,
   "slate": $slate,
   "blue": $blue,
@@ -33,24 +50,26 @@ $colors: (
 $hr-shadow: fade-out(black, 0.8);
 $hr: fade-out(white, 0.92);
 $border: 1px solid fade-out($slate, 0.8);
-$border-radius: 10px;
+$border-radius: 6px;
 
 /* Fonts */
-$font-size: 14px;
-$font-family: "Poppins";
+$font-size: 16px;
+$font-family: "Gotham A", "Gotham B";
 
 /* Sizes */
-$max-width: 1200px !default;
+$max-width: 1080px !default;
 $breakpoint: 992px;
 $gutter: 30px;
+$gutter-horizontal: 32px;
+$gutter-vertical: 12px;
 $line-height: 1.5;
-$nav-height: 70px;
-$footer-height: 50px;
-$footer-height-mobile: 100px;
 
-$card-padding-horizontal: 25px;
-$card-padding-header: 20px $card-padding-horizontal;
-$card-padding-main: $card-padding-header;
+$navigate-height: 64px;
+
+$card-padding-horizontal: $gutter-horizontal;
+$card-padding-vertical: 40px;
+$card-padding-header: $card-padding-vertical $card-padding-horizontal 0px;
+$card-padding-main: 8px $card-padding-horizontal $card-padding-vertical;
 
 $modal-width: 620px;
 

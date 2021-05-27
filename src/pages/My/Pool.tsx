@@ -5,8 +5,8 @@ import { formatAsset } from "../../libs/parse"
 import getLpName from "../../libs/getLpName"
 import { getPath, MenuKey } from "../../routes"
 
-import Card from "../../components/Card"
 import Table from "../../components/Table"
+import Caption from "../../components/Caption"
 import { Di } from "../../components/Dl"
 import { TooltipIcon } from "../../components/Tooltip"
 import Delisted from "../../components/Delisted"
@@ -15,20 +15,9 @@ import DashboardActions from "../../components/DashboardActions"
 import { Type } from "../Pool"
 import { Type as StakeType } from "../Stake"
 import NoAssets from "./NoAssets"
+import { MyPool } from "./types"
 
-interface Data extends ListedItem {
-  balance: string
-  withdrawable: { value: string; text: string }
-  share: string
-}
-
-interface Props {
-  loading: boolean
-  totalWithdrawableValue: string
-  dataSource: Data[]
-}
-
-const Pool = ({ loading, totalWithdrawableValue, dataSource }: Props) => {
+const Pool = ({ loading, totalWithdrawableValue, dataSource }: MyPool) => {
   const dataExists = !!dataSource.length
   const description = dataExists && (
     <Di
@@ -41,105 +30,95 @@ const Pool = ({ loading, totalWithdrawableValue, dataSource }: Props) => {
     />
   )
 
-  return (
-    <Card
-      title={<TooltipIcon content={Tooltip.My.Pool}>Pool</TooltipIcon>}
-      description={description}
-      loading={loading}
-    >
-      {dataExists ? (
-        <Table
-          columns={[
-            {
-              key: "symbol",
-              title: "Pool Name",
-              render: (symbol, { status }) => (
-                <>
-                  {status === "DELISTED" && <Delisted />}
-                  {getLpName(symbol)}
-                </>
-              ),
-              bold: true,
-            },
-            {
-              key: "balance",
-              title: (
-                <TooltipIcon content={Tooltip.My.LP}>LP Balance</TooltipIcon>
-              ),
-              render: (value) => formatAsset(value, LP),
-              align: "right",
-            },
-            {
-              key: "withdrawable.text",
-              title: (
-                <TooltipIcon content={Tooltip.My.Withdrawable}>
-                  Withdrawable Asset
-                </TooltipIcon>
-              ),
-              align: "right",
-            },
-            {
-              key: "withdrawable.value",
-              title: "Withdrawable Value",
-              render: (value) => formatAsset(value, UUSD),
-              align: "right",
-            },
-            {
-              key: "share",
-              title: (
-                <TooltipIcon content={Tooltip.My.PoolShare}>
-                  Pool share
-                </TooltipIcon>
-              ),
-              align: "right",
-            },
-            {
-              key: "actions",
-              dataIndex: "token",
-              render: (token, { status }) => {
-                const to = {
-                  pathname: getPath(MenuKey.POOL),
-                  state: { token },
-                }
-
-                const provideItem = {
-                  to: { ...to, hash: Type.PROVIDE },
-                  children: Type.PROVIDE,
-                }
-
-                const withdrawItem = {
-                  to: { ...to, hash: Type.WITHDRAW },
-                  children: Type.WITHDRAW,
-                }
-
-                const stakeItem = {
-                  to: `${getPath(MenuKey.STAKE)}/${token}`,
-                  children: StakeType.STAKE,
-                }
-
-                const list =
-                  status === "LISTED"
-                    ? [provideItem, withdrawItem, stakeItem]
-                    : [withdrawItem]
-
-                return <DashboardActions list={list} />
-              },
-              align: "right",
-              fixed: "right",
-            },
-          ]}
-          dataSource={dataSource}
+  return dataExists ? (
+    <Table
+      caption={
+        <Caption
+          title={<TooltipIcon content={Tooltip.My.Pool}>Pool</TooltipIcon>}
+          description={description}
+          loading={loading}
         />
-      ) : (
-        !loading && (
-          <NoAssets
-            description={MESSAGE.MyPage.Empty.Pool}
-            link={MenuKey.POOL}
-          />
-        )
-      )}
-    </Card>
-  )
+      }
+      columns={[
+        {
+          key: "symbol",
+          title: "Pool Name",
+          render: (symbol, { status }) => (
+            <>
+              {status === "DELISTED" && <Delisted />}
+              {getLpName(symbol)}
+            </>
+          ),
+          bold: true,
+        },
+        {
+          key: "balance",
+          title: <TooltipIcon content={Tooltip.My.LP}>LP Balance</TooltipIcon>,
+          render: (value) => formatAsset(value, LP),
+          align: "right",
+        },
+        {
+          key: "withdrawable.text",
+          title: (
+            <TooltipIcon content={Tooltip.My.Withdrawable}>
+              Withdrawable Asset
+            </TooltipIcon>
+          ),
+          align: "right",
+        },
+        {
+          key: "withdrawable.value",
+          title: "Withdrawable Value",
+          render: (value) => formatAsset(value, UUSD),
+          align: "right",
+        },
+        {
+          key: "share",
+          title: (
+            <TooltipIcon content={Tooltip.My.PoolShare}>Pool share</TooltipIcon>
+          ),
+          align: "right",
+        },
+        {
+          key: "actions",
+          dataIndex: "token",
+          render: (token, { status }) => {
+            const to = {
+              pathname: getPath(MenuKey.POOL),
+              state: { token },
+            }
+
+            const provideItem = {
+              to: { ...to, hash: Type.LONG },
+              children: Type.LONG,
+            }
+
+            const withdrawItem = {
+              to: { ...to, hash: Type.SHORT },
+              children: Type.SHORT,
+            }
+
+            const stakeItem = {
+              to: `${getPath(MenuKey.STAKE)}/${token}`,
+              children: StakeType.STAKE,
+            }
+
+            const list =
+              status === "LISTED"
+                ? [provideItem, withdrawItem, stakeItem]
+                : [withdrawItem]
+
+            return <DashboardActions list={list} />
+          },
+          align: "right",
+          fixed: "right",
+        },
+      ]}
+      dataSource={dataSource}
+    />
+  ) : !loading ? (
+    <NoAssets description={MESSAGE.MyPage.Empty.Pool} link={MenuKey.POOL} />
+  ) : null
 }
 
 export default Pool

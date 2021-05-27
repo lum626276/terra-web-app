@@ -9,13 +9,13 @@ import CreatePollButton from "./CreatePollButton"
 import styles from "./CreatePoll.module.scss"
 
 export enum Type {
-  "TEXT" = "TEXT",
-  "TEXT_WHITELIST" = "TEXT_WHITELIST",
-  "WHITELIST" = "WHITELIST",
-  "INFLATION" = "INFLATION",
-  "MINT_UPDATE" = "MINT_UPDATE",
-  "GOV_UPDATE" = "GOV_UPDATE",
-  "COMMUNITY_SPEND" = "COMMUNITY_SPEND",
+  TEXT = "TEXT",
+  TEXT_WHITELIST = "TEXT_WHITELIST",
+  WHITELIST = "WHITELIST",
+  INFLATION = "INFLATION",
+  MINT_UPDATE = "MINT_UPDATE",
+  GOV_UPDATE = "GOV_UPDATE",
+  COMMUNITY_SPEND = "COMMUNITY_SPEND",
 }
 
 const TITLE = "Choose a poll"

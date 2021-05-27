@@ -1,7 +1,7 @@
 import { Link, LinkProps } from "react-router-dom"
 import Tippy from "@tippyjs/react"
 import { DropdownTippyProps } from "./Tooltip"
-import Icon from "./Icon"
+import MaterialIcon from "./MaterialIcon"
 import Dropdown from "./Dropdown"
 import styles from "./DashboardActions.module.scss"
 
@@ -10,7 +10,7 @@ const DashboardActions = ({ list }: { list: LinkProps[] }) => {
   return (
     <Tippy {...DropdownTippyProps} render={() => <Dropdown list={links} />}>
       <button className={styles.trigger}>
-        <Icon name="more_horiz" size={18} />
+        <MaterialIcon name="more_horiz" size={18} />
       </button>
     </Tippy>
   )

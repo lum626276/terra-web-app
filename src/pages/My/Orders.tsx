@@ -4,32 +4,17 @@ import Tooltip from "../../lang/Tooltip.json"
 import { format, formatAsset } from "../../libs/parse"
 import { capitalize } from "../../libs/utils"
 import { getPath, MenuKey } from "../../routes"
-import Card from "../../components/Card"
 import Table from "../../components/Table"
+import Caption from "../../components/Caption"
 import Dl from "../../components/Dl"
 import Button from "../../components/Button"
 import { TooltipIcon } from "../../components/Tooltip"
 import DashboardActions from "../../components/DashboardActions"
 import Delisted from "../../components/Delisted"
 import NoAssets from "./NoAssets"
+import { MyOrders } from "./types"
 
-interface OrderDetails extends Order {
-  status: ListedItemStatus
-  type: string
-  asset: Asset
-  uusd: Asset
-  limitPrice: string
-  terraswapPrice: string
-}
-
-interface Props {
-  loading: boolean
-  total: string
-  dataSource: OrderDetails[]
-  more?: () => void
-}
-
-const Orders = ({ loading, dataSource, total, more }: Props) => {
+const Orders = ({ loading, dataSource, total, more }: MyOrders) => {
   const renderTooltip = (value: string, tooltip: string) => (
     <TooltipIcon content={tooltip}>{value}</TooltipIcon>
   )
@@ -50,13 +35,16 @@ const Orders = ({ loading, dataSource, total, more }: Props) => {
   )
 
   return (
-    <Card
-      title={renderTooltip("Limit Orders", Tooltip.My.LimitOrders)}
-      description={description}
-      loading={loading}
-    >
+    <>
       {dataExists ? (
         <Table
+          caption={
+            <Caption
+              title={renderTooltip("Limit Orders", Tooltip.My.LimitOrders)}
+              description={description}
+              loading={loading}
+            />
+          }
           columns={[
             {
               key: "order_id",
@@ -132,7 +120,7 @@ const Orders = ({ loading, dataSource, total, more }: Props) => {
           More
         </Button>
       )}
-    </Card>
+    </>
   )
 }
 

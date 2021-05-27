@@ -1,7 +1,7 @@
 import { FC, ReactNode } from "react"
 import classNames from "classnames/bind"
 import Card from "./Card"
-import Icon from "./Icon"
+import MaterialIcon from "./MaterialIcon"
 import Loading from "./Loading"
 import Button from "./Button"
 import LinkButton, { LinkProps } from "./LinkButton"
@@ -36,7 +36,7 @@ const Wait: FC<Props> = ({ status, hash, link, button, children }) => {
   }[status]
 
   const icon = iconName ? (
-    <Icon name={iconName} className={cx(status)} size={50} />
+    <MaterialIcon name={iconName} className={cx(status)} size={50} />
   ) : (
     <Loading size={40} />
   )

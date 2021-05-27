@@ -12,7 +12,7 @@ const Balance = () => {
     <WithResult
       keys={[AccountInfoKey.UUSD]}
       renderError={renderError}
-      size={21}
+      renderLoading={() => null}
     >
       <Count symbol={UUSD}>{uusd}</Count>
     </WithResult>

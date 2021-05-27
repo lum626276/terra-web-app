@@ -1,16 +1,16 @@
 import { useWallet } from "@terra-money/wallet-provider"
 import { gt } from "../../libs/math"
-import useLocalStorage from "../../libs/useLocalStorage"
 import { MenuKey } from "../../routes"
-import { useAddress } from "../../hooks"
+import { useAddress, useContract, useRefetch } from "../../hooks"
+import { AccountInfoKey } from "../../hooks/contractKeys"
+
 import Page from "../../components/Page"
 import Grid from "../../components/Grid"
 import Button from "../../components/Button"
+import BuyLinks from "../../components/BuyLinks"
 import ConnectionRequired from "../../containers/ConnectionRequired"
 import useMy from "./useMy"
-import Header from "./Header"
 import TotalValue from "./TotalValue"
-import HideEmptySections from "./HideEmptySections"
 import Holdings from "./Holdings"
 import Mint from "./Mint"
 import Pool from "./Pool"
@@ -21,16 +21,9 @@ import HistoryList from "./HistoryList"
 const My = () => {
   const address = useAddress()
   const { disconnect } = useWallet()
-  const { holdings, mint, pool, stake, total, orders } = useMy()
-  const [hide, setHide] = useLocalStorage("hideEmptySections", false)
-  const toggle = () => setHide(!hide)
-
-  const header = {
-    total: <TotalValue {...total} />,
-    hide: gt(total.value, 0) && (
-      <HideEmptySections hide={hide} toggle={toggle} />
-    ),
-  }
+  const my = useMy()
+  const { holdings, mint, pool, stake, orders } = my
+  const shouldBuyUST = useShouldBuyUST()
 
   const contents = [
     {
@@ -66,30 +59,20 @@ const My = () => {
         <ConnectionRequired />
       ) : (
         <>
-          <Grid>
-            <Header {...header} />
-          </Grid>
+          {shouldBuyUST && <BuyLinks type="terra" />}
 
-          {contents.map(
-            ({ dataSource, component, key }) =>
-              (!hide || !!dataSource.length) && (
-                <Grid key={key}>{component}</Grid>
-              )
-          )}
+          <TotalValue {...my} />
+
+          {contents.map(({ component, key }) => (
+            <Grid key={key}>{component}</Grid>
+          ))}
 
           <Grid>
             <HistoryList />
           </Grid>
 
           {disconnect && (
-            <Button
-              className="mobile"
-              onClick={disconnect}
-              color="secondary"
-              outline
-              block
-              submit
-            >
+            <Button onClick={disconnect} color="secondary" outline block submit>
               Disconnect
             </Button>
           )}
@@ -100,3 +83,9 @@ const My = () => {
 }
 
 export default My
+
+const useShouldBuyUST = () => {
+  const { uusd } = useContract()
+  const { data } = useRefetch([AccountInfoKey.UUSD])
+  return !!data && !gt(uusd, 0)
+}

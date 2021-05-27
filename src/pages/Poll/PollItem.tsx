@@ -1,5 +1,5 @@
 import { useGov } from "../../graphql/useGov"
-import Icon from "../../components/Icon"
+import MaterialIcon from "../../components/MaterialIcon"
 import { isEmphasizedPoll } from "./pollHelpers"
 import useEstimateTime from "./useEstimateTime"
 import PollHeader from "./PollHeader"
@@ -12,7 +12,7 @@ const PollItem = ({ id }: { id: number }) => {
   const estimatedTime = useEstimateTime(poll)
   const toNow = (
     <>
-      <Icon name="schedule" size={18} />
+      <MaterialIcon name="schedule" size={18} />
       {estimatedTime.toNow}
     </>
   )

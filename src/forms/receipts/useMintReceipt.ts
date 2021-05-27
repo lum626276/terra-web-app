@@ -7,7 +7,7 @@ import { Type } from "../../pages/Mint"
 import { findValue, splitTokenText } from "./receiptHelpers"
 
 export default (type: Type, prev?: MintPosition) => (logs: TxLog[]) => {
-  const open = type === Type.OPEN
+  const open = type === Type.BORROW
   const close = type === Type.CLOSE
   const custom = type === Type.CUSTOM
   useRefetch([PriceKey.ORACLE, PriceKey.END])
@@ -32,7 +32,7 @@ export default (type: Type, prev?: MintPosition) => (logs: TxLog[]) => {
   const protocolFee = splitTokenText(val("protocol_fee", Number(custom)))
 
   const nextCollateral = {
-    [Type.OPEN]: {
+    [Type.BORROW]: {
       amount: collateral.amount,
       token: collateral.token,
     },
