@@ -64,6 +64,7 @@ interface MintPosition {
   owner: string
   collateral: AssetToken | NativeToken
   asset: AssetToken
+  is_short: boolean
 }
 
 /* Limit order */

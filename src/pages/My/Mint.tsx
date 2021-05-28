@@ -64,9 +64,9 @@ const Mint = ({ loading, dataSource, ...props }: MyMint) => {
           })}
           columns={[
             {
-              key: "asset.symbol",
+              key: "mintedAsset.symbol",
               title: "Ticker",
-              render: (symbol, { idx, warning, danger, status }) => {
+              render: (symbol, { idx, warning, danger, status, is_short }) => {
                 const shouldWarn = warning || danger
                 const className = classNames(styles.idx, { red: shouldWarn })
                 const tooltip = warning
@@ -83,7 +83,10 @@ const Mint = ({ loading, dataSource, ...props }: MyMint) => {
                     )}
                     {lookupSymbol(symbol)}
                   </span>,
-                  idx,
+                  <>
+                    {idx}
+                    {is_short && "short"}
+                  </>,
                 ]
               },
               bold: true,
@@ -98,15 +101,15 @@ const Mint = ({ loading, dataSource, ...props }: MyMint) => {
                   Collateral Balance
                 </TooltipIcon>,
               ]),
-              render: (_, { asset, collateral }) =>
+              render: (_, { mintedAsset, collateralAsset }) =>
                 renderList([
-                  formatAsset(asset.amount, asset.symbol),
-                  formatAsset(collateral.amount, collateral.symbol),
+                  formatAsset(mintedAsset.amount, mintedAsset.symbol),
+                  formatAsset(collateralAsset.amount, collateralAsset.symbol),
                 ]),
               align: "right",
             },
             {
-              key: "asset.price",
+              key: "mintedAsset.price",
               title: "Oracle Price",
               render: (value) => `${format(value)} ${UST}`,
               align: "right",
@@ -121,10 +124,10 @@ const Mint = ({ loading, dataSource, ...props }: MyMint) => {
                   Collateral Value
                 </TooltipIcon>,
               ]),
-              render: (_, { asset, collateral }) =>
+              render: (_, { mintedAsset, collateralAsset }) =>
                 renderList([
-                  formatAsset(asset.value, UUSD),
-                  formatAsset(collateral.value, UUSD),
+                  formatAsset(mintedAsset.value, UUSD),
+                  formatAsset(collateralAsset.value, UUSD),
                 ]),
               align: "right",
               narrow: ["right"],
@@ -132,10 +135,10 @@ const Mint = ({ loading, dataSource, ...props }: MyMint) => {
             {
               key: "change",
               title: "",
-              render: (_, { asset, collateral }) =>
+              render: (_, { mintedAsset, collateralAsset }) =>
                 renderList([
-                  <Change>{asset.change}</Change>,
-                  <Change>{collateral.change}</Change>,
+                  <Change>{mintedAsset.change}</Change>,
+                  <Change>{collateralAsset.change}</Change>,
                 ]),
               narrow: ["left"],
             },

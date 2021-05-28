@@ -72,14 +72,14 @@ const useMyMint = (): MyMint => {
             return {
               ...position,
               status,
-              collateral: {
+              collateralAsset: {
                 ...collateral,
                 price: collateralPrice,
                 value: collateralValue,
                 change: collateralChange,
                 delisted: collateralDelisted,
               },
-              asset: {
+              mintedAsset: {
                 ...asset,
                 price: assetPrice,
                 value: assetValue,
@@ -92,18 +92,21 @@ const useMyMint = (): MyMint => {
               warning,
             }
           })
-          .filter(({ collateral, asset }) => {
+          .filter(({ collateralAsset, mintedAsset }) => {
             const invalid =
-              !gte(collateral.value, 10000) && !gte(asset.value, 10000)
+              !gte(collateralAsset.value, 10000) &&
+              !gte(mintedAsset.value, 10000)
 
             return !invalid
           })
 
   const totalCollateralValue = sum(
-    dataSource.map(({ collateral }) => collateral.value)
+    dataSource.map(({ collateralAsset }) => collateralAsset.value)
   )
 
-  const totalMintedValue = sum(dataSource.map(({ asset }) => asset.value))
+  const totalMintedValue = sum(
+    dataSource.map(({ mintedAsset }) => mintedAsset.value)
+  )
 
   return {
     keys,

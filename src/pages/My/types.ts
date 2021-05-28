@@ -38,11 +38,11 @@ export interface MyMint {
   more?: () => void
 }
 
-export interface MyMintRow {
+export interface MyMintRow extends MintPosition {
   idx: string
   status: ListedItemStatus
-  collateral: MyMintAssetData
-  asset: MyMintAssetData
+  collateralAsset: MyMintAssetData
+  mintedAsset: MyMintAssetData
   ratio?: string
   minRatio: string
   danger: boolean

@@ -14,10 +14,10 @@ const DelistAlert = () => {
   const delistedHoldings = holdings.dataSource.filter(filter).map(getToken)
 
   const delistedMintTokens = mint.dataSource.reduce<string[]>(
-    (acc, { collateral, asset }) =>
+    (acc, { collateralAsset, mintedAsset }) =>
       acc
-        .concat(delist[collateral.token] ? collateral.token : [])
-        .concat(delist[asset.token] ? asset.token : []),
+        .concat(delist[collateralAsset.token] ? collateralAsset.token : [])
+        .concat(delist[mintedAsset.token] ? mintedAsset.token : []),
     []
   )
 
