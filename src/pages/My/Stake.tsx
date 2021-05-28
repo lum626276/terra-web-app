@@ -59,13 +59,6 @@ const Stake = ({ loading, dataSource, ...props }: MyStake) => {
           bold: true,
         },
         {
-          key: "staked",
-          title: <TooltipIcon content={Tooltip.My.Staked}>Staked</TooltipIcon>,
-          render: (value, { type }) =>
-            formatAsset(value, type === "long" ? LP : SLP),
-          align: "right",
-        },
-        {
           key: "withdrawable",
           title: (
             <TooltipIcon content={Tooltip.My.Withdrawable}>

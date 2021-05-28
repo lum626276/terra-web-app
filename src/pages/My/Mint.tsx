@@ -115,24 +115,6 @@ const Mint = ({ loading, dataSource, ...props }: MyMint) => {
               align: "right",
             },
             {
-              key: "value",
-              title: renderList([
-                <TooltipIcon content={Tooltips.My.MintedValue}>
-                  Minted Value
-                </TooltipIcon>,
-                <TooltipIcon content={Tooltips.My.CollateralValue}>
-                  Collateral Value
-                </TooltipIcon>,
-              ]),
-              render: (_, { mintedAsset, collateralAsset }) =>
-                renderList([
-                  formatAsset(mintedAsset.value, UUSD),
-                  formatAsset(collateralAsset.value, UUSD),
-                ]),
-              align: "right",
-              narrow: ["right"],
-            },
-            {
               key: "change",
               title: "",
               render: (_, { mintedAsset, collateralAsset }) =>

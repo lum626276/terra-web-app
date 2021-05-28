@@ -143,46 +143,6 @@ const MarketList = () => {
             narrow: ["right"],
           },
           {
-            key: "volume",
-            title: (
-              <TooltipIcon content={Tooltip.TopTrading.Volume}>
-                Volume
-              </TooltipIcon>
-            ),
-            render: (value) => (
-              <Formatted symbol={UUSD} config={{ integer: true }}>
-                {value}
-              </Formatted>
-            ),
-            align: "right",
-          },
-          {
-            key: "liquidity",
-            title: (
-              <TooltipIcon content={Tooltip.TopTrading.Liquidity}>
-                Liquidity
-              </TooltipIcon>
-            ),
-            render: (value) => (
-              <Formatted symbol={UUSD} config={{ integer: true }}>
-                {value}
-              </Formatted>
-            ),
-            align: "right",
-          },
-          {
-            key: "oracle.price",
-            title: (
-              <TooltipIcon content={Tooltip.TopTrading.Oracle}>
-                Oracle Price
-              </TooltipIcon>
-            ),
-            render: (price) =>
-              gt(price, 0) && <Formatted unit={UST}>{price}</Formatted>,
-            align: "right",
-            narrow: ["right"],
-          },
-          {
             key: "premium",
             dataIndex: "premium",
             title: "Spread",
