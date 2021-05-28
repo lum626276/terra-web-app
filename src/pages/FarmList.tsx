@@ -100,13 +100,6 @@ const FarmList = () => {
           render: (value) => <Percent>{value}</Percent>,
           align: "right",
         },
-        {
-          key: "tolerance",
-          dataIndex: "tolerance",
-          title: "Tolerance",
-          render: (value) => <Percent>0.0123</Percent>,
-          align: "right",
-        },
       ]}
       dataSource={dataSource}
     />

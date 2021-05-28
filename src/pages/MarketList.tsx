@@ -130,6 +130,19 @@ const MarketList = () => {
             bold: true,
           },
           {
+            key: "terraswap",
+            title: "Terraswap Price",
+            render: ({ price }, { terraswap: { change } }) =>
+              gt(price, 0) && (
+                <>
+                  <Formatted unit={UST}>{price}</Formatted>
+                  <Change align="right">{change}</Change>
+                </>
+              ),
+            align: "right",
+            narrow: ["right"],
+          },
+          {
             key: "volume",
             title: (
               <TooltipIcon content={Tooltip.TopTrading.Volume}>
@@ -166,19 +179,6 @@ const MarketList = () => {
             ),
             render: (price) =>
               gt(price, 0) && <Formatted unit={UST}>{price}</Formatted>,
-            align: "right",
-            narrow: ["right"],
-          },
-          {
-            key: "terraswap",
-            title: "Terraswap Price",
-            render: ({ price }, { terraswap: { change } }) =>
-              gt(price, 0) && (
-                <>
-                  <Formatted unit={UST}>{price}</Formatted>
-                  <Change align="right">{change}</Change>
-                </>
-              ),
             align: "right",
             narrow: ["right"],
           },
