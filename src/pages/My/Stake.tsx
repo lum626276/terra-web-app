@@ -12,7 +12,7 @@ import Dl from "../../components/Dl"
 import { TooltipIcon } from "../../components/Tooltip"
 import Delisted from "../../components/Delisted"
 import DashboardActions from "../../components/DashboardActions"
-import { MintType, StakeType } from "../../types/Types"
+import { StakeType } from "../../types/Types"
 import NoAssets from "./NoAssets"
 import { MyStake } from "./types"
 
