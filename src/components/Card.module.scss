@@ -34,10 +34,22 @@
 
 /* main */
 .main {
-  padding: $card-padding-main;
+  @include mobile {
+    padding: $card-padding-main-mobile;
+  }
+
+  @include desktop {
+    padding: $card-padding-main-desktop;
+  }
 
   &:first-child {
-    padding-top: $card-padding-vertical;
+    @include mobile {
+      padding-top: $card-padding-vertical-mobile;
+    }
+
+    @include desktop {
+      padding-top: $card-padding-vertical-desktop;
+    }
   }
 
   &:not(:last-child) {

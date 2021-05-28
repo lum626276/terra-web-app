@@ -1,4 +1,5 @@
 import { FC } from "react"
+import classNames from "classnames"
 import Icon from "./Icon"
 import styles from "./ConnectButton.module.scss"
 
@@ -7,9 +8,9 @@ interface Props {
   onClick?: () => void
 }
 
-const ConnectButton: FC<Props> = ({ onClick, children }) => {
+const ConnectButton: FC<Props> = ({ className, onClick, children }) => {
   const attrs = {
-    className: styles.component,
+    className: classNames(styles.component, className),
     children: (
       <>
         <section className={styles.wrapper}>

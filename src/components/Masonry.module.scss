@@ -15,7 +15,7 @@
     flex: 1;
 
     & + & {
-      margin-left: $gutter-horizontal;
+      margin-left: $gutter-horizontal-desktop;
     }
   }
 }
@@ -25,7 +25,7 @@
     width: 100%;
 
     & + & {
-      margin-top: $gutter-vertical;
+      margin-top: $gutter-vertical-desktop;
     }
 
     > * {
@@ -34,6 +34,6 @@
   }
 
   @include mobile {
-    margin-bottom: $gutter-vertical;
+    margin-bottom: $gutter-vertical-desktop;
   }
 }

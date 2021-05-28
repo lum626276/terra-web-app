@@ -4,10 +4,10 @@ import { getPath, MenuKey } from "../routes"
 import Balance from "./Balance"
 import styles from "./Connected.module.scss"
 
-const Connected = () => {
+const Connected = ({ className }: { className?: string }) => {
   return (
     <>
-      <NavLink to={getPath(MenuKey.MY)}>
+      <NavLink className={className} to={getPath(MenuKey.MY)}>
         <ConnectButton>
           <div className={styles.button}>
             <Balance />

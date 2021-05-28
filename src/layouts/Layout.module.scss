@@ -8,7 +8,7 @@ $sidebar-width: 220px;
   }
 
   @include mobile {
-    padding-bottom: $navigate-height;
+    padding-bottom: $navigate-height-mobile;
   }
 }
 
@@ -44,7 +44,7 @@ $sidebar-width: 220px;
 
 .navigate {
   background: $gray-14;
-  height: $navigate-height;
+  height: $navigate-height-mobile;
 
   position: fixed;
   bottom: 0;

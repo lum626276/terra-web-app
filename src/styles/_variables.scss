@@ -59,17 +59,28 @@ $font-family: "Gotham A", "Gotham B";
 /* Sizes */
 $max-width: 1080px !default;
 $breakpoint: 992px;
-$gutter: 30px;
-$gutter-horizontal: 32px;
-$gutter-vertical: 12px;
+$gutter-horizontal-mobile: 16px;
+$gutter-horizontal-desktop: 32px;
+$gutter: $gutter-horizontal-desktop;
+$gutter-vertical-desktop: 12px;
 $line-height: 1.5;
 
-$navigate-height: 64px;
+$header-height-mobile: 54px;
+$navigate-height-mobile: 64px;
 
-$card-padding-horizontal: $gutter-horizontal;
-$card-padding-vertical: 40px;
-$card-padding-header: $card-padding-vertical $card-padding-horizontal 0px;
-$card-padding-main: 8px $card-padding-horizontal $card-padding-vertical;
+$card-padding-horizontal-mobile: 28px;
+$card-padding-vertical-mobile: 32px;
+$card-padding-header-mobile: $card-padding-vertical-mobile
+  $card-padding-horizontal-mobile 0px;
+$card-padding-main-mobile: 8px $card-padding-horizontal-mobile
+  $card-padding-vertical-mobile;
+
+$card-padding-horizontal-desktop: $gutter-horizontal-desktop;
+$card-padding-vertical-desktop: 40px;
+$card-padding-header-desktop: $card-padding-vertical-desktop
+  $card-padding-horizontal-desktop 0px;
+$card-padding-main-desktop: 8px $card-padding-horizontal-desktop
+  $card-padding-vertical-desktop;
 
 $modal-width: 620px;
 

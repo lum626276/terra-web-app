@@ -2,7 +2,13 @@
 @import "variables";
 
 .header {
-  padding: $card-padding-header;
+  @include mobile {
+    padding: $card-padding-header-mobile;
+  }
+
+  @include desktop {
+    padding: $card-padding-header-desktop;
+  }
 }
 
 .title {
@@ -42,13 +48,27 @@
     @include flex;
     @include link(inherit);
     flex: none;
-    padding: $card-padding-header;
+
+    @include mobile {
+      padding: $card-padding-header-mobile;
+    }
+
+    @include desktop {
+      padding: $card-padding-header-desktop;
+    }
   }
 
   .title {
     flex: 1;
     text-align: center;
-    padding-right: (24px + (2 * $card-padding-horizontal));
+
+    @include mobile {
+      padding-right: (24px + (2 * $card-padding-horizontal-mobile));
+    }
+
+    @include desktop {
+      padding-right: (24px + (2 * $card-padding-horizontal-desktop));
+    }
   }
 }
 

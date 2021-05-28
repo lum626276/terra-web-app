@@ -4,12 +4,12 @@
   @include flex(flex-start, stretch);
   background: $gray-14;
   border-radius: 8px;
-  margin-bottom: $gutter-vertical;
+  margin-bottom: $gutter-vertical-desktop;
 }
 
 .icon {
   @include flex;
-  padding: 20px $gutter-horizontal;
+  padding: 20px $gutter-horizontal-desktop;
   padding-right: 8px;
 
   svg {
@@ -26,5 +26,5 @@
   color: $blue-100;
   font-size: 12px;
   font-weight: 500;
-  padding: 0 $gutter-horizontal;
+  padding: 0 $gutter-horizontal-desktop;
 }

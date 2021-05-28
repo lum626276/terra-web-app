@@ -9,7 +9,7 @@ $padding: 20px;
 .header {
   @include flex(flex-start);
   font-size: 12px;
-  padding: $card-padding-header;
+  padding: $card-padding-header-desktop;
 }
 
 .token {

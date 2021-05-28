@@ -42,7 +42,7 @@ $active: $blue-100;
     @include flex;
     font-size: 10px;
     font-weight: 500;
-    height: $navigate-height;
+    height: $navigate-height-mobile;
     text-transform: uppercase;
   }
 }

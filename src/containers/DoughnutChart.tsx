@@ -56,7 +56,7 @@ const DoughnutChart = ({ list, format }: Props) => {
         ))}
       </ul>
 
-      <section style={{ width: 200, height: 200 }}>
+      <section style={{ width: 170, height: 170 }}>
         <Doughnut type="doughnut" data={data} options={options} />
       </section>
     </div>
