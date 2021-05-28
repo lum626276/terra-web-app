@@ -1,4 +1,4 @@
-import { LP, MIR, SLP, UUSD } from "../../constants"
+import { MIR, UUSD } from "../../constants"
 import MESSAGE from "../../lang/MESSAGE.json"
 import Tooltip from "../../lang/Tooltip.json"
 import { formatAsset } from "../../libs/parse"
