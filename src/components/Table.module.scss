@@ -51,7 +51,13 @@ $padding: 20px;
 }
 
 .td {
-  border-top: 2px solid $bg;
+  @include mobile {
+    border-top: 1px solid $bg;
+  }
+
+  @include desktop {
+    border-top: 2px solid $bg;
+  }
   letter-spacing: -0.3px;
 }
 

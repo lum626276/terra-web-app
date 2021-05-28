@@ -7,11 +7,12 @@ import styles from "./Card.module.scss"
 const cx = classNames.bind(styles)
 
 interface CardMainProps {
+  className?: string
   full?: boolean
 }
 
-export const CardMain: FC<CardMainProps> = ({ full, children }) => (
-  <section className={cx(styles.main, { full })}>{children}</section>
+export const CardMain: FC<CardMainProps> = ({ full, children, className }) => (
+  <section className={cx(styles.main, { full }, className)}>{children}</section>
 )
 
 export interface Props {

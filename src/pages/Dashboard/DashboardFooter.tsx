@@ -17,26 +17,26 @@ const DashboardFooter = ({ network, ...props }: Props) => {
 
   return (
     <Card className={styles.card} full lg>
-      <CardMain>
+      <CardMain className={styles.content}>
         <h1 className={styles.title}>mAsset</h1>
 
         <section className={styles.section}>
           <h1 className={styles.title}>Market Cap</h1>
-          <Formatted symbol={UUSD} config={{ integer: true }} big>
+          <Formatted symbol={UUSD} config={{ integer: true }}>
             {assetMarketCap}
           </Formatted>
         </section>
 
         <section className={styles.section}>
           <h1 className={styles.title}>Fee</h1>
-          <Formatted symbol={UUSD} config={{ integer: true }} big>
+          <Formatted symbol={UUSD} config={{ integer: true }}>
             {latest24h.feeVolume}
           </Formatted>
         </section>
 
         <section className={styles.section}>
           <h1 className={styles.title}>Transactions</h1>
-          <Formatted config={{ integer: true }} big>
+          <Formatted config={{ integer: true }}>
             {latest24h.transactions}
           </Formatted>
         </section>

@@ -2,7 +2,13 @@
 
 .header {
   @include flex(space-between);
-  padding: 36px 20px;
+  @include mobile {
+    padding: 12px $card-padding-horizontal-mobile;
+  }
+
+  @include desktop {
+    padding: 36px 20px;
+  }
 }
 
 .wrapper {

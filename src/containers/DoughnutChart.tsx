@@ -38,6 +38,8 @@ const DoughnutChart = ({ list, format }: Props) => {
     },
   }
 
+  const props = { data, options }
+
   return (
     <div className={styles.wrapper}>
       <ul>
@@ -56,8 +58,8 @@ const DoughnutChart = ({ list, format }: Props) => {
         ))}
       </ul>
 
-      <section style={{ width: 170, height: 170 }}>
-        <Doughnut type="doughnut" data={data} options={options} />
+      <section className={styles.chart}>
+        <Doughnut {...props} type="doughnut" />
       </section>
     </div>
   )

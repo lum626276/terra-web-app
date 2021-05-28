@@ -2,10 +2,12 @@
 
 .chart {
   @include mobile {
-    margin-top: 32px;
+    width: 100%;
+    height: 180px;
   }
 
   @include desktop {
-    margin-top: 56px;
+    width: 100%;
+    height: 240px;
   }
 }

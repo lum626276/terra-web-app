@@ -3,6 +3,7 @@ import { Line, Bar } from "react-chartjs-2"
 import "chartjs-adapter-date-fns"
 import { format as formatDate } from "date-fns"
 import { format } from "../libs/parse"
+import styles from "./ChartContainer.module.scss"
 
 /* styles */
 const $font = "'Gotham A', 'Gotham B'"
@@ -21,7 +22,7 @@ interface Props {
 const ChartContainer = ({ change, datasets, ...props }: Props) => {
   const { fmt, compact, bar } = props
 
-  const height = compact ? 120 : 240
+  const height = compact ? 120 : 180
 
   const data: ChartData = {
     datasets: [
@@ -106,7 +107,7 @@ const ChartContainer = ({ change, datasets, ...props }: Props) => {
   return (
     <article>
       {datasets.length > 1 && (
-        <section>
+        <section className={styles.chart}>
           {bar ? (
             <Bar type="bar" {...chartProps} />
           ) : (
