@@ -4,13 +4,12 @@ const ICON_URL = "https://whitelist.mirror.finance/images"
 
 interface Props {
   symbol: string
-  size?: number
 }
 
-const AssetIcon = ({ symbol, size = 24 }: Props) => {
+const AssetIcon = ({ symbol }: Props) => {
   return (
     <div className={styles.bg}>
-      <img src={getIcon(symbol)} width={size} height={size} alt="" />
+      <img src={getIcon(symbol)} className={styles.icon} alt="" />
     </div>
   )
 }

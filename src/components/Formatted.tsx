@@ -10,15 +10,17 @@ interface Props {
   children?: string
   unit?: string
   big?: boolean
+  className?: string
 }
 
-const Formatted = ({ symbol, config, children = "0", unit, big }: Props) => {
+const Formatted = ({ symbol, children = "0", className, ...props }: Props) => {
+  const { config, unit, big } = props
   const formatted = format(children, symbol, config)
   const isBig = getIsBig(children, symbol)
   const [integer, decimal] = isBig ? [formatted] : formatted.split(".")
 
   return (
-    <span className={cx({ big })}>
+    <span className={cx({ big }, className)}>
       {integer}
       <small>
         {decimal && "."}
