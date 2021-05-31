@@ -26,11 +26,21 @@ interface ChartItem {
 interface AssetStatsData {
   token: string
   description?: string
+
+  prices: {
+    history: PriceHistoryItem[]
+  }
+
   statistic: {
     liquidity: string
     volume: string
     apr: APR
   }
+}
+
+interface PriceHistoryItem {
+  timestamp: number
+  price: string
 }
 
 interface APR {
@@ -43,6 +53,7 @@ interface AssetStats {
   liquidity: Dict<string | undefined>
   volume: Dict<string | undefined>
   apr: Dict<APR | undefined>
+  history: Dict<PriceHistoryItem[]>
 }
 
 /* price */

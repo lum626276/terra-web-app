@@ -2,12 +2,16 @@ import { ChartData, ChartOptions, ScatterDataPoint } from "chart.js"
 import { Line, Bar } from "react-chartjs-2"
 import "chartjs-adapter-date-fns"
 import { format as formatDate } from "date-fns"
+import classNames from "classnames/bind"
 import { format } from "../libs/parse"
 import styles from "./ChartContainer.module.scss"
+
+const cx = classNames.bind(styles)
 
 /* styles */
 const $font = "'Gotham A', 'Gotham B'"
 const $aqua = "#66adff"
+const $red = "#f15e7e"
 const $gray34 = "#555557"
 const $gray22 = "#373738"
 
@@ -22,25 +26,33 @@ interface Props {
 const ChartContainer = ({ change, datasets, ...props }: Props) => {
   const { fmt, compact, bar } = props
 
-  const height = compact ? 120 : 180
+  const { y: last } = datasets[datasets.length - 1]
+  const { y: head } = datasets[0]
+  const borderColor = last > head ? $aqua : last < head ? $red : $gray34
 
   const data: ChartData = {
     datasets: [
-      {
-        fill: true,
-        backgroundColor: $gray22,
-        borderColor: $gray34,
-        borderWidth: 2,
-        tension: compact ? 0.2 : 0.05,
-        pointRadius: 0,
-        pointHoverRadius: 3,
-        pointHoverBorderWidth: 3,
-        pointHoverBackgroundColor: $aqua,
-        pointHoverBorderColor: $aqua,
-        hoverBackgroundColor: $aqua,
-        hoverBorderColor: $aqua,
-        data: datasets,
-      },
+      Object.assign(
+        {
+          fill: !compact,
+          backgroundColor: $gray22,
+          borderColor: compact ? borderColor : $gray34,
+          borderWidth: 2,
+          tension: compact ? 0.2 : 0.05,
+          pointRadius: 0,
+          data: datasets,
+        },
+        compact
+          ? { pointHoverRadius: 0 }
+          : {
+              pointHoverRadius: 3,
+              pointHoverBorderWidth: 3,
+              pointHoverBackgroundColor: $aqua,
+              pointHoverBorderColor: $aqua,
+              hoverBackgroundColor: $aqua,
+              hoverBorderColor: $aqua,
+            }
+      ),
     ],
   }
 
@@ -49,10 +61,11 @@ const ChartContainer = ({ change, datasets, ...props }: Props) => {
     responsive: true,
     maintainAspectRatio: false,
     animation: { duration: 0 },
-    layout: compact ? { padding: 20 } : { padding: { top: 40 } },
+    layout: compact ? undefined : { padding: { top: 40 } },
     plugins: {
       legend: { display: false },
       tooltip: {
+        enabled: !compact,
         mode: "index",
         intersect: false,
         displayColors: false,
@@ -102,12 +115,12 @@ const ChartContainer = ({ change, datasets, ...props }: Props) => {
     },
   }
 
-  const chartProps = { height, data, options }
+  const chartProps = { data, options }
 
   return (
     <article>
       {datasets.length > 1 && (
-        <section className={styles.chart}>
+        <section className={cx(styles.chart, { compact })}>
           {bar ? (
             <Bar type="bar" {...chartProps} />
           ) : (

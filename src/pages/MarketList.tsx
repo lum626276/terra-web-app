@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import { UST } from "../constants"
-import { lt, gt, div, minus } from "../libs/math"
+import { lt, gt, div, minus, number } from "../libs/math"
 import { useContractsAddress, useContract, useRefetch } from "../hooks"
 import { AssetInfoKey, PriceKey } from "../hooks/contractKeys"
 import useAssetStats from "../statistics/useAssetStats"
@@ -12,6 +12,7 @@ import AssetIcon from "../components/AssetIcon"
 import Formatted from "../components/Formatted"
 import Percent from "../components/Percent"
 import Search from "../components/Search"
+import ChartContainer from "../containers/ChartContainer"
 import { MarketType } from "../types/Types"
 import styles from "./MarketList.module.scss"
 
@@ -20,6 +21,7 @@ interface Item extends ListedItem {
   oracle: { price: string; change?: string }
   liquidity?: string
   volume?: string
+  history: PriceHistoryItem[]
 }
 
 interface Sorter {
@@ -55,7 +57,7 @@ const MarketList = () => {
   const { listed } = useContractsAddress()
   const { find } = useContract()
   const yesterday = useYesterday()
-  const { volume, liquidity } = useAssetStats()
+  const { volume, liquidity, history } = useAssetStats()
   const { data } = useRefetch(keys)
 
   const [input, setInput] = useState("")
@@ -91,6 +93,7 @@ const MarketList = () => {
         premium,
         liquidity: liquidity?.[token] ?? "0",
         volume: volume?.[token] ?? "0",
+        history: history?.[token] ?? [],
       }
     })
     .sort(Sorters[sorter].compare)
@@ -146,6 +149,20 @@ const MarketList = () => {
             title: "Spread",
             render: (value) => <Percent>{value}</Percent>,
             align: "right",
+          },
+          {
+            key: "history",
+            dataIndex: "history",
+            title: "1D Chart",
+            render: (history: PriceHistoryItem[]) => (
+              <ChartContainer
+                datasets={history?.map(({ timestamp, price }) => ({
+                  x: timestamp,
+                  y: number(price),
+                }))}
+                compact
+              />
+            ),
           },
         ]}
         dataSource={dataSource}

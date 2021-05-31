@@ -39,10 +39,23 @@ export const STATISTICS = gql`
 `
 
 export const ASSETSTATS = gql`
-  query assets($network: Network) {
+  query assets(
+    $network: Network
+    $interval: Float!
+    $from: Float!
+    $to: Float!
+  ) {
     assets {
       token
       description
+
+      prices {
+        history(interval: $interval, from: $from, to: $to) {
+          timestamp
+          price
+        }
+      }
+
       statistic {
         liquidity(network: $network)
         volume(network: $network)
