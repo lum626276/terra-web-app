@@ -16,7 +16,7 @@ const FormFeedback: FC<{ help?: boolean }> = ({ children, help }) => {
         <MaterialIcon name="warning" {...icon} />
       )}
 
-      <p>{children}</p>
+      <div>{children}</div>
     </div>
   )
 }

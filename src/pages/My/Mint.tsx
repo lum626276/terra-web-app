@@ -65,7 +65,7 @@ const Mint = ({ loading, dataSource, ...props }: MyMint) => {
           columns={[
             {
               key: "mintedAsset.symbol",
-              title: "Ticker",
+              title: ["Ticker", "ID"],
               render: (symbol, { idx, warning, danger, status, is_short }) => {
                 const shouldWarn = warning || danger
                 const className = classNames(styles.idx, { red: shouldWarn })
@@ -92,10 +92,42 @@ const Mint = ({ loading, dataSource, ...props }: MyMint) => {
               bold: true,
             },
             {
+              key: "mintedAsset.price",
+              title: "Oracle Price",
+              render: (value) => `${format(value)} ${UST}`,
+              align: "right",
+            },
+            {
+              key: "borrowed",
+              title: (
+                <TooltipIcon content={Tooltips.My.MintedBalance}>
+                  Borrowed Balance
+                </TooltipIcon>
+              ),
+              render: (_, { mintedAsset }) => [
+                formatAsset(mintedAsset.amount, mintedAsset.symbol),
+                formatAsset(mintedAsset.value, UUSD),
+              ],
+              align: "right",
+            },
+            {
+              key: "collateral",
+              title: (
+                <TooltipIcon content={Tooltips.My.CollateralBalance}>
+                  Collateral Balance
+                </TooltipIcon>
+              ),
+              render: (_, { collateralAsset }) => [
+                formatAsset(collateralAsset.amount, collateralAsset.symbol),
+                formatAsset(collateralAsset.value, UUSD),
+              ],
+              align: "right",
+            },
+            {
               key: "balance",
               title: renderList([
                 <TooltipIcon content={Tooltips.My.MintedBalance}>
-                  Minted Balance
+                  Borrowed Balance
                 </TooltipIcon>,
                 <TooltipIcon content={Tooltips.My.CollateralBalance}>
                   Collateral Balance
@@ -104,34 +136,16 @@ const Mint = ({ loading, dataSource, ...props }: MyMint) => {
               render: (_, { mintedAsset, collateralAsset }) =>
                 renderList([
                   formatAsset(mintedAsset.amount, mintedAsset.symbol),
-                  formatAsset(collateralAsset.amount, collateralAsset.symbol),
                 ]),
               align: "right",
-            },
-            {
-              key: "mintedAsset.price",
-              title: "Oracle Price",
-              render: (value) => `${format(value)} ${UST}`,
-              align: "right",
-            },
-            {
-              key: "change",
-              title: "",
-              render: (_, { mintedAsset, collateralAsset }) =>
-                renderList([
-                  <Change>{mintedAsset.change}</Change>,
-                  <Change>{collateralAsset.change}</Change>,
-                ]),
-              narrow: ["left"],
             },
             {
               key: "ratio",
-              title: [
+              title: (
                 <TooltipIcon content={Tooltips.My.CollateralRatio}>
                   Col. Ratio
-                </TooltipIcon>,
-                "Min.",
-              ],
+                </TooltipIcon>
+              ),
               render: (value, { minRatio, warning, danger }) => {
                 const content = [percent(value), percent(minRatio)]
                 return warning || danger ? (

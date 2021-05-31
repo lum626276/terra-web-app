@@ -53,20 +53,6 @@ const Holdings = ({ loading, totalValue, dataSource }: MyHoldings) => {
           bold: true,
         },
         {
-          key: "value",
-          title: <TooltipIcon content={Tooltip.My.Value}>Value</TooltipIcon>,
-          render: (value) => formatAsset(value, UUSD),
-          align: "right",
-        },
-        {
-          key: "balance",
-          title: (
-            <TooltipIcon content={Tooltip.My.Balance}>Balance</TooltipIcon>
-          ),
-          render: (value, { symbol }) => format(value, symbol),
-          align: "right",
-        },
-        {
           key: "price",
           render: (value) => `${format(value)} ${UST}`,
           align: "right",
@@ -77,6 +63,20 @@ const Holdings = ({ loading, totalValue, dataSource }: MyHoldings) => {
           title: "",
           render: (change: string) => <Change>{change}</Change>,
           narrow: ["left"],
+        },
+        {
+          key: "balance",
+          title: (
+            <TooltipIcon content={Tooltip.My.Balance}>Balance</TooltipIcon>
+          ),
+          render: (value, { symbol }) => format(value, symbol),
+          align: "right",
+        },
+        {
+          key: "value",
+          title: <TooltipIcon content={Tooltip.My.Value}>Value</TooltipIcon>,
+          render: (value) => formatAsset(value, UUSD),
+          align: "right",
         },
         {
           key: "actions",

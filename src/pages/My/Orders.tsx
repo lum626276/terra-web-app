@@ -59,15 +59,9 @@ const Orders = ({ loading, dataSource, total, more }: MyOrders) => {
               align: "center",
             },
             {
-              key: "asset",
-              title: [
-                "Order Amount",
-                renderTooltip("Order Value", Tooltip.My.OrderValue),
-              ],
-              render: (asset, { uusd }) => [
-                formatAsset(asset.amount, asset.symbol),
-                formatAsset(uusd.amount, uusd.symbol),
-              ],
+              key: "terraswapPrice",
+              title: "Terraswap Price",
+              render: (value) => `${format(value)} ${UST}`,
               align: "right",
             },
             {
@@ -77,9 +71,12 @@ const Orders = ({ loading, dataSource, total, more }: MyOrders) => {
               align: "right",
             },
             {
-              key: "terraswapPrice",
-              title: "Terraswap Price",
-              render: (value) => `${format(value)} ${UST}`,
+              key: "asset",
+              title: "Order Amount",
+              render: (asset, { uusd }) => [
+                formatAsset(asset.amount, asset.symbol),
+                formatAsset(uusd.amount, uusd.symbol),
+              ],
               align: "right",
             },
             {
