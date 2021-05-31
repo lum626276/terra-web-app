@@ -13,7 +13,7 @@ import { GovKey, useGov } from "../graphql/useGov"
 import useContractQuery from "../graphql/useContractQuery"
 import { TooltipIcon } from "../components/Tooltip"
 import FormGroup from "../components/FormGroup"
-import { Type } from "../pages/Poll/CreatePoll"
+import { PollType } from "../pages/Poll/CreatePoll"
 import useGovReceipt from "./receipts/useGovReceipt"
 import useSelectAsset, { Config } from "./useSelectAsset"
 import FormContainer from "./FormContainer"
@@ -36,6 +36,9 @@ enum Key {
   weight = "weight",
   auctionDiscount = "auctionDiscount",
   minCollateralRatio = "minCollateralRatio",
+  // Pre-IPO
+  mintPeriod = "mintPeriod",
+  minCollateralRatioAfterMigration = "minCollateralRatioAfterMigration",
 
   /* Type.MINT_UPDATE */
   asset = "asset",
@@ -54,7 +57,7 @@ enum Key {
   amount = "amount",
 }
 
-const CreatePollForm = ({ type }: { type: Type }) => {
+const CreatePollForm = ({ type }: { type: PollType }) => {
   const balanceKey = BalanceKey.TOKEN
   const governance = useGov()
   const { config } = governance
@@ -67,8 +70,8 @@ const CreatePollForm = ({ type }: { type: Type }) => {
 
     const defaultKeys = [Key.title, Key.description, Key.link]
     const additionalKeys = {
-      [Type.TEXT]: defaultKeys,
-      [Type.TEXT_WHITELIST]: [
+      [PollType.TEXT]: defaultKeys,
+      [PollType.TEXT_WHITELIST]: [
         Key.name,
         Key.ticker,
         Key.listed,
@@ -76,7 +79,15 @@ const CreatePollForm = ({ type }: { type: Type }) => {
         Key.link,
         Key.suggestedOracle,
       ],
-      [Type.WHITELIST]: [
+      [PollType.TEXT_PREIPO]: [
+        Key.name,
+        Key.ticker,
+        Key.listed,
+        Key.description,
+        Key.link,
+        Key.suggestedOracle,
+      ],
+      [PollType.WHITELIST]: [
         ...defaultKeys,
         Key.name,
         Key.symbol,
@@ -84,15 +95,17 @@ const CreatePollForm = ({ type }: { type: Type }) => {
         Key.oracle,
         Key.auctionDiscount,
         Key.minCollateralRatio,
+        Key.mintPeriod,
+        Key.minCollateralRatioAfterMigration,
       ],
-      [Type.INFLATION]: [...defaultKeys, Key.asset, Key.weight],
-      [Type.MINT_UPDATE]: [
+      [PollType.INFLATION]: [...defaultKeys, Key.asset, Key.weight],
+      [PollType.MINT_UPDATE]: [
         ...defaultKeys,
         Key.asset,
         Key.auctionDiscount,
         Key.minCollateralRatio,
       ],
-      [Type.GOV_UPDATE]: [
+      [PollType.GOV_UPDATE]: [
         ...defaultKeys,
         Key.quorum,
         Key.threshold,
@@ -101,14 +114,18 @@ const CreatePollForm = ({ type }: { type: Type }) => {
         Key.expirationPeriod,
         Key.proposalDeposit,
       ],
-      [Type.COMMUNITY_SPEND]: [...defaultKeys, Key.recipient, Key.amount],
+      [PollType.COMMUNITY_SPEND]: [...defaultKeys, Key.recipient, Key.amount],
     }
 
     return additionalKeys[type]
   }
 
   const combineTitle = ({ title, name, ticker }: Values<Key>) =>
-    type === Type.TEXT_WHITELIST ? `[Whitelist] ${name} (${ticker})` : title
+    type === PollType.TEXT_WHITELIST
+      ? `[Whitelist] ${name} (${ticker})`
+      : type === PollType.TEXT_PREIPO
+      ? `[Pre-IPO] ${name} (${ticker})`
+      : title
 
   const combineDescription = ({ description, ...values }: Values<Key>) => {
     const { listed, suggestedOracle, reference } = values
@@ -134,13 +151,14 @@ const CreatePollForm = ({ type }: { type: Type }) => {
     const { title, description, link } = values
     const { name, ticker, symbol, oracle, asset } = values
     const { weight, auctionDiscount, minCollateralRatio } = values
+    const { mintPeriod, minCollateralRatioAfterMigration } = values
     const { owner, quorum, threshold, votingPeriod } = values
     const { effectiveDelay, expirationPeriod, proposalDeposit } = values
     const { recipient, amount } = values
     const { listed, reference } = values
 
     const paramRange = {
-      optional: [Type.MINT_UPDATE, Type.GOV_UPDATE].includes(type),
+      optional: [PollType.MINT_UPDATE, PollType.GOV_UPDATE].includes(type),
       max: "100",
     }
 
@@ -155,11 +173,12 @@ const CreatePollForm = ({ type }: { type: Type }) => {
 
     return record(
       {
-        [Key.title]:
-          type === Type.TEXT_WHITELIST
-            ? ""
-            : v.required(title) ||
-              v.length(title, textRanges[Key.title], "Title"),
+        [Key.title]: [PollType.TEXT_WHITELIST, PollType.TEXT_PREIPO].includes(
+          type
+        )
+          ? ""
+          : v.required(title) ||
+            v.length(title, textRanges[Key.title], "Title"),
         [Key.description]:
           v.required(description) ||
           v.length(description, textRanges[Key.description], "Description"),
@@ -200,6 +219,12 @@ const CreatePollForm = ({ type }: { type: Type }) => {
           minCollateralRatio,
           { ...paramRange, max: undefined },
           "Minimum collateral ratio"
+        ),
+        [Key.mintPeriod]: v.integer(mintPeriod, "Mint period"),
+        [Key.minCollateralRatioAfterMigration]: v.amount(
+          minCollateralRatioAfterMigration,
+          { ...paramRange, max: undefined },
+          "Min collateral ratio after migration"
         ),
 
         // Type.GOV_UPDATE
@@ -242,6 +267,7 @@ const CreatePollForm = ({ type }: { type: Type }) => {
   const { link } = values
   const { name, symbol, oracle, asset } = values
   const { weight, auctionDiscount, minCollateralRatio } = values
+  const { mintPeriod, minCollateralRatioAfterMigration } = values
   const { owner, quorum, threshold, votingPeriod } = values
   const { effectiveDelay, expirationPeriod, proposalDeposit } = values
   const { recipient, amount } = values
@@ -259,13 +285,14 @@ const CreatePollForm = ({ type }: { type: Type }) => {
   const select = useSelectAsset(selectAssetConfig)
 
   const descriptionLabel = {
-    [Type.TEXT]: "Description",
-    [Type.TEXT_WHITELIST]: "Reason for listing",
-    [Type.WHITELIST]: "Description",
-    [Type.INFLATION]: "Reason for modifying weight parameter",
-    [Type.MINT_UPDATE]: "Reason for modifying mint parameter",
-    [Type.GOV_UPDATE]: "Reason for modifying governance parameter",
-    [Type.COMMUNITY_SPEND]: "Reason for community pool spending",
+    [PollType.TEXT]: "Description",
+    [PollType.TEXT_WHITELIST]: "Reason for listing",
+    [PollType.TEXT_PREIPO]: "Reason for listing",
+    [PollType.WHITELIST]: "Description",
+    [PollType.INFLATION]: "Reason for modifying weight parameter",
+    [PollType.MINT_UPDATE]: "Reason for modifying mint parameter",
+    [PollType.GOV_UPDATE]: "Reason for modifying governance parameter",
+    [PollType.COMMUNITY_SPEND]: "Reason for community pool spending",
   }[type]
 
   const weightPlaceholders = {
@@ -275,6 +302,8 @@ const CreatePollForm = ({ type }: { type: Type }) => {
   const mintPlaceholders = {
     [Key.auctionDiscount]: "20",
     [Key.minCollateralRatio]: "150",
+    [Key.mintPeriod]: "",
+    [Key.minCollateralRatioAfterMigration]: "150",
   }
 
   const configPlaceholders = {
@@ -307,7 +336,11 @@ const CreatePollForm = ({ type }: { type: Type }) => {
       [Key.link]: {
         label: "Information Link (Optional)",
         input: {
-          placeholder: [Type.TEXT_WHITELIST, Type.WHITELIST].includes(type)
+          placeholder: [
+            PollType.TEXT_WHITELIST,
+            PollType.TEXT_PREIPO,
+            PollType.WHITELIST,
+          ].includes(type)
             ? "URL for additional asset information (Bloomberg, Investing.com, Yahoo Finance, etc.)"
             : "URL for additional information",
         },
@@ -318,7 +351,9 @@ const CreatePollForm = ({ type }: { type: Type }) => {
         label: "Asset Name",
         input: {
           placeholder: "Apple Inc.",
-          autoFocus: type === Type.TEXT_WHITELIST,
+          autoFocus: [PollType.TEXT_WHITELIST, PollType.TEXT_PREIPO].includes(
+            type
+          ),
         },
       },
       [Key.ticker]: {
@@ -396,6 +431,19 @@ const CreatePollForm = ({ type }: { type: Type }) => {
           type: "number",
           step: step(),
           placeholder: mintPlaceholders[Key.minCollateralRatio],
+        },
+        unit: "%",
+      },
+      [Key.mintPeriod]: {
+        label: "Mint Period (Pre-IPO)",
+        input: { placeholder: mintPlaceholders[Key.mintPeriod] },
+      },
+      [Key.minCollateralRatioAfterMigration]: {
+        label: "Minimum collateral ratio after migration (Pre-IPO)",
+        input: {
+          type: "number",
+          step: step(),
+          placeholder: mintPlaceholders[Key.minCollateralRatioAfterMigration],
         },
         unit: "%",
       },
@@ -497,6 +545,10 @@ const CreatePollForm = ({ type }: { type: Type }) => {
     params: {
       auction_discount: div(auctionDiscount, 100),
       min_collateral_ratio: div(minCollateralRatio, 100),
+      mint_period: mintPeriod || undefined,
+      min_collateral_ratio_after_migration: minCollateralRatioAfterMigration
+        ? div(minCollateralRatioAfterMigration, 100)
+        : undefined,
     },
   }
 
@@ -540,25 +592,26 @@ const CreatePollForm = ({ type }: { type: Type }) => {
   }
 
   const execute_msg = {
-    [Type.TEXT]: undefined,
-    [Type.TEXT_WHITELIST]: undefined,
-    [Type.WHITELIST]: {
+    [PollType.TEXT]: undefined,
+    [PollType.TEXT_WHITELIST]: undefined,
+    [PollType.TEXT_PREIPO]: undefined,
+    [PollType.WHITELIST]: {
       contract: factory,
       msg: toBase64({ whitelist: whitelistMessage }),
     },
-    [Type.INFLATION]: {
+    [PollType.INFLATION]: {
       contract: factory,
       msg: toBase64({ update_weight: updateWeight }),
     },
-    [Type.MINT_UPDATE]: {
+    [PollType.MINT_UPDATE]: {
       contract: factory,
       msg: toBase64({ pass_command: mintPassCommand }),
     },
-    [Type.GOV_UPDATE]: {
+    [PollType.GOV_UPDATE]: {
       contract: gov,
       msg: toBase64({ update_config: govUpdateConfig }),
     },
-    [Type.COMMUNITY_SPEND]: {
+    [PollType.COMMUNITY_SPEND]: {
       contract: community,
       msg: toBase64({ spend: communitySpend }),
     },
@@ -582,7 +635,7 @@ const CreatePollForm = ({ type }: { type: Type }) => {
       ? ["Insufficient balance"]
       : getLength(msg) > MAX_MSG_LENGTH
       ? ["Input is too long to be executed"]
-      : type === Type.GOV_UPDATE &&
+      : type === PollType.GOV_UPDATE &&
         Object.values(govUpdateConfig).filter(Boolean).length > 1
       ? ["Only one governance parameter can be modified at a time."]
       : undefined

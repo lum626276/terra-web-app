@@ -9,7 +9,7 @@ import { fromBase64 } from "../libs/formHelpers"
 
 import { useContractsAddress } from "../hooks"
 import createContext from "../hooks/createContext"
-import { Type as PollType } from "../pages/Poll/CreatePoll"
+import { PollType } from "../pages/Poll/CreatePoll"
 import { WASMQUERY } from "./gqldocs"
 import useContractQuery from "./useContractQuery"
 

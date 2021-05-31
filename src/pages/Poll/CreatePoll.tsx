@@ -8,8 +8,9 @@ import ForumLink from "./ForumLink"
 import CreatePollButton from "./CreatePollButton"
 import styles from "./CreatePoll.module.scss"
 
-export enum Type {
+export enum PollType {
   TEXT = "TEXT",
+  TEXT_PREIPO = "TEXT_PREIPO",
   TEXT_WHITELIST = "TEXT_WHITELIST",
   WHITELIST = "WHITELIST",
   INFLATION = "INFLATION",
@@ -19,39 +20,43 @@ export enum Type {
 }
 
 const TITLE = "Choose a poll"
-const Buttons = {
-  [Type.TEXT]: {
+const Buttons: Record<PollType, { title: string; desc: string }> = {
+  [PollType.TEXT]: {
     title: "Submit text poll",
     desc: "Upload a text poll",
   },
-  [Type.TEXT_WHITELIST]: {
+  [PollType.TEXT_WHITELIST]: {
     title: "Whitelist a new mAsset",
     desc: "Submit a poll to whitelist a new mAsset",
   },
-  [Type.WHITELIST]: {
+  [PollType.TEXT_PREIPO]: {
+    title: "Pre-IPO",
+    desc: "Start trading assets scheduled to be offered publicly",
+  },
+  [PollType.WHITELIST]: {
     title: "Register whitelist parameters",
     desc: "Register the parameters for a newly whitelisted mAsset",
   },
-  [Type.INFLATION]: {
+  [PollType.INFLATION]: {
     title: "Modify weight parameter",
     desc: "Modify reward distribution parameter of an existing mAsset",
   },
-  [Type.MINT_UPDATE]: {
+  [PollType.MINT_UPDATE]: {
     title: "Modify mint parameters",
     desc: "Modify the mint parameters of an existing mAsset",
   },
-  [Type.GOV_UPDATE]: {
+  [PollType.GOV_UPDATE]: {
     title: "Modify governance parameters",
     desc: "Modify the governance parameters",
   },
-  [Type.COMMUNITY_SPEND]: {
+  [PollType.COMMUNITY_SPEND]: {
     title: "Spend community pool",
     desc: "Submit community pool spending poll",
   },
 }
 
 const CreatePoll = () => {
-  const { hash: type } = useHash<Type>()
+  const { hash: type } = useHash<PollType>()
 
   return (
     <Page title={!type ? MenuKey.CREATE : Buttons[type].title}>
