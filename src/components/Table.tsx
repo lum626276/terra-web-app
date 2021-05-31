@@ -127,60 +127,66 @@ function Table<T extends DefaultRecordType>(props: Props<T>) {
   }
 
   const colspan = columns.some(({ children }) => children)
-  return !dataSource.length ? null : (
+  return (
     <div className={cx(styles.wrapper, { radius: !config?.hideHeader })}>
       <table className={cx({ margin: colspan, darker: config?.darker })}>
         {caption && <caption className={styles.caption}>{caption}</caption>}
 
-        {!config?.hideHeader && (
-          <thead>
-            {colspan && (
-              <tr className={cx({ colspan })}>{columns.map(renderColSpan)}</tr>
+        {!!dataSource.length && (
+          <>
+            {!config?.hideHeader && (
+              <thead>
+                {colspan && (
+                  <tr className={cx({ colspan })}>
+                    {columns.map(renderColSpan)}
+                  </tr>
+                )}
+
+                <tr>{normalized.map(renderTh)}</tr>
+              </thead>
             )}
 
-            <tr>{normalized.map(renderTh)}</tr>
-          </thead>
+            <tbody>
+              {dataSource.map((record, index) => {
+                const renderTd = (column: Column<T>): ReactNode => {
+                  const { key, dataIndex, render } = column
+                  const { className, bold, width } = column
+                  const value = path<any>((dataIndex ?? key).split(SEP), record)
+                  const tdClassName = cx({ bold }, styles.td, className)
+                  const content = render?.(value, record, index)
+
+                  return (
+                    <td
+                      className={classNames(getClassName(column), tdClassName)}
+                      style={{ width }}
+                      key={key}
+                    >
+                      {render ? (
+                        Array.isArray(content) ? (
+                          <ul>
+                            {content.map((content, index) => (
+                              <li key={index}>{content}</li>
+                            ))}
+                          </ul>
+                        ) : (
+                          content
+                        )
+                      ) : (
+                        value
+                      )}
+                    </td>
+                  )
+                }
+
+                return (
+                  <tr className={cx(rows?.(record).background)} key={index}>
+                    {normalized.map(renderTd)}
+                  </tr>
+                )
+              })}
+            </tbody>
+          </>
         )}
-
-        <tbody>
-          {dataSource.map((record, index) => {
-            const renderTd = (column: Column<T>): ReactNode => {
-              const { key, dataIndex, render } = column
-              const { className, bold, width } = column
-              const value = path<any>((dataIndex ?? key).split(SEP), record)
-              const tdClassName = cx({ bold }, styles.td, className)
-              const content = render?.(value, record, index)
-
-              return (
-                <td
-                  className={classNames(getClassName(column), tdClassName)}
-                  style={{ width }}
-                  key={key}
-                >
-                  {render ? (
-                    Array.isArray(content) ? (
-                      <ul>
-                        {content.map((content, index) => (
-                          <li key={index}>{content}</li>
-                        ))}
-                      </ul>
-                    ) : (
-                      content
-                    )
-                  ) : (
-                    value
-                  )}
-                </td>
-              )
-            }
-
-            return (
-              <tr className={cx(rows?.(record).background)} key={index}>
-                {normalized.map(renderTd)}
-              </tr>
-            )
-          })}
-        </tbody>
       </table>
     </div>
   )

@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from "react"
 import { useWallet } from "@terra-money/wallet-provider"
 import { gt } from "../../libs/math"
+import useLocalStorage from "../../libs/useLocalStorage"
 import { useContract, useRefetch } from "../../hooks"
 import { AccountInfoKey } from "../../hooks/contractKeys"
 import useTxs from "../../statistics/useTxs"
@@ -20,6 +20,7 @@ import Gov from "./Gov"
 import HistoryList from "./HistoryList"
 
 enum Tabs {
+  ALL = "All",
   HOLDINGS = "Holdings",
   ORDERS = "Limit Orders",
   BORROW = "Borrow",
@@ -31,53 +32,57 @@ enum Tabs {
 const MyConnected = () => {
   const { disconnect } = useWallet()
   const my = useMy()
-  const { loading, holdings, mint, stake, gov, orders } = my
+  const { holdings, mint, stake, gov, orders } = my
   const shouldBuyUST = useShouldBuyUST()
   const txs = useTxs()
 
-  const holdingsLength = holdings.dataSource.length
-  const ordersLength = orders.dataSource.length
-  const mintLength = mint.dataSource.length
-  const stakeLength = stake.dataSource.length
-  const govLength = gov.dataSource.length
-  const govStakedValue = gov.stakedValue
-  const txsLength = txs.data.length
+  /* state */
+  const [{ tab }, setTab] = useLocalStorage<{ tab: Tabs }>("myPage", {
+    tab: Tabs.ALL,
+  })
 
-  const tabs = useMemo(
-    () =>
-      [
-        { label: Tabs.HOLDINGS, hidden: !holdingsLength },
-        { label: Tabs.ORDERS, hidden: !ordersLength },
-        { label: Tabs.BORROW, hidden: !mintLength },
-        { label: Tabs.FARMING, hidden: !stakeLength },
-        { label: Tabs.GOVERN, hidden: !govLength && !gt(govStakedValue, 0) },
-        { label: Tabs.HISTORY, hidden: !txsLength },
-      ].filter(({ hidden }) => !hidden),
-    [
-      holdingsLength,
-      ordersLength,
-      mintLength,
-      stakeLength,
-      govLength,
-      govStakedValue,
-      txsLength,
-    ]
-  )
+  /* conditions */
+  const hasHoldings = !!holdings.dataSource.length
+  const hasOrders = !!orders.dataSource.length
+  const hasMint = !!mint.dataSource.length
+  const hasStake = !!stake.dataSource.length
+  const hasGov = !!gov.dataSource.length || gt(gov.staked, 0)
+  const hasTxs = !!txs.data.length
 
-  const [tab, setTab] = useState<Tabs>()
+  const tabs = [
+    {
+      label: Tabs.HOLDINGS,
+      hidden: !hasHoldings,
+      component: <Holdings {...holdings} />,
+    },
+    {
+      label: Tabs.ORDERS,
+      hidden: !hasOrders,
+      component: <Orders {...orders} />,
+    },
+    {
+      label: Tabs.BORROW,
+      hidden: !hasMint,
+      component: <Mint {...mint} />,
+    },
+    {
+      label: Tabs.FARMING,
+      hidden: !hasStake,
+      component: <Stake {...stake} />,
+    },
+    {
+      label: Tabs.GOVERN,
+      hidden: !hasGov,
+      component: <Gov {...gov} />,
+    },
+    {
+      label: Tabs.HISTORY,
+      hidden: !hasTxs,
+      component: <HistoryList {...txs} />,
+    },
+  ].filter(({ hidden }) => !hidden)
 
-  useEffect(() => {
-    tabs.length && setTab(tabs[0].label)
-  }, [loading, tabs])
-
-  const contents = [
-    { key: Tabs.HOLDINGS, component: <Holdings {...holdings} /> },
-    { key: Tabs.ORDERS, component: <Orders {...orders} /> },
-    { key: Tabs.BORROW, component: <Mint {...mint} /> },
-    { key: Tabs.FARMING, component: <Stake {...stake} /> },
-    { key: Tabs.GOVERN, component: <Gov {...gov} /> },
-    { key: Tabs.HISTORY, component: <HistoryList {...txs} /> },
-  ].filter(({ key }) => tab === key)
+  const contents = tabs.filter(({ label }) => tab === Tabs.ALL || tab === label)
 
   return (
     <>
@@ -85,17 +90,21 @@ const MyConnected = () => {
 
       <TotalValue {...my} />
 
-      <Grid>
-        <Tab
-          tabs={tabs.map(({ label }) => label)}
-          current={tab}
-          onClick={(tab) => setTab(tab as Tabs)}
-        />
-      </Grid>
+      {!!tabs.length && (
+        <>
+          <Grid>
+            <Tab
+              tabs={[Tabs.ALL, ...tabs.map(({ label }) => label)]}
+              current={tab}
+              onClick={(tab) => setTab({ tab: tab as Tabs })}
+            />
+          </Grid>
 
-      {contents.map(({ component, key }) => (
-        <Grid key={key}>{component}</Grid>
-      ))}
+          {contents.map(({ component, label }) => (
+            <Grid key={label}>{component}</Grid>
+          ))}
+        </>
+      )}
 
       {disconnect && (
         <Button onClick={disconnect} color="secondary" outline block submit>

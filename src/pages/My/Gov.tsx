@@ -1,4 +1,5 @@
 import { MIR } from "../../constants"
+import { gt } from "../../libs/math"
 import { formatAsset } from "../../libs/parse"
 
 import Table from "../../components/Table"
@@ -9,7 +10,7 @@ import DashboardActions from "../../components/DashboardActions"
 import { MyGov } from "./types"
 
 const Gov = ({ loading, dataSource, staked }: MyGov) => {
-  const dataExists = !!dataSource.length
+  const dataExists = !!dataSource.length || gt(staked, 0)
   const description = dataExists && (
     <Dl list={[{ title: "Staked MIR", content: formatAsset(staked, MIR) }]} />
   )

@@ -39,7 +39,7 @@ const Stake = ({ loading, dataSource, ...props }: MyStake) => {
     <Table
       caption={
         <Caption
-          title={<TooltipIcon content={Tooltip.My.Stake}>Stake</TooltipIcon>}
+          title={<TooltipIcon content={Tooltip.My.Stake}>Farming</TooltipIcon>}
           description={description}
           loading={loading}
         />
