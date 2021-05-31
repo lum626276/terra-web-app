@@ -91,7 +91,7 @@ export const useContractState = (address: string): Contract => {
     [BalanceKey.LPSTAKED]: stakingReward.result,
     [BalanceKey.SLPSTAKED]: stakingReward.result,
     [BalanceKey.MIRGOVSTAKED]: govStake.result,
-    [BalanceKey.REWARD]: stakingPool.result, // with LPSTAKE
+    [BalanceKey.REWARD]: stakingReward.result,
 
     [AccountInfoKey.UUSD]: bankBalance,
   }
@@ -108,7 +108,7 @@ export const useContractState = (address: string): Contract => {
     [BalanceKey.LPSTAKED]: stakingReward.parsed,
     [BalanceKey.SLPSTAKED]: stakingReward.parsed,
     [BalanceKey.MIRGOVSTAKED]: govStake.parsed,
-    [BalanceKey.REWARD]: stakingPool.parsed,
+    [BalanceKey.REWARD]: stakingReward.parsed,
   }
 
   /* Dictionary<string> */
@@ -149,9 +149,7 @@ export const useContractState = (address: string): Contract => {
     [BalanceKey.MIRGOVSTAKED]:
       govStake.parsed && balance[BalanceKey.MIRGOVSTAKED](govStake.parsed),
     [BalanceKey.REWARD]:
-      stakingPool.parsed &&
-      stakingReward.parsed &&
-      balance[BalanceKey.REWARD](stakingPool.parsed, stakingReward.parsed),
+      stakingReward.parsed && balance[BalanceKey.REWARD](stakingReward.parsed),
   }
 
   const data = {

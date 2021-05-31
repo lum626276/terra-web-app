@@ -47,22 +47,6 @@ export default {
     return params
   },
 
-  /** Reward */
-  reward: (globalIndex?: string, info?: RewardInfo) => {
-    if (globalIndex && info) {
-      const { index, bond_amount, pending_reward } = info
-
-      const reward = new BigNumber(globalIndex)
-        .minus(index)
-        .times(bond_amount)
-        .plus(pending_reward)
-
-      return reward.toString()
-    }
-
-    return "0"
-  },
-
   /**
    * to LP
    * @param deposits[].amount - Amount to provide

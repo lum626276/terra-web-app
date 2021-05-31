@@ -1,7 +1,6 @@
 import { Dictionary } from "ramda"
 import { MIR, UUSD } from "../constants"
-import { plus, div, floor, gt } from "../libs/math"
-import calc from "../helpers/calc"
+import { plus, div, gt } from "../libs/math"
 import { useContractsAddress } from "../hooks"
 import { PriceKey, AssetInfoKey } from "../hooks/contractKeys"
 import { BalanceKey, AccountInfoKey } from "../hooks/contractKeys"
@@ -46,15 +45,8 @@ export default () => {
       const token = getToken(MIR)
       return { [token]: govStake.balance }
     },
-    [BalanceKey.REWARD]: (
-      stakingPool: Dictionary<StakingPool>,
-      stakingReward: StakingReward
-    ) =>
-      dict(stakingPool, ({ reward_index: globalIndex }, token) => {
-        const { reward_infos } = stakingReward
-        const info = reward_infos?.find((info) => info.asset_token === token)
-        return floor(calc.reward(globalIndex, info))
-      }),
+    [BalanceKey.REWARD]: (stakingReward: StakingReward) =>
+      reducePendingReward(stakingReward),
   }
 
   const accountInfo = {
@@ -105,6 +97,15 @@ const reduceLP = (
           ({ asset_token }) => asset_token === token
         )?.bond_amount
       ),
+    }),
+    {}
+  )
+
+const reducePendingReward = ({ reward_infos }: StakingReward) =>
+  reward_infos.reduce<Dictionary<string>>(
+    (acc, { asset_token, pending_reward }) => ({
+      ...acc,
+      [asset_token]: pending_reward,
     }),
     {}
   )
