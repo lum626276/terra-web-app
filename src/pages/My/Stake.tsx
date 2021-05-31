@@ -65,7 +65,11 @@ const Stake = ({ loading, dataSource, ...props }: MyStake) => {
               Withdrawable Asset
             </TooltipIcon>
           ),
-          render: ({ text, value }) => [text, formatAsset(value, UUSD)],
+          render: (withdrawable) =>
+            withdrawable && [
+              withdrawable.text,
+              formatAsset(withdrawable.value, UUSD),
+            ],
           align: "right",
         },
         {

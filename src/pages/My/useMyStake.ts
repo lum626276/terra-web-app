@@ -39,16 +39,13 @@ const useMyStake = (): MyStake => {
   const short = listedAll
     .map((item: ListedItem) => {
       const { token } = item
-      const balance = find(BalanceKey.SLPSTAKED, token)
-      const { fromLP } = getPool({ amount: balance, token })
-
       return {
         ...item,
         type: "short" as const,
         apr: apr?.[token]?.short,
         staked: find(BalanceKey.SLPSTAKED, token),
-        reward: find(BalanceKey.REWARD, token),
-        withdrawable: fromLP,
+        reward: find(BalanceKey.SLPREWARD, token),
+        withdrawable: undefined,
       }
     })
     .filter(({ staked, reward }) =>
@@ -61,7 +58,7 @@ const useMyStake = (): MyStake => {
   const totalRewards = rewards
   const totalRewardsValue = times(rewards, price)
   const totalWithdrawableValue = sum(
-    dataSource.map(({ withdrawable }) => withdrawable.value)
+    dataSource.map(({ withdrawable }) => withdrawable?.value ?? 0)
   )
 
   const govStakedValue = times(find(BalanceKey.MIRGOVSTAKED, mir), price)

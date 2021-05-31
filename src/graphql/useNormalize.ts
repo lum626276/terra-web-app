@@ -38,15 +38,17 @@ export default () => {
     [BalanceKey.LPSTAKABLE]: (lpTokenBalance: Dictionary<Balance>) =>
       dict(lpTokenBalance, ({ balance }) => balance),
     [BalanceKey.LPSTAKED]: (stakingReward: StakingReward) =>
-      reduceBondAmount(stakingReward),
+      reduceStakingReward(stakingReward, "bond_amount"),
     [BalanceKey.SLPSTAKED]: (stakingReward: StakingReward) =>
-      reduceBondAmount(stakingReward, true),
+      reduceStakingReward(stakingReward, "bond_amount", true),
     [BalanceKey.MIRGOVSTAKED]: (govStake: Balance) => {
       const token = getToken(MIR)
       return { [token]: govStake.balance }
     },
     [BalanceKey.REWARD]: (stakingReward: StakingReward) =>
-      reducePendingReward(stakingReward),
+      reduceStakingReward(stakingReward, "pending_reward"),
+    [BalanceKey.SLPREWARD]: (stakingReward: StakingReward) =>
+      reduceStakingReward(stakingReward, "pending_reward", true),
   }
 
   const accountInfo = {
@@ -101,22 +103,17 @@ const reduceLP = (
     {}
   )
 
-const reducePendingReward = ({ reward_infos }: StakingReward) =>
+const reduceStakingReward = (
+  { reward_infos }: StakingReward,
+  key: "bond_amount" | "pending_reward",
+  short = false
+) =>
   reward_infos.reduce<Dictionary<string>>(
-    (acc, { asset_token, pending_reward }) => ({
-      ...acc,
-      [asset_token]: pending_reward,
-    }),
-    {}
-  )
-
-const reduceBondAmount = ({ reward_infos }: StakingReward, short = false) =>
-  reward_infos.reduce<Dictionary<string>>(
-    (acc, { asset_token, bond_amount, is_short }) =>
+    (acc, { asset_token, is_short, ...rest }) =>
       Object.assign(
         {},
         acc,
-        is_short === short && { [asset_token]: bond_amount }
+        is_short === short && { [asset_token]: rest[key] }
       ),
     {}
   )

@@ -22,6 +22,7 @@ export enum BalanceKey {
   SLPSTAKED = "slpStaked",
   MIRGOVSTAKED = "MIRGovStaked",
   REWARD = "reward",
+  SLPREWARD = "slpReward",
 }
 
 export enum AccountInfoKey {

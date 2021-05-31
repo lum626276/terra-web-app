@@ -74,7 +74,6 @@ export interface MyStakeRow extends ListedItem {
   apr?: string
   staked: string
   reward?: string
-  gov?: boolean
 }
 
 export interface MyGov {
