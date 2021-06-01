@@ -43,13 +43,13 @@ const Holdings = ({ loading, totalValue, dataSource }: MyHoldings) => {
         {
           key: "symbol",
           title: "Ticker",
-          render: (symbol, { status, name }) => (
+          render: (symbol, { status, name }) => [
             <>
               {status === "DELISTED" && <Delisted />}
               <h1>{symbol}</h1>
-              {name}
-            </>
-          ),
+            </>,
+            name,
+          ],
           bold: true,
         },
         {

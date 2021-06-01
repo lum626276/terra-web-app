@@ -72,15 +72,17 @@ const Borrowed = ({ loading, dataSource, ...props }: MyBorrowed) => {
                   : Tooltips.My.PositionDanger
 
                 return [
-                  status === "DELISTED" && <Delisted />,
-                  <span className={className}>
-                    {shouldWarn && (
-                      <Tooltip content={tooltip}>
-                        <MaterialIcon name="warning" size={16} />
-                      </Tooltip>
-                    )}
-                    {lookupSymbol(symbol)}
-                  </span>,
+                  <>
+                    {status === "DELISTED" && <Delisted />}
+                    <span className={className}>
+                      {shouldWarn && (
+                        <Tooltip content={tooltip}>
+                          <MaterialIcon name="warning" size={16} />
+                        </Tooltip>
+                      )}
+                      {lookupSymbol(symbol)}
+                    </span>
+                  </>,
                   <>
                     {idx}
                     {is_short && "short"}

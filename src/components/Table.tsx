@@ -182,7 +182,9 @@ function Table<T extends DefaultRecordType>(props: Props<T>) {
                         Array.isArray(content) ? (
                           <ul>
                             {content.map((content, index) => (
-                              <li key={index}>{content}</li>
+                              <li className={cx({ sub: index })} key={index}>
+                                {content}
+                              </li>
                             ))}
                           </ul>
                         ) : (

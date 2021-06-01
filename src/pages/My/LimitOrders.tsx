@@ -49,14 +49,14 @@ const LimitOrders = ({ loading, dataSource, total, more }: MyLimitOrders) => {
             {
               key: "type",
               title: ["Order Type", "ID"],
-              render: (value, { status, order_id }) => (
+              render: (value, { status, order_id }) => [
                 <>
                   {status === "DELISTED" && <Delisted />}
                   <h1>{capitalize(value)}</h1>
-                  {order_id}
-                </>
-              ),
-              align: "center",
+                </>,
+                order_id,
+              ],
+              align: "left",
             },
             {
               key: "terraswapPrice",

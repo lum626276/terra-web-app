@@ -52,8 +52,10 @@ const Farm = ({ loading, dataSource, ...props }: MyFarm) => {
             <TooltipIcon content={Tooltip.My.APR}>APR</TooltipIcon>,
           ],
           render: (symbol, { status, apr, type }) => [
-            status === "DELISTED" && <Delisted />,
-            getLpName(symbol, type),
+            <>
+              {status === "DELISTED" && <Delisted />}
+              {getLpName(symbol, type)}
+            </>,
             percent(apr),
           ],
           bold: true,
