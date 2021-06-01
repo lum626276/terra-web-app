@@ -96,7 +96,7 @@ const FarmList = () => {
         {
           key: "premium",
           dataIndex: "premium",
-          title: "Spread",
+          title: "Premium",
           render: (value) => <Percent>{value}</Percent>,
           align: "right",
         },
