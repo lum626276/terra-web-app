@@ -23,12 +23,12 @@ $padding: 10px 20px;
   border-radius: 5px;
   border-width: 1px;
   border-style: solid;
-  border-color: fade-out($slate, 0.5);
+  border-color: fade-out($gray-34, 0.5);
   padding: $padding;
   position: relative;
 
   &.readOnly {
-    $bg: fade-out($slate, 0.9);
+    $bg: fade-out($gray-34, 0.9);
     border-color: $bg;
     background: $bg;
   }

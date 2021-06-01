@@ -4,9 +4,9 @@ import { useContractsAddress, useContract, useCombineKeys } from "../../hooks"
 import { BalanceKey, PriceKey } from "../../hooks/contractKeys"
 import useAssetStats from "../../statistics/useAssetStats"
 import usePool from "../../forms/usePool"
-import { MyStake } from "./types"
+import { MyFarm } from "./types"
 
-const useMyStake = (): MyStake => {
+const useMyFarm = (): MyFarm => {
   const priceKey = PriceKey.PAIR
   const keys = [priceKey, BalanceKey.LPSTAKED, BalanceKey.REWARD]
 
@@ -75,4 +75,4 @@ const useMyStake = (): MyStake => {
   }
 }
 
-export default useMyStake
+export default useMyFarm

@@ -1,7 +1,7 @@
 @import "mixins";
 
 $default: $white-64;
-$active: $blue-100;
+$active: $blue;
 
 .menu {
   @include mobile {

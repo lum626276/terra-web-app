@@ -3,7 +3,7 @@ import Page from "../components/Page"
 import CancelOrderForm from "../forms/CancelOrderForm"
 import { useContractsAddress } from "../hooks"
 import routes from "../routes"
-import { useQueryOrder } from "./My/useMyOrders"
+import { useQueryOrder } from "./My/useMyLimitOrders"
 
 export enum MenuKey {
   CANCEL = "Cancel order",

@@ -32,7 +32,7 @@ const StakeItemCard: FC<Props> = ({ token, symbol, name, to, ...item }) => {
 
   const badges = [
     ...insertIf(staked, { label: "Staked", color: "blue" }),
-    ...insertIf(stakable, { label: "Stakable", color: "slate" }),
+    ...insertIf(stakable, { label: "Stakable", color: "gray-34" }),
   ]
 
   const stats = [

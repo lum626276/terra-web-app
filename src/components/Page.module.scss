@@ -42,7 +42,7 @@
 
   select {
     appearance: none;
-    border: solid 1px fade-out($slate, 0.5);
+    border: solid 1px fade-out($gray-34, 0.5);
     border-radius: 3px;
     font-size: 12px;
     margin-left: 10px;
@@ -61,7 +61,7 @@
 
 .doc {
   @include flex(flex-start);
-  @include link($slate, white);
+  @include link($gray-34, white);
   border-left: $border;
   font-size: 12px;
   font-weight: 500;

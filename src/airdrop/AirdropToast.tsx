@@ -18,7 +18,7 @@ const AirdropToast = () => {
       <header className={styles.header}>MIR Airdrop</header>
       <p className={styles.content}>Claim your MIR tokens</p>
 
-      <LinkButton to="/airdrop" onClick={close} color="aqua" block>
+      <LinkButton to="/airdrop" onClick={close} color="blue" block>
         Claim
       </LinkButton>
     </div>

@@ -2,10 +2,10 @@ import { DataKey } from "../../hooks/useContract"
 
 export interface My {
   holdings: MyHoldings
-  mint: MyMint
-  stake: MyStake
+  mint: MyBorrowed
+  stake: MyFarm
   gov: MyGov
-  orders: MyOrders
+  orders: MyLimitOrders
   total: MyTotal
   loading: boolean
 }
@@ -29,34 +29,34 @@ export interface MyHoldingsRow extends ListedItem {
   change?: string
 }
 
-export interface MyMint {
+export interface MyBorrowed {
   keys: DataKey[]
   loading: boolean
   totalMintedValue: string
   totalCollateralValue: string
-  dataSource: MyMintRow[]
+  dataSource: MyBorrowedRow[]
   more?: () => void
 }
 
-export interface MyMintRow extends MintPosition {
+export interface MyBorrowedRow extends MintPosition {
   idx: string
   status: ListedItemStatus
-  collateralAsset: MyMintAssetData
-  mintedAsset: MyMintAssetData
+  collateralAsset: MyBorrowedAssetData
+  mintedAsset: MyBorrowedAssetData
   ratio?: string
   minRatio: string
   danger: boolean
   warning: boolean
 }
 
-export interface MyMintAssetData extends Asset {
+export interface MyBorrowedAssetData extends Asset {
   price: string
   value: string
   change?: string
   delisted: boolean
 }
 
-export interface MyStake {
+export interface MyFarm {
   keys: DataKey[]
   loading: boolean
   price: string
@@ -64,12 +64,12 @@ export interface MyStake {
   totalRewards: string
   totalRewardsValue: string
   totalWithdrawableValue: string
-  dataSource: MyStakeRow[]
+  dataSource: MyFarmRow[]
 }
 
 export type FarmType = "long" | "short"
 
-export interface MyStakeRow extends ListedItem {
+export interface MyFarmRow extends ListedItem {
   type: FarmType
   apr?: string
   staked: string
@@ -86,15 +86,15 @@ export interface MyGov {
 
 export interface MyGovRow {}
 
-export interface MyOrders {
+export interface MyLimitOrders {
   keys: DataKey[]
   loading: boolean
   total: string
-  dataSource: MyOrdersRow[]
+  dataSource: MyLimitOrdersRow[]
   more?: () => void
 }
 
-export interface MyOrdersRow extends Order {
+export interface MyLimitOrdersRow extends Order {
   status: ListedItemStatus
   type: string
   token: string

@@ -32,7 +32,7 @@
 
   li {
     @include flex(flex-start, flex-start);
-    color: $brown;
+    color: $white-44;
     font-size: 12px;
     font-weight: normal;
     margin-bottom: 20px;
@@ -62,14 +62,14 @@
 }
 
 .link {
-  color: $light;
+  color: $white-80;
   display: inline-block;
   font-size: 12px;
   font-weight: 500;
   text-decoration: underline;
 
   &:hover {
-    color: $light;
+    color: $white-80;
   }
 }
 

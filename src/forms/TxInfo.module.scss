@@ -23,11 +23,11 @@
 }
 
 .content {
-  color: $aqua;
+  color: $blue;
 }
 
 .children {
-  border-top: 1px dashed fade-out($battleship, 0.5);
+  border-top: 1px dashed fade-out($white-44, 0.5);
   padding: 10px 0;
 
   .row {
@@ -36,7 +36,7 @@
 
   .title,
   .content {
-    color: $battleship;
+    color: $white-44;
     font-size: 12px;
     font-weight: normal;
   }
@@ -51,7 +51,7 @@
 
   .title,
   .content {
-    color: $battleship;
+    color: $white-44;
     font-size: 14px;
     font-weight: normal;
   }

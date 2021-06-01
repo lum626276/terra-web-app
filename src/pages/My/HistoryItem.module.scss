@@ -36,19 +36,19 @@
 }
 
 .muted {
-  color: $brown;
+  color: $white-44;
 }
 
 .hash {
   @include flex;
-  color: $slate;
+  color: $gray-34;
   margin-left: 5px;
 }
 
 .footer {
   @include flex(flex-end);
 
-  color: $slate;
+  color: $gray-34;
   flex: none;
   font-size: 12px;
   font-weight: 500;

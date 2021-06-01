@@ -13,7 +13,7 @@
   padding-right: 8px;
 
   svg {
-    fill: $blue-100;
+    fill: $blue;
   }
 }
 
@@ -23,7 +23,7 @@
 
 .payload {
   @include flex;
-  color: $blue-100;
+  color: $blue;
   font-size: 12px;
   font-weight: 500;
   padding: 0 $gutter-horizontal-desktop;

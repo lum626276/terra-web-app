@@ -1,8 +1,7 @@
 /* Palette */
-$blue: #78a5ff;
+$blue: #66adff;
 $blue-38: #4a5460;
 $blue-62: #55779d;
-$blue-100: #66adff;
 $red: #f15e7e;
 $orange: #e8814b;
 
@@ -24,32 +23,19 @@ $white-92: #ebebeb;
 $bg: $gray-11 !default;
 $sidebar: $gray-14 !default;
 $card: $gray-18 !default;
-$airdrop: #1a314c !default;
-
-$gray: #cccccc !default;
-$brown: #a0a0a0 !default;
-$light: #f0f0f0 !default;
-$battleship: #6d738c !default;
-$slate: #505466 !default;
-
-$aqua: $blue-100 !default;
-
-$text: $gray;
+$text: $white-92 !default;
 $button: white !default;
 
 $colors: (
   "bg": $bg,
-  "battleship": $battleship,
-  "slate": $slate,
   "blue": $blue,
-  "aqua": $aqua,
   "red": $red,
   "orange": $orange,
 );
 
 $hr-shadow: fade-out(black, 0.8);
 $hr: fade-out(white, 0.92);
-$border: 1px solid fade-out($slate, 0.8);
+$border: 1px solid fade-out($gray-34, 0.8);
 $border-radius: 6px;
 
 /* Fonts */

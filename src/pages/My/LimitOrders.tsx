@@ -12,9 +12,9 @@ import { TooltipIcon } from "../../components/Tooltip"
 import DashboardActions from "../../components/DashboardActions"
 import Delisted from "../../components/Delisted"
 import NoAssets from "./NoAssets"
-import { MyOrders } from "./types"
+import { MyLimitOrders } from "./types"
 
-const Orders = ({ loading, dataSource, total, more }: MyOrders) => {
+const LimitOrders = ({ loading, dataSource, total, more }: MyLimitOrders) => {
   const renderTooltip = (value: string, tooltip: string) => (
     <TooltipIcon content={tooltip}>{value}</TooltipIcon>
   )
@@ -116,4 +116,4 @@ const Orders = ({ loading, dataSource, total, more }: MyOrders) => {
   )
 }
 
-export default Orders
+export default LimitOrders

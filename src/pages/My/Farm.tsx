@@ -14,9 +14,9 @@ import Delisted from "../../components/Delisted"
 import DashboardActions from "../../components/DashboardActions"
 import { StakeType } from "../../types/Types"
 import NoAssets from "./NoAssets"
-import { MyStake } from "./types"
+import { MyFarm } from "./types"
 
-const Stake = ({ loading, dataSource, ...props }: MyStake) => {
+const Farm = ({ loading, dataSource, ...props }: MyFarm) => {
   const { totalRewards, totalRewardsValue } = props
 
   const dataExists = !!dataSource.length
@@ -109,4 +109,4 @@ const Stake = ({ loading, dataSource, ...props }: MyStake) => {
   ) : null
 }
 
-export default Stake
+export default Farm

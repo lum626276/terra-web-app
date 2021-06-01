@@ -13,9 +13,9 @@ import BuyLinks from "../../components/BuyLinks"
 import useMy from "./useMy"
 import TotalValue from "./TotalValue"
 import Holdings from "./Holdings"
-import Mint from "./Mint"
-import Stake from "./Stake"
-import Orders from "./Orders"
+import Borrowed from "./Borrowed"
+import Farm from "./Farm"
+import LimitOrders from "./LimitOrders"
 import Gov from "./Gov"
 import HistoryList from "./HistoryList"
 
@@ -58,17 +58,17 @@ const MyConnected = () => {
     {
       label: Tabs.ORDERS,
       hidden: !hasOrders,
-      component: <Orders {...orders} />,
+      component: <LimitOrders {...orders} />,
     },
     {
       label: Tabs.BORROW,
       hidden: !hasMint,
-      component: <Mint {...mint} />,
+      component: <Borrowed {...mint} />,
     },
     {
       label: Tabs.FARMING,
       hidden: !hasStake,
-      component: <Stake {...stake} />,
+      component: <Farm {...stake} />,
     },
     {
       label: Tabs.GOVERN,

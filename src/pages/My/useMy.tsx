@@ -4,18 +4,18 @@ import { useRefetch } from "../../hooks"
 import { AccountInfoKey } from "../../hooks/contractKeys"
 import { DataKey, useContract } from "../../hooks/useContract"
 import useMyHoldings from "./useMyHoldings"
-import useMyMint from "./useMyMint"
-import useMyStake from "./useMyStake"
+import useMyBorrowed from "./useMyBorrowed"
+import useMyFarm from "./useMyFarm"
 import useMyGov from "./useMyGov"
-import useMyOrders from "./useMyOrders"
+import useMyLimitOrders from "./useMyLimitOrders"
 import { My } from "./types"
 
 const useMy = (): My => {
   const holdings = useMyHoldings()
-  const mint = useMyMint()
-  const stake = useMyStake()
+  const mint = useMyBorrowed()
+  const stake = useMyFarm()
   const gov = useMyGov()
-  const orders = useMyOrders()
+  const orders = useMyLimitOrders()
 
   const keys = uniq(
     [holdings, mint, stake, gov, orders].reduce<DataKey[]>(

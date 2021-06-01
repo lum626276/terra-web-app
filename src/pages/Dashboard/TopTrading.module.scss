@@ -15,7 +15,7 @@
   @include flex;
 
   svg {
-    fill: $blue-100;
+    fill: $blue;
     margin-right: 8px;
   }
 }
@@ -28,13 +28,13 @@
 }
 
 .link {
-  color: $blue-100;
+  color: $blue;
   font-size: 12px;
   font-weight: 500;
   letter-spacing: -0.2px;
 
   svg {
-    fill: $blue-100;
+    fill: $blue;
     margin-left: 4px;
   }
 }

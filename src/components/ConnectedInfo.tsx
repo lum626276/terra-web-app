@@ -62,7 +62,7 @@ const ConnectedInfo = (props: Props) => {
           to={footer.to}
           onClick={close}
           className={styles.send}
-          color="aqua"
+          color="blue"
           size="sm"
           outline
           block

@@ -1,4 +1,3 @@
-import { ReactNode } from "react"
 import classNames from "classnames"
 import MESSAGE from "../../lang/MESSAGE.json"
 import Tooltips from "../../lang/Tooltip.json"
@@ -16,10 +15,10 @@ import Delisted from "../../components/Delisted"
 import DashboardActions from "../../components/DashboardActions"
 import { MintType } from "../../types/Types"
 import NoAssets from "./NoAssets"
-import { MyMint } from "./types"
-import styles from "./Mint.module.scss"
+import { MyBorrowed } from "./types"
+import styles from "./Borrowed.module.scss"
 
-const Mint = ({ loading, dataSource, ...props }: MyMint) => {
+const Borrowed = ({ loading, dataSource, ...props }: MyBorrowed) => {
   const { totalMintedValue, totalCollateralValue, more } = props
 
   const renderTooltip = (value: string, tooltip: string) => (
@@ -123,26 +122,10 @@ const Mint = ({ loading, dataSource, ...props }: MyMint) => {
               align: "right",
             },
             {
-              key: "balance",
-              title: renderList([
-                <TooltipIcon content={Tooltips.My.MintedBalance}>
-                  Borrowed Balance
-                </TooltipIcon>,
-                <TooltipIcon content={Tooltips.My.CollateralBalance}>
-                  Collateral Balance
-                </TooltipIcon>,
-              ]),
-              render: (_, { mintedAsset, collateralAsset }) =>
-                renderList([
-                  formatAsset(mintedAsset.amount, mintedAsset.symbol),
-                ]),
-              align: "right",
-            },
-            {
               key: "ratio",
               title: (
                 <TooltipIcon content={Tooltips.My.CollateralRatio}>
-                  Col. Ratio
+                  Col Ratio
                 </TooltipIcon>
               ),
               render: (value, { minRatio, warning, danger }) => {
@@ -210,14 +193,4 @@ const Mint = ({ loading, dataSource, ...props }: MyMint) => {
   )
 }
 
-export default Mint
-
-const renderList = (list: ReactNode[]) => (
-  <ul>
-    {list.map((item, index) => (
-      <li className={styles.item} key={index}>
-        {item}
-      </li>
-    ))}
-  </ul>
-)
+export default Borrowed

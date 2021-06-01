@@ -10,7 +10,7 @@ const cx = classNames.bind(styles)
 
 /* styles */
 const $font = "'Gotham A', 'Gotham B'"
-const $aqua = "#66adff"
+const $blue = "#66adff"
 const $red = "#f15e7e"
 const $gray34 = "#555557"
 const $gray22 = "#373738"
@@ -28,7 +28,7 @@ const ChartContainer = ({ change, datasets, ...props }: Props) => {
 
   const { y: last } = datasets[datasets.length - 1]
   const { y: head } = datasets[0]
-  const borderColor = last > head ? $aqua : last < head ? $red : $gray34
+  const borderColor = last > head ? $blue : last < head ? $red : $gray34
 
   const data: ChartData = {
     datasets: [
@@ -47,10 +47,10 @@ const ChartContainer = ({ change, datasets, ...props }: Props) => {
           : {
               pointHoverRadius: 3,
               pointHoverBorderWidth: 3,
-              pointHoverBackgroundColor: $aqua,
-              pointHoverBorderColor: $aqua,
-              hoverBackgroundColor: $aqua,
-              hoverBorderColor: $aqua,
+              pointHoverBackgroundColor: $blue,
+              pointHoverBorderColor: $blue,
+              hoverBackgroundColor: $blue,
+              hoverBorderColor: $blue,
             }
       ),
     ],
@@ -71,10 +71,10 @@ const ChartContainer = ({ change, datasets, ...props }: Props) => {
         displayColors: false,
         backgroundColor: "transparent",
         cornerRadius: 5,
-        titleColor: $aqua,
+        titleColor: $blue,
         titleFont: { size: 16, weight: "500", family: $font },
         titleAlign: "center",
-        bodyColor: $aqua,
+        bodyColor: $blue,
         bodyFont: { size: 12, family: $font },
         bodyAlign: "center",
         xAlign: "center",

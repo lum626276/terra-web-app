@@ -8,7 +8,7 @@ import { PriceKey } from "../../hooks/contractKeys"
 import { div, minus, sum, times } from "../../libs/math"
 import { TradeType } from "../../types/Types"
 
-const useMyOrders = () => {
+const useMyLimitOrders = () => {
   const priceKey = PriceKey.PAIR
   const keys = [priceKey]
 
@@ -78,7 +78,7 @@ const useMyOrders = () => {
   return { keys, loading, dataSource, total, more }
 }
 
-export default useMyOrders
+export default useMyLimitOrders
 
 /* query */
 const LIMIT = 30
