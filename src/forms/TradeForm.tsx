@@ -391,7 +391,10 @@ const TradeForm = ({ type }: { type: TradeType }) => {
       <FormContainer {...container} {...tax}>
         <div className={styles.header}>
           <ToggleLimitOrder state={limitOrderState} />
-          <SetSlippageTolerance state={slippageState} error={slippageError} />
+
+          {!isLimitOrder && (
+            <SetSlippageTolerance state={slippageState} error={slippageError} />
+          )}
         </div>
 
         {isLimitOrder ? (
