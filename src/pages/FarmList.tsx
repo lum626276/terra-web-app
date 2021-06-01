@@ -1,3 +1,4 @@
+import { MIR } from "../constants"
 import { lt, gt, div, minus } from "../libs/math"
 import { useContractsAddress, useContract, useRefetch } from "../hooks"
 import { AssetInfoKey, PriceKey } from "../hooks/contractKeys"
@@ -12,7 +13,7 @@ const FarmList = () => {
   const infoKey = AssetInfoKey.LIQUIDITY
   const keys = [PriceKey.PAIR, PriceKey.ORACLE, infoKey]
 
-  const { listed } = useContractsAddress()
+  const { listed, getSymbol } = useContractsAddress()
   const { find } = useContract()
   const yesterday = useYesterday()
   const { volume, liquidity, apr } = useAssetStats()
@@ -28,7 +29,7 @@ const FarmList = () => {
 
       return {
         ...item,
-        apr: apr?.[token],
+        apr: apr?.[token] ?? { long: undefined, short: undefined },
         pair: {
           price: pair,
           change: calcChange({
@@ -68,7 +69,11 @@ const FarmList = () => {
               <p className="small">Long Farm</p>
             </>
           ),
-          cell: ({ token }) => ({
+          cell: (_, { token, apr }) => ({
+            background:
+              apr.long && apr.short && gt(apr.long, apr.short)
+                ? "darker"
+                : undefined,
             to: { hash: FarmType.LONG, state: { token } },
           }),
           align: "right",
@@ -76,15 +81,23 @@ const FarmList = () => {
         {
           key: "apr.short",
           title: "Short",
-          render: (value) => (
-            <>
-              <Percent color={"red"}>{value}</Percent>
-              <p className="small">Short Farm</p>
-            </>
-          ),
-          cell: ({ token }) => ({
-            to: { hash: FarmType.SHORT, state: { token } },
-          }),
+          render: (value, { token }) =>
+            getSymbol(token) !== MIR && (
+              <>
+                <Percent color={"red"}>{value}</Percent>
+                <p className="small">Short Farm</p>
+              </>
+            ),
+          cell: (_, { token, apr }) =>
+            getSymbol(token) !== MIR
+              ? {
+                  background:
+                    apr.long && apr.short && gt(apr.short, apr.long)
+                      ? "darker"
+                      : undefined,
+                  to: { hash: FarmType.SHORT, state: { token } },
+                }
+              : {},
           align: "right",
         },
         {

@@ -20,10 +20,11 @@ $padding: 20px;
   color: $white-80;
   padding: $padding;
   white-space: nowrap;
+}
 
-  .darker & {
-    background-color: $gray-14;
-  }
+.darker,
+.darker .cell {
+  background-color: $gray-14;
 }
 
 .clickable:hover,
