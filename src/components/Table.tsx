@@ -1,6 +1,8 @@
 import { ReactNode } from "react"
+import { useHistory } from "react-router-dom"
 import classNames from "classnames/bind"
 import { path } from "ramda"
+import { LocationDescriptor } from "history"
 import styles from "./Table.module.scss"
 
 const cx = classNames.bind(styles)
@@ -18,6 +20,7 @@ interface Props<T> {
 
 interface Row {
   background?: string
+  to?: LocationDescriptor
 }
 
 interface Column<T> {
@@ -47,6 +50,7 @@ const SEP = "."
 type DefaultRecordType = Record<string, any>
 function Table<T extends DefaultRecordType>(props: Props<T>) {
   const { caption, rows, columns, dataSource, config } = props
+  const { push } = useHistory()
 
   const normalized = columns.reduce<Column<T>[]>(
     (acc, { children, ...column }) => {
@@ -178,8 +182,14 @@ function Table<T extends DefaultRecordType>(props: Props<T>) {
                   )
                 }
 
+                const row = rows?.(record)
+
                 return (
-                  <tr className={cx(rows?.(record).background)} key={index}>
+                  <tr
+                    className={cx(row?.background, { clickable: row?.to })}
+                    onClick={() => row?.to && push(row.to)}
+                    key={index}
+                  >
                     {normalized.map(renderTd)}
                   </tr>
                 )

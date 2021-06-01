@@ -25,18 +25,17 @@ const TopTradingTable = () => {
 
   return !data ? null : (
     <Table
+      rows={({ token }) => ({
+        to: {
+          pathname: getPath(MenuKey.MARKET),
+          hash: MarketType.BUY,
+          state: { token },
+        },
+      })}
       columns={[
         {
           key: "token",
-          render: (token) => {
-            const to = {
-              pathname: getPath(MenuKey.MARKET),
-              hash: MarketType.BUY,
-              state: { token },
-            }
-
-            return <AssetItem token={token} to={to} />
-          },
+          render: (token) => <AssetItem token={token} />,
           bold: true,
         },
         {

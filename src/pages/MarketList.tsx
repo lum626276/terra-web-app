@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
 import { UST } from "../constants"
 import { lt, gt, div, minus, number } from "../libs/math"
 import { useContractsAddress, useContract, useRefetch } from "../hooks"
@@ -8,13 +7,12 @@ import useAssetStats from "../statistics/useAssetStats"
 import useYesterday, { calcChange } from "../statistics/useYesterday"
 import Table from "../components/Table"
 import Change from "../components/Change"
-import AssetIcon from "../components/AssetIcon"
 import Formatted from "../components/Formatted"
 import Percent from "../components/Percent"
 import Search from "../components/Search"
+import AssetItem from "../components/AssetItem"
 import ChartContainer from "../containers/ChartContainer"
 import { MarketType } from "../types/Types"
-import styles from "./MarketList.module.scss"
 
 interface Item extends ListedItem {
   terraswap: { price: string; change?: string }
@@ -111,23 +109,14 @@ const MarketList = () => {
       </Search>
 
       <Table
+        rows={({ token }) => ({
+          to: { hash: MarketType.BUY, state: { token } },
+        })}
         columns={[
           {
-            key: "symbol",
+            key: "token",
             title: "Ticker",
-            render: (symbol, { token, name }) => {
-              const to = { hash: MarketType.BUY, state: { token } }
-
-              return (
-                <div className={styles.asset}>
-                  <AssetIcon symbol={symbol} />
-                  <Link className={styles.title} to={to}>
-                    <h1 className={styles.symbol}>{symbol}</h1>
-                    <p className={styles.name}>{name}</p>
-                  </Link>
-                </div>
-              )
-            },
+            render: (token) => <AssetItem token={token} />,
             bold: true,
           },
           {
