@@ -24,11 +24,12 @@ $padding: 20px;
   .darker & {
     background-color: $gray-14;
   }
+}
 
-  .clickable:hover & {
-    cursor: pointer;
-    background: lighten($gray-18, 10%);
-  }
+.clickable:hover,
+.clickable:hover .cell {
+  cursor: pointer;
+  background: lighten($gray-18, 10%);
 }
 
 .caption {

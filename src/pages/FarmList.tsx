@@ -1,14 +1,12 @@
-import { Link } from "react-router-dom"
 import { lt, gt, div, minus } from "../libs/math"
 import { useContractsAddress, useContract, useRefetch } from "../hooks"
 import { AssetInfoKey, PriceKey } from "../hooks/contractKeys"
 import useAssetStats from "../statistics/useAssetStats"
 import useYesterday, { calcChange } from "../statistics/useYesterday"
 import Table from "../components/Table"
-import AssetIcon from "../components/AssetIcon"
 import Percent from "../components/Percent"
+import AssetItem from "../components/AssetItem"
 import { FarmType } from "../types/Types"
-import styles from "./FarmList.module.scss"
 
 const FarmList = () => {
   const infoKey = AssetInfoKey.LIQUIDITY
@@ -56,41 +54,37 @@ const FarmList = () => {
     <Table
       columns={[
         {
-          key: "symbol",
+          key: "token",
           title: "Ticker",
-          render: (symbol, { token, name }) => {
-            return (
-              <div className={styles.asset}>
-                <AssetIcon symbol={symbol} />
-                <section className={styles.title}>
-                  <h1 className={styles.symbol}>{symbol}</h1>
-                  <p className={styles.name}>{name}</p>
-                </section>
-              </div>
-            )
-          },
+          render: (token) => <AssetItem token={token} />,
           bold: true,
         },
         {
           key: "apr.long",
           title: "Long",
-          render: (value, { token }) => (
-            <Link to={{ hash: FarmType.LONG, state: { token } }}>
+          render: (value) => (
+            <>
               <Percent color={"blue"}>{value}</Percent>
               <p className="small">Long Farm</p>
-            </Link>
+            </>
           ),
+          cell: ({ token }) => ({
+            to: { hash: FarmType.LONG, state: { token } },
+          }),
           align: "right",
         },
         {
           key: "apr.short",
           title: "Short",
-          render: (value, { token }) => (
-            <Link to={{ hash: FarmType.LONG, state: { token } }}>
+          render: (value) => (
+            <>
               <Percent color={"red"}>{value}</Percent>
               <p className="small">Short Farm</p>
-            </Link>
+            </>
           ),
+          cell: ({ token }) => ({
+            to: { hash: FarmType.SHORT, state: { token } },
+          }),
           align: "right",
         },
         {

@@ -23,11 +23,17 @@ interface Row {
   to?: LocationDescriptor
 }
 
+interface Cell {
+  background?: string
+  to?: LocationDescriptor
+}
+
 interface Column<T> {
   key: string
   title?: ReactNode | ReactNode[]
   dataIndex?: string
   render?: (value: any, record: T, index: number) => ReactNode | ReactNode[]
+  cell?: (value: any, record: T, index: number) => Cell
   children?: Column<T>[]
 
   colSpan?: number
@@ -153,15 +159,22 @@ function Table<T extends DefaultRecordType>(props: Props<T>) {
             <tbody>
               {dataSource.map((record, index) => {
                 const renderTd = (column: Column<T>): ReactNode => {
-                  const { key, dataIndex, render } = column
+                  const { key, dataIndex, render, cell: getCell } = column
                   const { className, bold, width } = column
                   const value = path<any>((dataIndex ?? key).split(SEP), record)
                   const tdClassName = cx({ bold }, styles.td, className)
                   const content = render?.(value, record, index)
+                  const cell = getCell?.(value, record, index)
 
                   return (
                     <td
-                      className={classNames(getClassName(column), tdClassName)}
+                      className={cx(
+                        getClassName(column),
+                        cell?.background,
+                        { clickable: cell?.to },
+                        tdClassName
+                      )}
+                      onClick={() => cell?.to && push(cell.to)}
                       style={{ width }}
                       key={key}
                     >
