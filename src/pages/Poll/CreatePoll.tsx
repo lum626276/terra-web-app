@@ -92,7 +92,9 @@ const CreatePoll = () => {
             />
           </section>
 
-          {type && <CreatePollForm type={type} key={type} />}
+          {type && (
+            <CreatePollForm headings={polls[type]} type={type} key={type} />
+          )}
         </Grid>
       </Container>
     </Page>

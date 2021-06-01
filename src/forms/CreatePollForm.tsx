@@ -17,6 +17,7 @@ import { PollType } from "../pages/Poll/CreatePoll"
 import useGovReceipt from "./receipts/useGovReceipt"
 import useSelectAsset, { Config } from "./useSelectAsset"
 import FormContainer from "./FormContainer"
+import styles from "./CreatePollForm.module.scss"
 
 enum Key {
   title = "title",
@@ -57,7 +58,12 @@ enum Key {
   amount = "amount",
 }
 
-const CreatePollForm = ({ type }: { type: PollType }) => {
+interface Props {
+  type: PollType
+  headings: { title: string; desc: string }
+}
+
+const CreatePollForm = ({ type, headings }: Props) => {
   const balanceKey = BalanceKey.TOKEN
   const governance = useGov()
   const { config } = governance
@@ -650,6 +656,11 @@ const CreatePollForm = ({ type }: { type: PollType }) => {
 
   return (
     <FormContainer {...container} parseTx={parseTx} gov>
+      <header className={styles.headings}>
+        <h1 className={styles.title}>{headings.title}</h1>
+        <p className={styles.desc}>{headings.desc}</p>
+      </header>
+
       {fieldKeys.map(
         (key) =>
           !fields[key].input?.disabled && (
