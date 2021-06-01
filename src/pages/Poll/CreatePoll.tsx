@@ -1,12 +1,10 @@
 import useHash from "../../libs/useHash"
 import Page from "../../components/Page"
 import Container from "../../components/Container"
-import Card from "../../components/Card"
+import Grid from "../../components/Grid"
+import List from "../../components/List"
 import CreatePollForm from "../../forms/CreatePollForm"
-import { MenuKey } from "../Gov"
 import ForumLink from "./ForumLink"
-import CreatePollButton from "./CreatePollButton"
-import styles from "./CreatePoll.module.scss"
 
 export enum PollType {
   TEXT = "TEXT",
@@ -19,8 +17,26 @@ export enum PollType {
   COMMUNITY_SPEND = "COMMUNITY_SPEND",
 }
 
-const TITLE = "Choose a poll"
-const Buttons: Record<PollType, { title: string; desc: string }> = {
+const Groups = [
+  {
+    title: "Asset Listing",
+    items: [PollType.WHITELIST],
+  },
+  {
+    title: "Reward Distribution Ratio",
+    items: [PollType.INFLATION],
+  },
+  {
+    title: "Parameters",
+    items: [PollType.MINT_UPDATE, PollType.GOV_UPDATE],
+  },
+  {
+    title: "Suggestions/Others",
+    items: [PollType.TEXT_WHITELIST, PollType.TEXT_PREIPO, PollType.TEXT],
+  },
+]
+
+const polls = {
   [PollType.TEXT]: {
     title: "Submit text poll",
     desc: "Upload a text poll",
@@ -56,27 +72,29 @@ const Buttons: Record<PollType, { title: string; desc: string }> = {
 }
 
 const CreatePoll = () => {
-  const { hash: type } = useHash<PollType>()
+  const { hash: type } = useHash<PollType>(PollType.TEXT_WHITELIST)
 
   return (
-    <Page title={!type ? MenuKey.CREATE : Buttons[type].title}>
-      {!type ? (
-        <Container sm>
-          <ForumLink />
+    <Page>
+      <Container>
+        <ForumLink />
 
-          <Card lg>
-            <header className={styles.header}>
-              <h1 className={styles.title}>{TITLE}</h1>
-            </header>
+        <Grid>
+          <section>
+            <List
+              groups={Groups.map(({ title, items }) => ({
+                title,
+                items: items.map((key) => ({
+                  label: polls[key].title,
+                  to: { hash: key },
+                })),
+              }))}
+            />
+          </section>
 
-            {Object.entries(Buttons).map(([key, item]) => (
-              <CreatePollButton {...item} hash={key} key={key} />
-            ))}
-          </Card>
-        </Container>
-      ) : (
-        <CreatePollForm type={type} key={type} />
-      )}
+          {type && <CreatePollForm type={type} key={type} />}
+        </Grid>
+      </Container>
     </Page>
   )
 }

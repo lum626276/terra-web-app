@@ -165,7 +165,7 @@ export const FormContainer = ({ data: msgs, memo, ...props }: Props) => {
 
     return (
       <>
-        {tab ? <Tab {...tab}>{children}</Tab> : <Card>{children}</Card>}
+        {tab ? <Tab {...tab}>{children}</Tab> : <Card lg>{children}</Card>}
 
         {contents && (
           <Confirm
