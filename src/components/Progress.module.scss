@@ -3,6 +3,7 @@
 
 .component {
   user-select: none;
+  min-width: 80px;
 }
 
 .cursor {
@@ -43,7 +44,6 @@ $axis-height: 25px;
 .track {
   @include flex(flex-start, stretch);
   background: $gray-34;
-  border-radius: 4px;
   height: 8px;
   overflow: hidden;
 }

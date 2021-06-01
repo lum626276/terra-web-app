@@ -343,7 +343,7 @@ const MintForm = ({ position, type, tab, message }: Props) => {
   const ratioProps = {
     min: minRatio,
     safe: safeRatio,
-    next: nextRatio,
+    ratio: nextRatio,
     prev: prevRatio,
     onClick: (ratio: string) => {
       form.setChanged(Key.ratio)

@@ -1,3 +1,4 @@
+import classNames from "classnames"
 import Tooltip from "../lang/Tooltip.json"
 import { times, div, gt, gte, lt } from "../libs/math"
 import { percent } from "../libs/num"
@@ -8,9 +9,9 @@ import styles from "./CollateralRatio.module.scss"
 interface Props {
   min: string
   safe: string
-  next: string
-  prev?: string
-  onClick: (ratio: string) => void
+  ratio: string
+  compact?: boolean
+  onClick?: (ratio: string) => void
 }
 
 const MAX = 4 // 400%
@@ -19,36 +20,49 @@ const getX = (ratio: string) => {
   return lt(x, 0) ? "0" : gt(x, 1) ? "1" : x
 }
 
-const CollateralRatio = ({ min, safe, next, onClick }: Props) => (
-  <Progress
-    data={[
-      {
-        value: gt(next, 0) ? getX(next) : "0",
-        label: gt(next, 0) ? percent(next) : "",
-        color: gte(next, safe) ? "blue" : lt(next, min) ? "red" : "orange",
-      },
-    ]}
-    axis={[
-      {
-        x: getX(min),
-        label: (
-          <TooltipIcon content={Tooltip.Mint.MinCollateralRatio}>
-            Min: {percent(min)}
-          </TooltipIcon>
-        ),
-      },
-      {
-        x: getX(safe),
-        label: (
-          <TooltipIcon content={Tooltip.Mint.SafeCollateralRatio}>
-            Safe: {percent(safe)}
-          </TooltipIcon>
-        ),
-      },
-    ]}
-    className={styles.progress}
-    onClick={(value) => onClick(times(value, MAX))}
-  />
-)
+const CollateralRatio = ({ min, safe, ratio, compact, onClick }: Props) => {
+  const minX = {
+    x: getX(min),
+    label: (
+      <TooltipIcon content={Tooltip.Mint.MinCollateralRatio}>
+        Min: {percent(min)}
+      </TooltipIcon>
+    ),
+  }
+
+  const safeX = {
+    x: getX(safe),
+    label: (
+      <TooltipIcon content={Tooltip.Mint.SafeCollateralRatio}>
+        Safe: {percent(safe)}
+      </TooltipIcon>
+    ),
+  }
+
+  const color = gte(ratio, safe) ? "blue" : lt(ratio, min) ? "red" : "orange"
+
+  return (
+    <div className={styles.component}>
+      {compact && (
+        <span className={classNames(styles.percent, color)}>
+          {percent(ratio)}
+        </span>
+      )}
+
+      <Progress
+        data={[
+          {
+            value: gt(ratio, 0) ? getX(ratio) : "0",
+            label: gt(ratio, 0) ? percent(ratio) : "",
+            color,
+          },
+        ]}
+        axis={compact ? [minX] : [minX, safeX]}
+        onClick={onClick ? (value) => onClick(times(value, MAX)) : undefined}
+        noLabel={compact}
+      />
+    </div>
+  )
+}
 
 export default CollateralRatio

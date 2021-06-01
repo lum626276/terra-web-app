@@ -2,8 +2,8 @@ import classNames from "classnames"
 import MESSAGE from "../../lang/MESSAGE.json"
 import Tooltips from "../../lang/Tooltip.json"
 import { UST, UUSD } from "../../constants"
+import { plus } from "../../libs/math"
 import { format, formatAsset, lookupSymbol } from "../../libs/parse"
-import { percent } from "../../libs/num"
 import { getPath, MenuKey } from "../../routes"
 import Table from "../../components/Table"
 import Caption from "../../components/Caption"
@@ -14,6 +14,7 @@ import Tooltip, { TooltipIcon } from "../../components/Tooltip"
 import Delisted from "../../components/Delisted"
 import LinkButton from "../../components/LinkButton"
 import { MintType } from "../../types/Types"
+import CollateralRatio from "../../forms/CollateralRatio"
 import NoAssets from "./NoAssets"
 import { MyBorrowed } from "./types"
 import styles from "./Borrowed.module.scss"
@@ -130,14 +131,14 @@ const Borrowed = ({ loading, dataSource, ...props }: MyBorrowed) => {
                   Col Ratio
                 </TooltipIcon>
               ),
-              render: (value, { minRatio, warning, danger }) => {
-                const content = [percent(value), percent(minRatio)]
-                return warning || danger ? (
-                  <strong className="red">{content}</strong>
-                ) : (
-                  content
-                )
-              },
+              render: (value, { minRatio }) => (
+                <CollateralRatio
+                  min={minRatio}
+                  safe={plus(minRatio, 0.5)}
+                  ratio={value}
+                  compact
+                />
+              ),
               align: "right",
             },
             {
