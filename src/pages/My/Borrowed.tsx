@@ -12,7 +12,7 @@ import MaterialIcon from "../../components/MaterialIcon"
 import Button from "../../components/Button"
 import Tooltip, { TooltipIcon } from "../../components/Tooltip"
 import Delisted from "../../components/Delisted"
-import DashboardActions from "../../components/DashboardActions"
+import LinkButton from "../../components/LinkButton"
 import { MintType } from "../../types/Types"
 import NoAssets from "./NoAssets"
 import { MyBorrowed } from "./types"
@@ -143,34 +143,19 @@ const Borrowed = ({ loading, dataSource, ...props }: MyBorrowed) => {
             {
               key: "actions",
               dataIndex: "idx",
-              render: (idx, { status }) => {
-                const to = {
-                  pathname: getPath(MenuKey.MINT),
-                  search: `idx=${idx}`,
-                }
-
-                const depositItem = {
-                  to: { ...to, hash: MintType.DEPOSIT },
-                  children: MintType.DEPOSIT,
-                }
-
-                const withdrawItem = {
-                  to: { ...to, hash: MintType.WITHDRAW },
-                  children: MintType.WITHDRAW,
-                }
-
-                const closeItem = {
-                  to: { ...to, hash: MintType.CLOSE },
-                  children: `${MintType.CLOSE} position`,
-                }
-
-                const list =
-                  status === "LISTED"
-                    ? [depositItem, withdrawItem, closeItem]
-                    : [withdrawItem, closeItem]
-
-                return <DashboardActions list={list} />
-              },
+              render: (idx) => (
+                <LinkButton
+                  to={{
+                    pathname: getPath(MenuKey.MINT),
+                    search: `idx=${idx}`,
+                    hash: MintType.CLOSE,
+                  }}
+                  size="sm"
+                  outline
+                >
+                  Manage
+                </LinkButton>
+              ),
               align: "right",
               fixed: "right",
             },

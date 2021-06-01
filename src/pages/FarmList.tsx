@@ -50,6 +50,7 @@ const FarmList = () => {
       }
     })
     .sort((a, b) => (lt(a.volume, b.volume) ? 1 : -1))
+    .sort((a, b) => Number(b.symbol === MIR) - Number(a.symbol === MIR))
 
   return !data ? null : (
     <Table

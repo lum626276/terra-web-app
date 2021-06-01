@@ -9,7 +9,7 @@ import { Di } from "../../components/Dl"
 import Change from "../../components/Change"
 import { TooltipIcon } from "../../components/Tooltip"
 import Delisted from "../../components/Delisted"
-import DashboardActions from "../../components/DashboardActions"
+import LinkButton from "../../components/LinkButton"
 import { TradeType } from "../../types/Types"
 import NoAssets from "./NoAssets"
 import { MyHoldings } from "./types"
@@ -82,30 +82,22 @@ const Holdings = ({ loading, totalValue, dataSource }: MyHoldings) => {
           key: "actions",
           dataIndex: "token",
           render: (token, { status }) => {
-            const to = {
-              pathname: getPath(MenuKey.TRADE),
-              state: { token },
-            }
-
-            const list =
+            const link =
               status === "LISTED"
-                ? [
-                    {
-                      to: { ...to, hash: TradeType.BUY },
-                      children: TradeType.BUY,
+                ? {
+                    to: {
+                      pathname: getPath(MenuKey.TRADE),
+                      state: { token },
+                      hash: TradeType.BUY,
                     },
-                    {
-                      to: { ...to, hash: TradeType.SELL },
-                      children: TradeType.SELL,
-                    },
-                    {
-                      to: { ...to, pathname: getPath(MenuKey.SEND) },
-                      children: MenuKey.SEND,
-                    },
-                  ]
-                : [{ to: `/burn/${token}`, children: MenuKey.BURN }]
+                    children: MenuKey.TRADE,
+                  }
+                : {
+                    to: `/burn/${token}`,
+                    children: MenuKey.BURN,
+                  }
 
-            return <DashboardActions list={list} />
+            return <LinkButton {...link} size="sm" outline />
           },
           align: "right",
           fixed: "right",

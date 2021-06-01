@@ -6,7 +6,7 @@ import Table from "../../components/Table"
 import Caption from "../../components/Caption"
 import Dl from "../../components/Dl"
 import { TooltipIcon } from "../../components/Tooltip"
-import DashboardActions from "../../components/DashboardActions"
+import LinkButton from "../../components/LinkButton"
 import { MyGov } from "./types"
 
 const Gov = ({ loading, dataSource, staked }: MyGov) => {
@@ -27,7 +27,7 @@ const Gov = ({ loading, dataSource, staked }: MyGov) => {
       columns={[
         {
           key: "actions",
-          render: () => <DashboardActions list={[]} />,
+          render: () => <LinkButton to="" />,
           align: "right",
           fixed: "right",
         },

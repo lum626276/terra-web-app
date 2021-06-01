@@ -11,7 +11,7 @@ import Caption from "../../components/Caption"
 import Dl from "../../components/Dl"
 import { TooltipIcon } from "../../components/Tooltip"
 import Delisted from "../../components/Delisted"
-import DashboardActions from "../../components/DashboardActions"
+import LinkButton from "../../components/LinkButton"
 import { StakeType } from "../../types/Types"
 import NoAssets from "./NoAssets"
 import { MyFarm } from "./types"
@@ -83,20 +83,20 @@ const Farm = ({ loading, dataSource, ...props }: MyFarm) => {
         {
           key: "actions",
           dataIndex: "token",
-          render: (token, { type }) => {
-            const list = [
-              {
-                to: {
+          render: (token, { type }) =>
+            type === "long" && (
+              <LinkButton
+                to={{
                   pathname: getPath(MenuKey.UNSTAKE),
                   hash: StakeType.UNSTAKE,
                   state: { token },
-                },
-                children: StakeType.UNSTAKE,
-              },
-            ]
-
-            return type === "long" && <DashboardActions list={list} />
-          },
+                }}
+                size="sm"
+                outline
+              >
+                {StakeType.UNSTAKE}
+              </LinkButton>
+            ),
           align: "right",
           fixed: "right",
         },

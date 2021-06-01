@@ -9,8 +9,8 @@ import Caption from "../../components/Caption"
 import Dl from "../../components/Dl"
 import Button from "../../components/Button"
 import { TooltipIcon } from "../../components/Tooltip"
-import DashboardActions from "../../components/DashboardActions"
 import Delisted from "../../components/Delisted"
+import LinkButton from "../../components/LinkButton"
 import NoAssets from "./NoAssets"
 import { MyLimitOrders } from "./types"
 
@@ -83,14 +83,13 @@ const LimitOrders = ({ loading, dataSource, total, more }: MyLimitOrders) => {
               key: "actions",
               dataIndex: "order_id",
               render: (id) => (
-                <DashboardActions
-                  list={[
-                    {
-                      to: [getPath(MenuKey.LIMIT), id].join("/"),
-                      children: "Cancel",
-                    },
-                  ]}
-                />
+                <LinkButton
+                  to={[getPath(MenuKey.LIMIT), id].join("/")}
+                  size="sm"
+                  outline
+                >
+                  Cancel
+                </LinkButton>
               ),
               align: "right",
               fixed: "right",
