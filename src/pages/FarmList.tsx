@@ -53,6 +53,9 @@ const FarmList = () => {
 
   return !data ? null : (
     <Table
+      rows={({ token }) =>
+        getSymbol(token) === MIR ? { background: "darker" } : {}
+      }
       columns={[
         {
           key: "token",
