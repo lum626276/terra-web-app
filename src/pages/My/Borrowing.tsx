@@ -104,7 +104,7 @@ const Borrowing = ({ loading, dataSource, ...props }: MyBorrowing) => {
               key: "borrowed",
               title: (
                 <TooltipIcon content={Tooltips.My.MintedBalance}>
-                  Borrowed Balance
+                  Borrowed
                 </TooltipIcon>
               ),
               render: (_, { mintedAsset }) => [
@@ -117,20 +117,25 @@ const Borrowing = ({ loading, dataSource, ...props }: MyBorrowing) => {
               key: "collateral",
               title: (
                 <TooltipIcon content={Tooltips.My.CollateralBalance}>
-                  Collateral Balance
+                  Collateral
                 </TooltipIcon>
               ),
-              render: (_, { collateralAsset }) => [
-                formatAsset(collateralAsset.amount, collateralAsset.symbol),
-                formatAsset(collateralAsset.value, UUSD),
-              ],
+              render: (_, { collateralAsset }) => {
+                const amount = formatAsset(
+                  collateralAsset.amount,
+                  collateralAsset.symbol
+                )
+
+                const value = formatAsset(collateralAsset.value, UUSD)
+                return collateralAsset.token === UUSD ? amount : [amount, value]
+              },
               align: "right",
             },
             {
               key: "ratio",
               title: (
                 <TooltipIcon content={Tooltips.My.CollateralRatio}>
-                  Col Ratio
+                  Collateral Ratio
                 </TooltipIcon>
               ),
               render: (value, { minRatio }) => (
