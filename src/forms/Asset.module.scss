@@ -3,6 +3,7 @@
 
 $symbol: 14px;
 $name: 12px;
+$line-height: 1.5;
 
 .asset {
   @include flex(space-between);

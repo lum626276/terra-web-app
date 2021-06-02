@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom"
 import Tooltip from "../lang/Tooltip.json"
+import { toBase64 } from "../libs/formHelpers"
 import useNewContractMsg from "../terra/useNewContractMsg"
 import { LP, MIR } from "../constants"
 import { gt, minus, max as findMax } from "../libs/math"
@@ -13,11 +14,13 @@ import { BalanceKey } from "../hooks/contractKeys"
 
 import FormGroup from "../components/FormGroup"
 import FormFeedback from "../components/FormFeedback"
+import { TooltipIcon } from "../components/Tooltip"
 import WithPriceChart from "../containers/WithPriceChart"
 import { StakeType } from "../types/Types"
 import useStakeReceipt from "./receipts/useStakeReceipt"
-import { toBase64 } from "../libs/formHelpers"
+import usePool from "./usePool"
 import FormContainer from "./FormContainer"
+import FormIcon from "./FormIcon"
 
 enum Key {
   value = "value",
@@ -85,6 +88,11 @@ const StakeForm = ({ type, tab, gov, ...props }: Props) => {
   const amount = toAmount(value)
   const symbol = getSymbol(token)
 
+  /* estimate */
+  const getPool = usePool()
+  const pool = token ? getPool({ amount, token }) : undefined
+  const fromLP = pool?.fromLP
+
   /* render:form */
   const max = getMax()
   const locked = getLocked()
@@ -104,6 +112,11 @@ const StakeForm = ({ type, tab, gov, ...props }: Props) => {
         : undefined,
     },
   })
+
+  const estimatedField = {
+    label: <TooltipIcon content={Tooltip.Pool.Output}>Received</TooltipIcon>,
+    value: fromLP?.text ?? "-",
+  }
 
   /* confirm */
   const staked = find(
@@ -180,6 +193,13 @@ const StakeForm = ({ type, tab, gov, ...props }: Props) => {
     <WithPriceChart token={token}>
       <FormContainer {...container}>
         <FormGroup {...fields[Key.value]} />
+
+        {type === StakeType.UNSTAKE && (
+          <>
+            <FormIcon name="arrow_downward" />
+            <FormGroup {...estimatedField} />
+          </>
+        )}
 
         {gov && type === StakeType.STAKE && (
           <FormFeedback help>{Tooltip.My.GovReward}</FormFeedback>
