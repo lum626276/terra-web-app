@@ -12,6 +12,7 @@ interface PollData {
 
   yes_votes?: string
   no_votes?: string
+  abstain_votes?: string
   total_balance_at_end_poll?: string
 
   title: string
@@ -74,7 +75,7 @@ interface Spend {
 }
 
 /* votes */
-type VoteAnswer = "yes" | "no"
+type VoteAnswer = "yes" | "no" | "abstain"
 interface Voter {
   vote: VoteAnswer
   voter: string

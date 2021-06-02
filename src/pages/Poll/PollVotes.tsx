@@ -1,7 +1,7 @@
 import { ReactNode } from "react"
 import classNames from "classnames/bind"
 import { MIR } from "../../constants"
-import { div, gt, plus, times } from "../../libs/math"
+import { div, gt, sum, times } from "../../libs/math"
 import { formatAsset } from "../../libs/parse"
 import { percent } from "../../libs/num"
 import { useGov, useGovState } from "../../graphql/useGov"
@@ -44,13 +44,15 @@ interface Props extends Poll {
 }
 
 const PollVotes = ({ lg, ...props }: Props) => {
-  const { yes_votes, no_votes, total_balance_at_end_poll } = props
+  const { yes_votes, no_votes, abstain_votes, total_balance_at_end_poll } =
+    props
   const state = useGovState()
   const { config } = useGov()
 
   const votes = {
     yes: yes_votes ?? "0",
     no: no_votes ?? "0",
+    abstain: abstain_votes ?? "0",
     total: total_balance_at_end_poll ?? "0",
   }
 
@@ -80,13 +82,15 @@ export default PollVotes
 
 /* helpers */
 export const parseVotes = (
-  { total, ...votes }: { yes: string; no: string; total: string },
+  votes: { yes: string; no: string; abstain: string; total: string },
   { quorum, ...config }: GovConfig,
   { total_share }: GovState
 ) => {
+  const { total } = votes
   const yes = div(votes["yes"], gt(total, 0) ? total : total_share)
   const no = div(votes["no"], gt(total, 0) ? total : total_share)
-  const voted = plus(yes, no)
+  const abstain = div(votes["abstain"], gt(total, 0) ? total : total_share)
+  const voted = sum([yes, no, abstain])
   const threshold = times(config.threshold, voted)
 
   return {
@@ -107,6 +111,12 @@ export const parseVotes = (
         value: no,
         amount: votes["no"],
         color: "red" as const,
+      },
+      {
+        label: "abstain",
+        value: abstain,
+        amount: votes["abstain"],
+        color: "orange" as const,
       },
     ],
   }

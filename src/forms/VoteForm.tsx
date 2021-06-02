@@ -28,6 +28,7 @@ enum Key {
 enum AnswerKey {
   Y = "yes",
   N = "no",
+  A = "abstain",
 }
 
 const VoteForm = ({ tab }: { tab: Tab }) => {

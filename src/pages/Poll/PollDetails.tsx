@@ -1,5 +1,5 @@
 import { useRouteMatch } from "react-router-dom"
-import { gt, plus } from "../../libs/math"
+import { gt, sum } from "../../libs/math"
 import Card from "../../components/Card"
 import Grid from "../../components/Grid"
 import PollHeader from "./PollHeader"
@@ -30,7 +30,7 @@ const PollDetails = ({ poll }: { poll: Poll }) => {
 
       <Grid>
         <Card title="Vote Details">
-          {!gt(plus(poll.yes_votes, poll.no_votes), 0) ? (
+          {!gt(getTotal(poll), 0) ? (
             <p className="empty">No votes found</p>
           ) : (
             <PollVotes {...poll} lg />
@@ -46,3 +46,7 @@ const PollDetails = ({ poll }: { poll: Poll }) => {
 }
 
 export default PollDetails
+
+/* helpers */
+const getTotal = (poll: Poll) =>
+  sum([poll.yes_votes ?? 0, poll.no_votes ?? 0, poll.abstain_votes ?? 0])
