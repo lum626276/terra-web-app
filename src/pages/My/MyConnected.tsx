@@ -12,17 +12,17 @@ import BuyLinks from "../../components/BuyLinks"
 
 import useMy from "./useMy"
 import TotalValue from "./TotalValue"
-import Holdings from "./Holdings"
-import Borrowed from "./Borrowed"
+import Holding from "./Holding"
+import Borrowing from "./Borrowing"
 import Farm from "./Farm"
-import LimitOrders from "./LimitOrders"
+import LimitOrder from "./LimitOrder"
 import Gov from "./Gov"
 import HistoryList from "./HistoryList"
 
 enum Tabs {
   ALL = "All",
-  HOLDINGS = "Holdings",
-  ORDERS = "Limit Orders",
+  HOLDING = "Holding",
+  LIMITORDER = "Limit Order",
   BORROW = "Borrow",
   FARMING = "Farming",
   GOVERN = "Govern",
@@ -32,7 +32,7 @@ enum Tabs {
 const MyConnected = () => {
   const { disconnect } = useWallet()
   const my = useMy()
-  const { holdings, mint, stake, gov, orders } = my
+  const { holding, borrowing, farm, gov, limitOrder } = my
   const shouldBuyUST = useShouldBuyUST()
   const txs = useTxs()
 
@@ -42,33 +42,33 @@ const MyConnected = () => {
   })
 
   /* conditions */
-  const hasHoldings = !!holdings.dataSource.length
-  const hasOrders = !!orders.dataSource.length
-  const hasMint = !!mint.dataSource.length
-  const hasStake = !!stake.dataSource.length
+  const hasHolding = !!holding.dataSource.length
+  const hasLimitOrder = !!limitOrder.dataSource.length
+  const hasBorrowing = !!borrowing.dataSource.length
+  const hasFarm = !!farm.dataSource.length
   const hasGov = !!gov.dataSource.length || gt(gov.staked, 0)
   const hasTxs = !!txs.data.length
 
   const tabs = [
     {
-      label: Tabs.HOLDINGS,
-      hidden: !hasHoldings,
-      component: <Holdings {...holdings} />,
+      label: Tabs.HOLDING,
+      hidden: !hasHolding,
+      component: <Holding {...holding} />,
     },
     {
-      label: Tabs.ORDERS,
-      hidden: !hasOrders,
-      component: <LimitOrders {...orders} />,
+      label: Tabs.LIMITORDER,
+      hidden: !hasLimitOrder,
+      component: <LimitOrder {...limitOrder} />,
     },
     {
       label: Tabs.BORROW,
-      hidden: !hasMint,
-      component: <Borrowed {...mint} />,
+      hidden: !hasBorrowing,
+      component: <Borrowing {...borrowing} />,
     },
     {
       label: Tabs.FARMING,
-      hidden: !hasStake,
-      component: <Farm {...stake} />,
+      hidden: !hasFarm,
+      component: <Farm {...farm} />,
     },
     {
       label: Tabs.GOVERN,

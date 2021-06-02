@@ -2,9 +2,9 @@ import { gt, sum, times } from "../../libs/math"
 import { useContractsAddress, useContract, useCombineKeys } from "../../hooks"
 import { PriceKey, BalanceKey } from "../../hooks/contractKeys"
 import useYesterday, { calcChange } from "../../statistics/useYesterday"
-import { MyHoldings } from "./types"
+import { MyHolding } from "./types"
 
-const useMyHoldings = (): MyHoldings => {
+const useMyHolding = (): MyHolding => {
   const balanceKey = BalanceKey.TOKEN
   const keys = [PriceKey.PAIR, PriceKey.ORACLE, balanceKey]
 
@@ -39,4 +39,4 @@ const useMyHoldings = (): MyHoldings => {
   return { keys, loading, totalValue, dataSource }
 }
 
-export default useMyHoldings
+export default useMyHolding

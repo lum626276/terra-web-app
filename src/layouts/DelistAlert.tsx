@@ -9,11 +9,11 @@ const DelistAlert = () => {
   const filter = <T extends { token: string }>({ token }: T) => !!delist[token]
 
   const my = useMy()
-  const { holdings, mint, stake, orders } = my
+  const { holding, borrowing, farm, limitOrder } = my
 
-  const delistedHoldings = holdings.dataSource.filter(filter).map(getToken)
+  const delistedHolding = holding.dataSource.filter(filter).map(getToken)
 
-  const delistedMintTokens = mint.dataSource.reduce<string[]>(
+  const delistedBorrowingTokens = borrowing.dataSource.reduce<string[]>(
     (acc, { collateralAsset, mintedAsset }) =>
       acc
         .concat(delist[collateralAsset.token] ? collateralAsset.token : [])
@@ -21,14 +21,16 @@ const DelistAlert = () => {
     []
   )
 
-  const delistedStakedTokens = stake.dataSource.filter(filter).map(getToken)
-  const delistedOrderTokens = orders.dataSource.filter(filter).map(getToken)
+  const delistedFarmTokens = farm.dataSource.filter(filter).map(getToken)
+  const delistedLimitOrderTokens = limitOrder.dataSource
+    .filter(filter)
+    .map(getToken)
 
   const delistedTokens = uniq([
-    ...delistedHoldings,
-    ...delistedMintTokens,
-    ...delistedStakedTokens,
-    ...delistedOrderTokens,
+    ...delistedHolding,
+    ...delistedBorrowingTokens,
+    ...delistedFarmTokens,
+    ...delistedLimitOrderTokens,
   ])
 
   return delistedTokens.length ? <DelistModal tokens={delistedTokens} /> : null

@@ -105,7 +105,7 @@ const Farm = ({ loading, dataSource, ...props }: MyFarm) => {
     />
   ) : !loading ? (
     <NoAssets
-      description={MESSAGE.MyPage.Empty.Staked}
+      description={MESSAGE.MyPage.Empty.Farming}
       link={MenuKey.UNSTAKE}
     />
   ) : null

@@ -12,9 +12,9 @@ import Delisted from "../../components/Delisted"
 import LinkButton from "../../components/LinkButton"
 import { TradeType } from "../../types/Types"
 import NoAssets from "./NoAssets"
-import { MyHoldings } from "./types"
+import { MyHolding } from "./types"
 
-const Holdings = ({ loading, totalValue, dataSource }: MyHoldings) => {
+const Holding = ({ loading, totalValue, dataSource }: MyHolding) => {
   const renderTooltip = (value: string, tooltip: string) => (
     <TooltipIcon content={tooltip}>{formatAsset(value, UUSD)}</TooltipIcon>
   )
@@ -33,7 +33,7 @@ const Holdings = ({ loading, totalValue, dataSource }: MyHoldings) => {
       caption={
         <Caption
           title={
-            <TooltipIcon content={Tooltip.My.Holdings}>Holdings</TooltipIcon>
+            <TooltipIcon content={Tooltip.My.Holding}>Holding</TooltipIcon>
           }
           description={description}
           loading={loading}
@@ -106,11 +106,8 @@ const Holdings = ({ loading, totalValue, dataSource }: MyHoldings) => {
       dataSource={dataSource}
     />
   ) : !loading ? (
-    <NoAssets
-      description={MESSAGE.MyPage.Empty.Holdings}
-      link={MenuKey.TRADE}
-    />
+    <NoAssets description={MESSAGE.MyPage.Empty.Holding} link={MenuKey.TRADE} />
   ) : null
 }
 
-export default Holdings
+export default Holding

@@ -16,10 +16,10 @@ import LinkButton from "../../components/LinkButton"
 import { MintType } from "../../types/Types"
 import CollateralRatio from "../../forms/CollateralRatio"
 import NoAssets from "./NoAssets"
-import { MyBorrowed } from "./types"
-import styles from "./Borrowed.module.scss"
+import { MyBorrowing } from "./types"
+import styles from "./Borrowing.module.scss"
 
-const Borrowed = ({ loading, dataSource, ...props }: MyBorrowed) => {
+const Borrowing = ({ loading, dataSource, ...props }: MyBorrowing) => {
   const { totalMintedValue, totalCollateralValue, more } = props
 
   const renderTooltip = (value: string, tooltip: string) => (
@@ -52,7 +52,9 @@ const Borrowed = ({ loading, dataSource, ...props }: MyBorrowed) => {
           caption={
             <Caption
               title={
-                <TooltipIcon content={Tooltips.My.Mint}>Borrowed</TooltipIcon>
+                <TooltipIcon content={Tooltips.My.Borrowing}>
+                  Borrowing
+                </TooltipIcon>
               }
               description={description}
               loading={loading}
@@ -166,7 +168,7 @@ const Borrowed = ({ loading, dataSource, ...props }: MyBorrowed) => {
       ) : (
         !loading && (
           <NoAssets
-            description={MESSAGE.MyPage.Empty.Minted}
+            description={MESSAGE.MyPage.Empty.Borrowing}
             link={MenuKey.MINT}
           />
         )
@@ -181,4 +183,4 @@ const Borrowed = ({ loading, dataSource, ...props }: MyBorrowed) => {
   )
 }
 
-export default Borrowed
+export default Borrowing

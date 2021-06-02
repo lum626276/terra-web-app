@@ -21,8 +21,8 @@
   "My": {
     "TotalValue": "Total value of all holdings, collateral, withdrawable liquidity, rewards, staked MIR and UST.",
 
-    "Holdings": "List of mAssets held",
-    "Mint": "List of mint positions",
+    "Holding": "List of mAssets held",
+    "Borrowing": "List of mint positions",
     "Pool": "List of liquidity provider positions",
     "Stake": "List of LP token and MIR stake positions",
 
@@ -51,7 +51,7 @@
     "Reward": "Quantity of claimable rewards for the corresponding staking position",
     "GovReward": "Protocol fee paid from withdrawing collateral is distributed to MIR stakers and increases staked MIR",
 
-    "LimitOrders": "List of trade orders to be executed at the limit price",
+    "LimitOrder": "List of trade orders to be executed at the limit price",
     "LimitPrice": "Price at which the order will be executed",
     "OrderValue": "Value of the limit order",
     "TotalLockedValue": "Total value of assets locked in unfilled limit orders"

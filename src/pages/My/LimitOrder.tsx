@@ -12,9 +12,9 @@ import { TooltipIcon } from "../../components/Tooltip"
 import Delisted from "../../components/Delisted"
 import LinkButton from "../../components/LinkButton"
 import NoAssets from "./NoAssets"
-import { MyLimitOrders } from "./types"
+import { MyLimitOrder } from "./types"
 
-const LimitOrders = ({ loading, dataSource, total, more }: MyLimitOrders) => {
+const LimitOrder = ({ loading, dataSource, total, more }: MyLimitOrder) => {
   const renderTooltip = (value: string, tooltip: string) => (
     <TooltipIcon content={tooltip}>{value}</TooltipIcon>
   )
@@ -40,7 +40,7 @@ const LimitOrders = ({ loading, dataSource, total, more }: MyLimitOrders) => {
         <Table
           caption={
             <Caption
-              title={renderTooltip("Limit Orders", Tooltip.My.LimitOrders)}
+              title={renderTooltip("Limit Order", Tooltip.My.LimitOrder)}
               description={description}
               loading={loading}
             />
@@ -100,7 +100,7 @@ const LimitOrders = ({ loading, dataSource, total, more }: MyLimitOrders) => {
       ) : (
         !loading && (
           <NoAssets
-            description={MESSAGE.MyPage.Empty.Orders}
+            description={MESSAGE.MyPage.Empty.LimitOrder}
             link={MenuKey.TRADE}
           />
         )
@@ -115,4 +115,4 @@ const LimitOrders = ({ loading, dataSource, total, more }: MyLimitOrders) => {
   )
 }
 
-export default LimitOrders
+export default LimitOrder

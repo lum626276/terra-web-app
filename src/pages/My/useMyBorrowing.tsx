@@ -6,12 +6,12 @@ import { PriceKey } from "../../hooks/contractKeys"
 import calc from "../../helpers/calc"
 import useYesterday, { calcChange } from "../../statistics/useYesterday"
 import useMintPositions from "../../graphql/queries/useMintPositions"
-import { MyBorrowed } from "./types"
+import { MyBorrowing } from "./types"
 
 const WARNING = 0.3
 const DANGER = 0
 
-const useMyBorrowed = (): MyBorrowed => {
+const useMyBorrowing = (): MyBorrowing => {
   const keys = [PriceKey.ORACLE, PriceKey.END, AssetInfoKey.MINCOLLATERALRATIO]
 
   const { loading, data } = useCombineKeys(keys)
@@ -118,4 +118,4 @@ const useMyBorrowed = (): MyBorrowed => {
   }
 }
 
-export default useMyBorrowed
+export default useMyBorrowing

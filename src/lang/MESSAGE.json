@@ -48,11 +48,10 @@
 
   "MyPage": {
     "Empty": {
-      "Holdings": "No current asset balances",
-      "Minted": "No current asset mint positions",
-      "Pool": "No current liquidity positions",
-      "Staked": "No current staking positions",
-      "Orders": "No current limit orders"
+      "Holding": "No current asset balances",
+      "Borrowing": "No current asset mint positions",
+      "Farming": "No current farming positions",
+      "LimitOrder": "No current limit order"
     }
   }
 }

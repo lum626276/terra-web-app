@@ -1,5 +1,5 @@
 import { UST, UUSD } from "../../constants"
-import { minus, plus, sum } from "../../libs/math"
+import { minus, plus } from "../../libs/math"
 import { formatAsset } from "../../libs/parse"
 import Card from "../../components/Card"
 import Formatted from "../../components/Formatted"

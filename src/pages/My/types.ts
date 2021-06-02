@@ -1,11 +1,11 @@
 import { DataKey } from "../../hooks/useContract"
 
 export interface My {
-  holdings: MyHoldings
-  mint: MyBorrowed
-  stake: MyFarm
+  holding: MyHolding
+  borrowing: MyBorrowing
+  farm: MyFarm
   gov: MyGov
-  orders: MyLimitOrders
+  limitOrder: MyLimitOrder
   total: MyTotal
   loading: boolean
 }
@@ -15,41 +15,41 @@ export interface MyTotal {
   loading: boolean
 }
 
-export interface MyHoldings {
+export interface MyHolding {
   keys: DataKey[]
   loading: boolean
   totalValue: string
-  dataSource: MyHoldingsRow[]
+  dataSource: MyHoldingRow[]
 }
 
-export interface MyHoldingsRow extends ListedItem {
+export interface MyHoldingRow extends ListedItem {
   balance: string
   price: string
   value: string
   change?: string
 }
 
-export interface MyBorrowed {
+export interface MyBorrowing {
   keys: DataKey[]
   loading: boolean
   totalMintedValue: string
   totalCollateralValue: string
-  dataSource: MyBorrowedRow[]
+  dataSource: MyBorrowingRow[]
   more?: () => void
 }
 
-export interface MyBorrowedRow extends MintPosition {
+export interface MyBorrowingRow extends MintPosition {
   idx: string
   status: ListedItemStatus
-  collateralAsset: MyBorrowedAssetData
-  mintedAsset: MyBorrowedAssetData
+  collateralAsset: MyBorrowingAssetData
+  mintedAsset: MyBorrowingAssetData
   ratio?: string
   minRatio: string
   danger: boolean
   warning: boolean
 }
 
-export interface MyBorrowedAssetData extends Asset {
+export interface MyBorrowingAssetData extends Asset {
   price: string
   value: string
   change?: string
@@ -86,15 +86,15 @@ export interface MyGov {
 
 export interface MyGovRow {}
 
-export interface MyLimitOrders {
+export interface MyLimitOrder {
   keys: DataKey[]
   loading: boolean
   total: string
-  dataSource: MyLimitOrdersRow[]
+  dataSource: MyLimitOrderRow[]
   more?: () => void
 }
 
-export interface MyLimitOrdersRow extends Order {
+export interface MyLimitOrderRow extends Order {
   status: ListedItemStatus
   type: string
   token: string
