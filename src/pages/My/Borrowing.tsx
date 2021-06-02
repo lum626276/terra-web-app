@@ -3,7 +3,7 @@ import MESSAGE from "../../lang/MESSAGE.json"
 import Tooltips from "../../lang/Tooltip.json"
 import { UST, UUSD } from "../../constants"
 import { plus } from "../../libs/math"
-import { format, formatAsset, lookupSymbol } from "../../libs/parse"
+import { formatAsset, lookupSymbol } from "../../libs/parse"
 import { getPath, MenuKey } from "../../routes"
 import Table from "../../components/Table"
 import Caption from "../../components/Caption"
@@ -13,6 +13,7 @@ import Button from "../../components/Button"
 import Tooltip, { TooltipIcon } from "../../components/Tooltip"
 import Delisted from "../../components/Delisted"
 import LinkButton from "../../components/LinkButton"
+import Formatted from "../../components/Formatted"
 import { MintType } from "../../types/Types"
 import CollateralRatio from "../../forms/CollateralRatio"
 import NoAssets from "./NoAssets"
@@ -97,7 +98,7 @@ const Borrowing = ({ loading, dataSource, ...props }: MyBorrowing) => {
             {
               key: "mintedAsset.price",
               title: "Oracle Price",
-              render: (value) => `${format(value)} ${UST}`,
+              render: (value) => <Formatted unit={UST}>{value}</Formatted>,
               align: "right",
             },
             {
@@ -108,8 +109,10 @@ const Borrowing = ({ loading, dataSource, ...props }: MyBorrowing) => {
                 </TooltipIcon>
               ),
               render: (_, { mintedAsset }) => [
-                formatAsset(mintedAsset.amount, mintedAsset.symbol),
-                formatAsset(mintedAsset.value, UUSD),
+                <Formatted symbol={mintedAsset.symbol}>
+                  {mintedAsset.amount}
+                </Formatted>,
+                <Formatted symbol={UUSD}>{mintedAsset.value}</Formatted>,
               ],
               align: "right",
             },
@@ -121,12 +124,16 @@ const Borrowing = ({ loading, dataSource, ...props }: MyBorrowing) => {
                 </TooltipIcon>
               ),
               render: (_, { collateralAsset }) => {
-                const amount = formatAsset(
-                  collateralAsset.amount,
-                  collateralAsset.symbol
+                const amount = (
+                  <Formatted symbol={collateralAsset.symbol}>
+                    {collateralAsset.amount}
+                  </Formatted>
                 )
 
-                const value = formatAsset(collateralAsset.value, UUSD)
+                const value = (
+                  <Formatted symbol={UUSD}>{collateralAsset.value}</Formatted>
+                )
+
                 return collateralAsset.token === UUSD ? amount : [amount, value]
               },
               align: "right",

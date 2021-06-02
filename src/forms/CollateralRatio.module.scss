@@ -2,6 +2,7 @@
 
 .component {
   @include flex;
+  display: inline-flex;
 }
 
 .percent {

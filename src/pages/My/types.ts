@@ -3,7 +3,7 @@ import { DataKey } from "../../hooks/useContract"
 export interface My {
   holding: MyHolding
   borrowing: MyBorrowing
-  farm: MyFarm
+  farming: MyFarming
   gov: MyGov
   limitOrder: MyLimitOrder
   total: MyTotal
@@ -56,7 +56,7 @@ export interface MyBorrowingAssetData extends Asset {
   delisted: boolean
 }
 
-export interface MyFarm {
+export interface MyFarming {
   keys: DataKey[]
   loading: boolean
   price: string
@@ -64,13 +64,13 @@ export interface MyFarm {
   totalRewards: string
   totalRewardsValue: string
   totalWithdrawableValue: string
-  dataSource: MyFarmRow[]
+  dataSource: MyFarmingRow[]
 }
 
-export type FarmType = "long" | "short"
+export type FarmingType = "long" | "short"
 
-export interface MyFarmRow extends ListedItem {
-  type: FarmType
+export interface MyFarmingRow extends ListedItem {
+  type: FarmingType
   apr?: string
   staked: string
   reward?: string

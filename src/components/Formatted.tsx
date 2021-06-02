@@ -11,10 +11,11 @@ interface Props {
   unit?: string
   big?: boolean
   className?: string
+  noUnit?: boolean
 }
 
 const Formatted = ({ symbol, children = "0", className, ...props }: Props) => {
-  const { config, unit, big } = props
+  const { config, unit, big, noUnit } = props
   const formatted = format(children, symbol, config)
   const isBig = getIsBig(children, symbol)
   const [integer, decimal] = isBig ? [formatted] : formatted.split(".")
@@ -24,7 +25,7 @@ const Formatted = ({ symbol, children = "0", className, ...props }: Props) => {
       {integer}
       <small>
         {decimal && "."}
-        {decimal} {unit ?? lookupSymbol(symbol)}
+        {decimal} {unit ?? (!noUnit && lookupSymbol(symbol))}
       </small>
     </span>
   )

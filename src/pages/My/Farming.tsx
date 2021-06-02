@@ -4,6 +4,7 @@ import Tooltip from "../../lang/Tooltip.json"
 import { formatAsset } from "../../libs/parse"
 import { percent } from "../../libs/num"
 import getLpName from "../../libs/getLpName"
+import { useContractsAddress } from "../../hooks"
 import { getPath, MenuKey } from "../../routes"
 
 import Table from "../../components/Table"
@@ -12,11 +13,13 @@ import Dl from "../../components/Dl"
 import { TooltipIcon } from "../../components/Tooltip"
 import Delisted from "../../components/Delisted"
 import LinkButton from "../../components/LinkButton"
+import Formatted from "../../components/Formatted"
 import { StakeType } from "../../types/Types"
 import NoAssets from "./NoAssets"
-import { MyFarm } from "./types"
+import { MyFarming } from "./types"
 
-const Farm = ({ loading, dataSource, ...props }: MyFarm) => {
+const Farming = ({ loading, dataSource, ...props }: MyFarming) => {
+  const { getSymbol } = useContractsAddress()
   const { totalRewards, totalRewardsValue } = props
 
   const dataExists = !!dataSource.length
@@ -69,15 +72,21 @@ const Farm = ({ loading, dataSource, ...props }: MyFarm) => {
           ),
           render: (withdrawable) =>
             withdrawable && [
-              withdrawable.text,
-              formatAsset(withdrawable.value, UUSD),
+              <>
+                <Formatted symbol={getSymbol(withdrawable.asset.token)}>
+                  {withdrawable.asset.amount}
+                </Formatted>{" "}
+                +{" "}
+                <Formatted symbol={UUSD}>{withdrawable.uusd.amount}</Formatted>
+              </>,
+              <Formatted symbol={UUSD}>{withdrawable.value}</Formatted>,
             ],
           align: "right",
         },
         {
           key: "reward",
           title: <TooltipIcon content={Tooltip.My.Reward}>Reward</TooltipIcon>,
-          render: (value) => formatAsset(value, MIR),
+          render: (value) => <Formatted symbol={MIR}>{value}</Formatted>,
           align: "right",
         },
         {
@@ -111,4 +120,4 @@ const Farm = ({ loading, dataSource, ...props }: MyFarm) => {
   ) : null
 }
 
-export default Farm
+export default Farming

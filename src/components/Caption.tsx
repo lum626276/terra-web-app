@@ -15,7 +15,7 @@ const Caption = ({ title, description, loading }: Props) => {
         {title}
       </LoadingTitle>
 
-      {description}
+      <section className={styles.desc}>{description}</section>
     </div>
   )
 }

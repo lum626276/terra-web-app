@@ -1,9 +1,10 @@
 import classNames from "classnames"
 import Tooltip from "../lang/Tooltip.json"
 import { times, div, gt, gte, lt } from "../libs/math"
-import { percent } from "../libs/num"
+import { percent, percentage } from "../libs/num"
 import Progress from "../components/Progress"
 import { TooltipIcon } from "../components/Tooltip"
+import Formatted from "../components/Formatted"
 import styles from "./CollateralRatio.module.scss"
 
 interface Props {
@@ -45,7 +46,7 @@ const CollateralRatio = ({ min, safe, ratio, compact, onClick }: Props) => {
     <div className={styles.component}>
       {compact && (
         <span className={classNames(styles.percent, color)}>
-          {percent(ratio)}
+          <Formatted unit="%">{percentage(ratio)}</Formatted>
         </span>
       )}
 
@@ -60,6 +61,7 @@ const CollateralRatio = ({ min, safe, ratio, compact, onClick }: Props) => {
         axis={compact ? [minX] : [minX, safeX]}
         onClick={onClick ? (value) => onClick(times(value, MAX)) : undefined}
         noLabel={compact}
+        compact={compact}
       />
     </div>
   )

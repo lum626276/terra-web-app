@@ -3,3 +3,7 @@
 .component {
   @include flex(space-between);
 }
+
+.desc {
+  font-size: 12px;
+}

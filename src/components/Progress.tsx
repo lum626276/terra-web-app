@@ -18,9 +18,11 @@ interface Props {
   className?: string
   onClick?: (x: string) => void
   noLabel?: boolean
+  compact?: boolean
 }
 
-const Progress = ({ data, axis, className, onClick, noLabel }: Props) => {
+const Progress = ({ data, axis, className, onClick, ...props }: Props) => {
+  const { noLabel, compact } = props
   const componentRef = useRef<HTMLDivElement>(null!)
 
   const handleClick = (e: MouseEvent) => {
@@ -31,7 +33,7 @@ const Progress = ({ data, axis, className, onClick, noLabel }: Props) => {
 
   return (
     <div
-      className={cx(styles.component, className, { cursor: onClick })}
+      className={cx(styles.component, className, { cursor: onClick, compact })}
       onClick={handleClick}
       ref={componentRef}
     >

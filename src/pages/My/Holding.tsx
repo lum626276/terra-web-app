@@ -1,7 +1,7 @@
 import MESSAGE from "../../lang/MESSAGE.json"
 import Tooltip from "../../lang/Tooltip.json"
 import { UST, UUSD } from "../../constants"
-import { format, formatAsset } from "../../libs/parse"
+import { formatAsset } from "../../libs/parse"
 import { getPath, MenuKey } from "../../routes"
 import Table from "../../components/Table"
 import Caption from "../../components/Caption"
@@ -10,6 +10,7 @@ import Change from "../../components/Change"
 import { TooltipIcon } from "../../components/Tooltip"
 import Delisted from "../../components/Delisted"
 import LinkButton from "../../components/LinkButton"
+import Formatted from "../../components/Formatted"
 import { TradeType } from "../../types/Types"
 import NoAssets from "./NoAssets"
 import { MyHolding } from "./types"
@@ -54,28 +55,29 @@ const Holding = ({ loading, totalValue, dataSource }: MyHolding) => {
         },
         {
           key: "price",
-          render: (value) => `${format(value)} ${UST}`,
+          render: (value, { change }) => [
+            <Formatted unit={UST}>{value}</Formatted>,
+            <Change>{change}</Change>,
+          ],
           align: "right",
           narrow: ["right"],
-        },
-        {
-          key: "change",
-          title: "",
-          render: (change: string) => <Change>{change}</Change>,
-          narrow: ["left"],
         },
         {
           key: "balance",
           title: (
             <TooltipIcon content={Tooltip.My.Balance}>Balance</TooltipIcon>
           ),
-          render: (value, { symbol }) => format(value, symbol),
+          render: (value, { symbol }) => (
+            <Formatted symbol={symbol} noUnit>
+              {value}
+            </Formatted>
+          ),
           align: "right",
         },
         {
           key: "value",
           title: <TooltipIcon content={Tooltip.My.Value}>Value</TooltipIcon>,
-          render: (value) => formatAsset(value, UUSD),
+          render: (value) => <Formatted symbol={UUSD}>{value}</Formatted>,
           align: "right",
         },
         {

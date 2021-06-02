@@ -14,7 +14,7 @@ import useMy from "./useMy"
 import TotalValue from "./TotalValue"
 import Holding from "./Holding"
 import Borrowing from "./Borrowing"
-import Farm from "./Farm"
+import Farming from "./Farming"
 import LimitOrder from "./LimitOrder"
 import Gov from "./Gov"
 import HistoryList from "./HistoryList"
@@ -32,7 +32,7 @@ enum Tabs {
 const MyConnected = () => {
   const { disconnect } = useWallet()
   const my = useMy()
-  const { holding, borrowing, farm, gov, limitOrder } = my
+  const { holding, borrowing, farming, gov, limitOrder } = my
   const shouldBuyUST = useShouldBuyUST()
   const txs = useTxs()
 
@@ -45,7 +45,7 @@ const MyConnected = () => {
   const hasHolding = !!holding.dataSource.length
   const hasLimitOrder = !!limitOrder.dataSource.length
   const hasBorrowing = !!borrowing.dataSource.length
-  const hasFarm = !!farm.dataSource.length
+  const hasFarming = !!farming.dataSource.length
   const hasGov = !!gov.dataSource.length || gt(gov.staked, 0)
   const hasTxs = !!txs.data.length
 
@@ -67,8 +67,8 @@ const MyConnected = () => {
     },
     {
       label: Tabs.FARMING,
-      hidden: !hasFarm,
-      component: <Farm {...farm} />,
+      hidden: !hasFarming,
+      component: <Farming {...farming} />,
     },
     {
       label: Tabs.GOVERN,

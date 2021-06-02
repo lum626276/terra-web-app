@@ -3,6 +3,7 @@
 
 .flex {
   @include flex;
+  display: inline-flex;
 }
 
 .left {

@@ -1,7 +1,7 @@
 import { UST, UUSD } from "../../constants"
 import MESSAGE from "../../lang/MESSAGE.json"
 import Tooltip from "../../lang/Tooltip.json"
-import { format, formatAsset } from "../../libs/parse"
+import { formatAsset } from "../../libs/parse"
 import { capitalize } from "../../libs/utils"
 import { getPath, MenuKey } from "../../routes"
 import Table from "../../components/Table"
@@ -11,6 +11,7 @@ import Button from "../../components/Button"
 import { TooltipIcon } from "../../components/Tooltip"
 import Delisted from "../../components/Delisted"
 import LinkButton from "../../components/LinkButton"
+import Formatted from "../../components/Formatted"
 import NoAssets from "./NoAssets"
 import { MyLimitOrder } from "./types"
 
@@ -61,21 +62,21 @@ const LimitOrder = ({ loading, dataSource, total, more }: MyLimitOrder) => {
             {
               key: "terraswapPrice",
               title: "Terraswap Price",
-              render: (value) => `${format(value)} ${UST}`,
+              render: (value) => <Formatted unit={UST}>{value}</Formatted>,
               align: "right",
             },
             {
               key: "limitPrice",
               title: renderTooltip("Limit Price", Tooltip.My.LimitPrice),
-              render: (value) => `${format(value)} ${UST}`,
+              render: (value) => <Formatted unit={UST}>{value}</Formatted>,
               align: "right",
             },
             {
               key: "asset",
               title: "Order Amount",
               render: (asset, { uusd }) => [
-                formatAsset(asset.amount, asset.symbol),
-                formatAsset(uusd.amount, uusd.symbol),
+                <Formatted symbol={asset.symbol}>{asset.amount}</Formatted>,
+                <Formatted symbol={uusd.symbol}>{uusd.amount}</Formatted>,
               ],
               align: "right",
             },
