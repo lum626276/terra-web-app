@@ -106,7 +106,7 @@ export default (type: MintType, prev?: MintPosition) => (logs: TxLog[]) => {
           content: formatAsset(nextAsset.amount, getSymbol(nextAsset.token)),
         },
         {
-          title: "Collaterals",
+          title: "Collateral",
           content: formatAsset(
             nextCollateral.amount,
             getSymbol(nextCollateral.token)
