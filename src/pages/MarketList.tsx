@@ -123,12 +123,10 @@ const MarketList = () => {
             key: "terraswap",
             title: "Terraswap Price",
             render: ({ price }, { terraswap: { change } }) =>
-              gt(price, 0) && (
-                <>
-                  <Formatted unit={UST}>{price}</Formatted>
-                  <Change align="right">{change}</Change>
-                </>
-              ),
+              gt(price, 0) && [
+                <Formatted unit={UST}>{price}</Formatted>,
+                <Change align="right">{change}</Change>,
+              ],
             align: "right",
             narrow: ["right"],
           },
