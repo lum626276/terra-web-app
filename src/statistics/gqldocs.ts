@@ -12,11 +12,21 @@ export const STATISTICS = gql`
   query statistic($from: Float!, $to: Float!, $network: Network) {
     statistic(network: $network) {
       assetMarketCap
-      totalValueLocked
       collateralRatio
-      mirCirculatingSupply
       govAPR
-      govAPY
+
+      mirSupply {
+        circulating
+        liquidity
+        staked
+      }
+
+      totalValueLocked {
+        total
+        liquidity
+        collateral
+        stakedMir
+      }
 
       latest24h {
         transactions

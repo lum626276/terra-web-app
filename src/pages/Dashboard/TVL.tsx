@@ -1,22 +1,22 @@
 import { UUSD } from "../../constants"
+import { number } from "../../libs/math"
 import { formatAsset } from "../../libs/parse"
 import Card from "../../components/Card"
 import Formatted from "../../components/Formatted"
 import RatioChart from "../../containers/RatioChart"
 import styles from "./TVL.module.scss"
 
-const TVL = ({ value }: { value: string }) => {
+const TVL = ({ total, liquidity, collateral, stakedMir }: TVL) => {
   const list = [
-    { label: "Collateral", value: 3 * 1e6 * 1e6 },
-    { label: "Staked MIR", value: 2 * 1e6 * 1e6 },
-    { label: "Liquidity", value: 1 * 1e6 * 1e6 },
-    { label: "ETC", value: 4 * 1e6 * 1e6 },
-  ]
+    { label: "Collateral", value: number(collateral) },
+    { label: "Staked MIR", value: number(stakedMir) },
+    { label: "Liquidity", value: number(liquidity) },
+  ].sort(({ value: a }, { value: b }) => b - a)
 
   return (
     <Card title="Total Value Locked" lg>
       <Formatted symbol={UUSD} config={{ integer: true }} big>
-        {value}
+        {total}
       </Formatted>
 
       <section className={styles.chart}>

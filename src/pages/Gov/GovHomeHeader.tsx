@@ -19,7 +19,7 @@ const GovHomeHeader = () => {
   const state = useGovState()
   const { balance } = useGov()
   const dashboard = useDashboard()
-  const supply = dashboard.dashboard?.mirCirculatingSupply
+  const supply = dashboard.dashboard?.mirSupply.circulating
 
   const totalStaked = [balance, state?.total_deposit].every(isFinite)
     ? minus(balance, state?.total_deposit)

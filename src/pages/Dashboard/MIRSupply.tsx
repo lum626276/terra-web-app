@@ -1,26 +1,26 @@
 import { UST, UUSD } from "../../constants"
+import { minus, number, sum } from "../../libs/math"
 import { formatAsset } from "../../libs/parse"
 import Card from "../../components/Card"
 import Formatted from "../../components/Formatted"
 import DoughnutChart from "../../containers/DoughnutChart"
 
-const MIRSupply = () => {
+const MIRSupply = ({ circulating, liquidity, staked }: MIRSupply) => {
   const list = [
-    { label: "Staked", value: String(3 * 1e6 * 1e6) },
-    { label: "Community", value: String(2 * 1e6 * 1e6) },
-    { label: "Liquidity", value: String(1 * 1e6 * 1e6) },
-    { label: "ETC", value: String(4 * 1e6 * 1e6) },
-  ]
+    { label: "Staked", value: staked },
+    { label: "Circulating", value: circulating },
+    { label: "Liquidity", value: liquidity },
+  ].sort(({ value: a }, { value: b }) => number(minus(b, a)))
 
   return (
     <Card title="MIR Supply" lg>
       <Formatted unit={UST} big>
-        123456789
+        {sum([circulating, liquidity, staked])}
       </Formatted>
 
       <DoughnutChart
         list={list}
-        format={(value) => formatAsset(String(value), UUSD)}
+        format={(value) => formatAsset(String(value), UUSD, { integer: true })}
       />
     </Card>
   )

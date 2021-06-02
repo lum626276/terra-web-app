@@ -40,10 +40,10 @@ const Dashboard = () => {
           {[
             [
               { flex: 3, component: <MIRPrice /> },
-              { flex: 7, component: <MIRSupply /> },
+              { flex: 7, component: <MIRSupply {...dashboard.mirSupply} /> },
               {
                 flex: 6,
-                component: <TVL value={dashboard.totalValueLocked} />,
+                component: <TVL {...dashboard.totalValueLocked} />,
               },
             ],
             [

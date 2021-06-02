@@ -1,10 +1,11 @@
 interface Dashboard {
   assetMarketCap: string
-  totalValueLocked: string
   collateralRatio: string
-  mirCirculatingSupply: string
   govAPR: string
-  govAPY: string
+
+  mirSupply: MIRSupply
+
+  totalValueLocked: TVL
 
   latest24h: {
     transactions: string
@@ -15,6 +16,19 @@ interface Dashboard {
 
   liquidityHistory: ChartItem[]
   tradingVolumeHistory: ChartItem[]
+}
+
+interface MIRSupply {
+  circulating: string
+  liquidity: string
+  staked: string
+}
+
+interface TVL {
+  total: string
+  liquidity: string
+  collateral: string
+  stakedMir: string
 }
 
 interface ChartItem {
