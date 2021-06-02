@@ -600,7 +600,10 @@ const MintForm = ({ position, type, tab, message }: Props) => {
           {open && <FormIcon name="arrow_downward" />}
           {(open || custom) && <FormGroup {...fields[Key.value2]} />}
           <FormGroup {...fields[Key.ratio]} skipFeedback />
-          {!custom && <CollateralRatio {...ratioProps} />}
+
+          <section className={styles.ratio}>
+            {!custom && <CollateralRatio {...ratioProps} />}
+          </section>
 
           {open && (
             <Caution className={styles.caution}>

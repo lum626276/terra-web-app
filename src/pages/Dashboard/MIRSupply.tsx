@@ -1,5 +1,5 @@
 import { UST, UUSD } from "../../constants"
-import { minus, number, sum } from "../../libs/math"
+import { minus, plus, sum } from "../../libs/math"
 import { formatAsset } from "../../libs/parse"
 import Card from "../../components/Card"
 import Formatted from "../../components/Formatted"
@@ -7,15 +7,15 @@ import DoughnutChart from "../../containers/DoughnutChart"
 
 const MIRSupply = ({ circulating, liquidity, staked }: MIRSupply) => {
   const list = [
-    { label: "Staked", value: staked },
-    { label: "Circulating", value: circulating },
     { label: "Liquidity", value: liquidity },
-  ].sort(({ value: a }, { value: b }) => number(minus(b, a)))
+    { label: "Staked", value: staked },
+    { label: "ETC", value: minus(circulating, plus(liquidity, staked)) },
+  ]
 
   return (
-    <Card title="MIR Supply" lg>
+    <Card title="MIR Circulating Supply" lg>
       <Formatted unit={UST} big>
-        {sum([circulating, liquidity, staked])}
+        {circulating}
       </Formatted>
 
       <DoughnutChart

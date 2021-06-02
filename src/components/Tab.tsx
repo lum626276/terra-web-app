@@ -1,6 +1,7 @@
 import { FC } from "react"
 import { Link, useLocation } from "react-router-dom"
 import classNames from "classnames/bind"
+import { capitalize } from "../libs/utils"
 import { TooltipIcon } from "./Tooltip"
 import styles from "./Tab.module.scss"
 
@@ -16,9 +17,9 @@ const Tab: FC<Tab> = ({ tabs, tooltips, current, children, onClick }) => {
           const to = { hash: tab, search, state }
           const tooltip = tooltips?.[index]
           const label = tooltip ? (
-            <TooltipIcon content={tooltip}>{tab}</TooltipIcon>
+            <TooltipIcon content={tooltip}>{capitalize(tab)}</TooltipIcon>
           ) : (
-            tab
+            capitalize(tab)
           )
 
           const attrs = {

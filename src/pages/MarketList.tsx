@@ -152,6 +152,7 @@ const MarketList = () => {
                 compact
               />
             ),
+            align: "right",
           },
         ]}
         dataSource={dataSource}

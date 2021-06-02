@@ -118,9 +118,9 @@ const ChartContainer = ({ change, datasets, ...props }: Props) => {
   const chartProps = { data, options }
 
   return (
-    <article>
+    <article className={cx({ compact })}>
       {datasets.length > 1 && (
-        <section className={cx(styles.chart, { compact })}>
+        <section className={styles.chart}>
           {bar ? (
             <Bar type="bar" {...chartProps} />
           ) : (

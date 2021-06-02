@@ -201,14 +201,6 @@ const PoolForm = ({
             </Count>
           ),
         },
-        ...insertIf(type === PoolType.PROVIDE, {
-          title: (
-            <TooltipIcon content={Tooltip.Pool.LPfromTx}>
-              LP from Tx
-            </TooltipIcon>
-          ),
-          content: <Count symbol={LP}>{toLP?.value}</Count>,
-        }),
         ...insertIf(type === PoolType.WITHDRAW || gt(balance, 0), {
           title: "LP after Tx",
           content: <Count symbol={LP}>{lpAfterTx}</Count>,
