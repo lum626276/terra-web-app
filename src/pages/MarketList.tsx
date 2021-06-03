@@ -131,18 +131,6 @@ const MarketList = () => {
             narrow: ["right"],
           },
           {
-            key: "premium",
-            title: "Premium",
-            render: (value) => <Percent>{value}</Percent>,
-            align: "right",
-          },
-          {
-            key: "volume",
-            title: "Volume",
-            render: (value) => <Formatted symbol={UUSD}>{value}</Formatted>,
-            align: "right",
-          },
-          {
             key: "history",
             title: "1D Chart",
             render: (history: PriceHistoryItem[]) => (
@@ -154,6 +142,18 @@ const MarketList = () => {
                 compact
               />
             ),
+            align: "right",
+          },
+          {
+            key: "premium",
+            title: "Premium",
+            render: (value) => <Percent>{value}</Percent>,
+            align: "right",
+          },
+          {
+            key: "volume",
+            title: "Volume",
+            render: (value) => <Formatted symbol={UUSD}>{value}</Formatted>,
             align: "right",
           },
         ]}
