@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { ReactComponent as Image } from "./Airdrop.svg"
 import LinkButton from "../components/LinkButton"
-import MaterialIcon from "../components/MaterialIcon"
+import Icon from "../components/Icon"
 import styles from "./AirdropToast.module.scss"
 
 const AirdropToast = () => {
@@ -11,7 +11,7 @@ const AirdropToast = () => {
   return !isOpen ? null : (
     <div className={styles.toast}>
       <button className={styles.close} onClick={close}>
-        <MaterialIcon name="close" size={18} />
+        <Icon name="Close" size={18} />
       </button>
 
       <Image height={80} className={styles.image} />

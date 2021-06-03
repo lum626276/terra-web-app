@@ -25,8 +25,6 @@ export interface Props {
 
   /** Card acts as a link */
   to?: string
-  /** Button to the left of the title */
-  goBack?: () => void
   /** Button to the right of the title */
   action?: ReactNode
   /** Badges */

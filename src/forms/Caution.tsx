@@ -10,11 +10,10 @@ const { title, content, footer } = Contents
 const { introduction, body, conclusion } = content
 
 interface Props extends Button {
-  goBack?: () => void
   onAgree?: () => void
 }
 
-const Caution = ({ goBack = () => {}, onAgree = () => {} }: Props) => {
+const Caution = ({ onAgree = () => {} }: Props) => {
   const [checked, setChecked] = useState(false)
   const { agreementState } = useSettings()
   const [, agree] = agreementState
@@ -25,7 +24,7 @@ const Caution = ({ goBack = () => {}, onAgree = () => {} }: Props) => {
   }
 
   return (
-    <Card title={title} goBack={goBack}>
+    <Card title={title}>
       <article className={styles.article}>
         <p>{introduction}</p>
 

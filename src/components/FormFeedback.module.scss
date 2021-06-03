@@ -7,14 +7,20 @@
   margin-top: 30px;
 }
 
-.help {
-  color: $white-44;
-}
-
 .icon {
   margin-right: 10px;
 }
 
-.red {
-  color: $red;
+.help {
+  color: $white-44;
+
+  svg {
+    fill: $white-44;
+  }
+}
+
+.warn {
+  svg {
+    fill: $orange;
+  }
 }

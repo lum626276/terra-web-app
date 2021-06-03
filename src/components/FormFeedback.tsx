@@ -1,19 +1,19 @@
 import { FC } from "react"
-import classNames from "classnames/bind"
-import MaterialIcon from "./MaterialIcon"
+import classNames from "classnames"
+import Icon from "./Icon"
 import styles from "./FormFeedback.module.scss"
 
-const cx = classNames.bind(styles)
-
 const FormFeedback: FC<{ help?: boolean }> = ({ children, help }) => {
-  const icon = { size: 16, className: cx(styles.icon, { red: !help }) }
+  const icon = { size: 16, className: styles.icon }
 
   return (
-    <div className={cx(styles.component, { help })}>
+    <div
+      className={classNames(styles.component, help ? styles.help : styles.warn)}
+    >
       {help ? (
-        <MaterialIcon name="info_outline" {...icon} />
+        <Icon name="InfoCircle" {...icon} />
       ) : (
-        <MaterialIcon name="warning" {...icon} />
+        <Icon name="ExclamationTriangleSolid" {...icon} />
       )}
 
       <div>{children}</div>

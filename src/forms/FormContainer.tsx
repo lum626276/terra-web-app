@@ -96,7 +96,6 @@ export const FormContainer = ({ data: msgs, memo, ...props }: Props) => {
   /* confirm */
   const [confirming, setConfirming] = useState(false)
   const confirm = () => (hasAgreed ? submit() : setConfirming(true))
-  const cancel = () => setConfirming(false)
 
   /* submit */
   const [submitted, setSubmitted] = useState(false)
@@ -194,11 +193,7 @@ export const FormContainer = ({ data: msgs, memo, ...props }: Props) => {
         />
       ) : (
         <form {...attrs} onSubmit={handleSubmit}>
-          {!confirming ? (
-            render(children)
-          ) : (
-            <Caution goBack={cancel} onAgree={submit} />
-          )}
+          {!confirming ? render(children) : <Caution onAgree={submit} />}
         </form>
       )}
 

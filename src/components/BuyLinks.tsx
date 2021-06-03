@@ -1,7 +1,7 @@
 import { ReactNode } from "react"
 import classNames from "classnames/bind"
 import ExtLink from "./ExtLink"
-import MaterialIcon from "./MaterialIcon"
+import Icon from "./Icon"
 import { ReactComponent as KuCoin } from "./KuCoin.svg"
 import styles from "./BuyLinks.module.scss"
 
@@ -30,7 +30,7 @@ interface Props {
 
 const BuyLinks = ({ type = "terra", ...props }: Props) => {
   const { action, links = [], className, onClick } = props
-  const arrow = <MaterialIcon name="north_east" size={16} />
+  const arrow = <Icon name="External" size={16} />
 
   return (
     <article className={className}>
