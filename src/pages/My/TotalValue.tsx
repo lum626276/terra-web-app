@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { MIR, UUSD } from "../../constants"
 import { gt, minus } from "../../libs/math"
 import { formatAsset } from "../../libs/parse"
@@ -10,7 +11,9 @@ import Formatted from "../../components/Formatted"
 import LinkButton from "../../components/LinkButton"
 import DoughnutChart from "../../containers/DoughnutChart"
 import BuyLinks from "../../components/BuyLinks"
+import Icon from "../../components/Icon"
 import { My } from "./types"
+import styles from "./TotalValue.module.scss"
 
 const TotalValue = ({ total, holding, borrowing, farming }: My) => {
   const { value } = total
@@ -41,6 +44,12 @@ const TotalValue = ({ total, holding, borrowing, farming }: My) => {
               <BuyLinks type="terra" />
             </CardMain>
           )
+        }
+        action={
+          <Link to={getPath(MenuKey.SEND)} className={styles.send}>
+            <Icon name="Send" />
+            Send
+          </Link>
         }
       >
         <Formatted symbol={UUSD} big>

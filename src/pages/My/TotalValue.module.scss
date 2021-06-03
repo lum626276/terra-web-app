@@ -1,0 +1,14 @@
+@import "mixins";
+
+.send {
+  @include flex;
+  color: $blue;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+
+  svg {
+    fill: $blue;
+    margin-right: 4px;
+  }
+}
