@@ -1,19 +1,22 @@
 import { MIR, UUSD } from "../../constants"
 import { gt, minus } from "../../libs/math"
 import { formatAsset } from "../../libs/parse"
-import { useContract } from "../../hooks"
+import { useContract, useRefetch } from "../../hooks"
+import { AccountInfoKey } from "../../hooks/contractKeys"
 import { getPath, MenuKey } from "../../routes"
 import Card, { CardMain } from "../../components/Card"
 import Grid from "../../components/Grid"
 import Formatted from "../../components/Formatted"
 import LinkButton from "../../components/LinkButton"
 import DoughnutChart from "../../containers/DoughnutChart"
+import BuyLinks from "../../components/BuyLinks"
 import { My } from "./types"
 
 const TotalValue = ({ total, holding, borrowing, farming }: My) => {
   const { value } = total
   const { totalRewards, totalRewardsValue } = farming
   const { uusd } = useContract()
+  const shouldBuyUST = useShouldBuyUST()
 
   const claimAll = (
     <CardMain>
@@ -30,26 +33,37 @@ const TotalValue = ({ total, holding, borrowing, farming }: My) => {
 
   return (
     <Grid>
-      <Card title="Total Value">
+      <Card
+        title="Total Value"
+        footer={
+          shouldBuyUST && (
+            <CardMain>
+              <BuyLinks type="terra" />
+            </CardMain>
+          )
+        }
+      >
         <Formatted symbol={UUSD} big>
           {value}
         </Formatted>
 
-        <DoughnutChart
-          list={[
-            { label: "UST", value: uusd },
-            { label: "Holding", value: holding.totalValue },
-            {
-              label: "Borrowing",
-              value: minus(
-                borrowing.totalCollateralValue,
-                borrowing.totalMintedValue
-              ),
-            },
-            { label: "Farming", value: farming.totalWithdrawableValue },
-          ]}
-          format={(value) => formatAsset(value, UUSD)}
-        />
+        {!shouldBuyUST && (
+          <DoughnutChart
+            list={[
+              { label: "UST", value: uusd },
+              { label: "Holding", value: holding.totalValue },
+              {
+                label: "Borrowing",
+                value: minus(
+                  borrowing.totalCollateralValue,
+                  borrowing.totalMintedValue
+                ),
+              },
+              { label: "Farming", value: farming.totalWithdrawableValue },
+            ]}
+            format={(value) => formatAsset(value, UUSD)}
+          />
+        )}
       </Card>
 
       <Card title="Total Rewards" footer={claimAll}>
@@ -68,3 +82,10 @@ const TotalValue = ({ total, holding, borrowing, farming }: My) => {
 }
 
 export default TotalValue
+
+/* hooks */
+const useShouldBuyUST = () => {
+  const { uusd } = useContract()
+  const { data } = useRefetch([AccountInfoKey.UUSD])
+  return !!data && !gt(uusd, 0)
+}

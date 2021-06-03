@@ -1,14 +1,11 @@
 import { useWallet } from "@terra-money/wallet-provider"
 import { gt } from "../../libs/math"
 import useLocalStorage from "../../libs/useLocalStorage"
-import { useContract, useRefetch } from "../../hooks"
-import { AccountInfoKey } from "../../hooks/contractKeys"
 import useTxs from "../../statistics/useTxs"
 
 import Tab from "../../components/Tab"
 import Grid from "../../components/Grid"
 import Button from "../../components/Button"
-import BuyLinks from "../../components/BuyLinks"
 
 import useMy from "./useMy"
 import TotalValue from "./TotalValue"
@@ -33,7 +30,7 @@ const MyConnected = () => {
   const { disconnect } = useWallet()
   const my = useMy()
   const { holding, borrowing, farming, gov, limitOrder } = my
-  const shouldBuyUST = useShouldBuyUST()
+
   const txs = useTxs()
 
   /* state */
@@ -86,8 +83,6 @@ const MyConnected = () => {
 
   return (
     <>
-      {shouldBuyUST && <BuyLinks type="terra" />}
-
       <TotalValue {...my} />
 
       {!!tabs.length && (
@@ -116,9 +111,3 @@ const MyConnected = () => {
 }
 
 export default MyConnected
-
-const useShouldBuyUST = () => {
-  const { uusd } = useContract()
-  const { data } = useRefetch([AccountInfoKey.UUSD])
-  return !!data && !gt(uusd, 0)
-}
