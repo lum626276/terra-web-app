@@ -21,7 +21,10 @@ const Header = () => {
 
       <Connect className={classNames(styles.item, "mobile")} />
 
-      <ExtLink href={DOCS} className={classNames(styles.item, "desktop")}>
+      <ExtLink
+        href={DOCS}
+        className={classNames(styles.item, styles.docs, "desktop")}
+      >
         <Icon name="Docs" size={22} />
       </ExtLink>
     </header>
