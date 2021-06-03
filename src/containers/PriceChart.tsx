@@ -5,7 +5,8 @@ import { startOfMinute, subDays, subMonths, subWeeks, subYears } from "date-fns"
 
 import { format } from "../libs/parse"
 import Change from "../components/Change"
-import AssetIcon from "../components/AssetIcon"
+import AssetItem from "../components/AssetItem"
+import { CardMain } from "../components/Card"
 
 import { UST } from "../constants"
 import { PRICEHISTORY } from "../statistics/gqldocs"
@@ -83,19 +84,20 @@ const PriceChart = ({ token, symbol }: { token: string; symbol: string }) => {
 
   return !data ? null : (
     <div className={styles.component}>
-      <section className={styles.header}>
-        <AssetIcon symbol={symbol} />
+      <CardMain>
+        <AssetItem token={token} />
 
-        <div className={styles.token}>
-          <h1 className={styles.symbol}>{symbol}</h1>
-          <Change
-            className={styles.price}
-            price={`${format(data.price)} ${UST}`}
-          >
-            {change}
-          </Change>
-        </div>
-      </section>
+        <dl className={styles.details}>
+          <dt>Terraswap Price</dt>
+          <dd>
+            <p>
+              {format(data.price)} {UST}
+            </p>
+
+            <Change>{change}</Change>
+          </dd>
+        </dl>
+      </CardMain>
 
       <div className={styles.chart}>
         <ChartContainer
