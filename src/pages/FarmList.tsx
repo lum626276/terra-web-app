@@ -137,18 +137,6 @@ const FarmList = () => {
           render: (value) => <Formatted symbol={UUSD}>{value}</Formatted>,
           align: "right",
         },
-        {
-          key: "staked",
-          title: "Staked",
-          render: (value) => (
-            <Icon
-              name="Check"
-              size={24}
-              className={cx(styles.check, { checked: gt(value, 0) })}
-            />
-          ),
-          align: "center",
-        },
       ]}
       dataSource={dataSource}
     />
