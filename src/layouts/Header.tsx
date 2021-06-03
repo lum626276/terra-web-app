@@ -22,7 +22,7 @@ const Header = () => {
       <Connect className={classNames(styles.item, "mobile")} />
 
       <ExtLink href={DOCS} className={classNames(styles.item, "desktop")}>
-        Docs
+        <Icon name="Docs" size={22} />
       </ExtLink>
     </header>
   )

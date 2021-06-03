@@ -15,8 +15,17 @@
 .item {
   @include flex;
 
+  svg {
+    fill: $white-52;
+  }
+
   @include mobile {
     height: $header-height-mobile;
     padding: 0 $gutter-horizontal-mobile;
+  }
+
+  @include desktop {
+    height: $header-height-desktop;
+    padding: 0 $gutter-horizontal-desktop;
   }
 }
