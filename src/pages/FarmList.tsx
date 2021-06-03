@@ -1,17 +1,23 @@
+import classNames from "classnames/bind"
 import { MIR } from "../constants"
 import { lt, gt, div, minus } from "../libs/math"
 import { useContractsAddress, useContract, useRefetch } from "../hooks"
-import { AssetInfoKey, PriceKey } from "../hooks/contractKeys"
+import { AssetInfoKey, BalanceKey, PriceKey } from "../hooks/contractKeys"
 import useAssetStats from "../statistics/useAssetStats"
 import useYesterday, { calcChange } from "../statistics/useYesterday"
 import Table from "../components/Table"
 import Percent from "../components/Percent"
 import AssetItem from "../components/AssetItem"
+import Icon from "../components/Icon"
 import { FarmType } from "../types/Types"
+import styles from "./FarmList.module.scss"
+
+const cx = classNames.bind(styles)
 
 const FarmList = () => {
+  const balanceKey = BalanceKey.LPSTAKED
   const infoKey = AssetInfoKey.LIQUIDITY
-  const keys = [PriceKey.PAIR, PriceKey.ORACLE, infoKey]
+  const keys = [PriceKey.PAIR, PriceKey.ORACLE, balanceKey, infoKey]
 
   const { listed, getSymbol } = useContractsAddress()
   const { find } = useContract()
@@ -26,10 +32,16 @@ const FarmList = () => {
       const pair = find(PriceKey.PAIR, token)
       const oracle = find(PriceKey.ORACLE, token)
       const premium = minus(div(pair, oracle), 1)
+      const staked = find(balanceKey, token)
+
+      const long = apr?.[token]?.long
+      const short = apr?.[token]?.short
 
       return {
         ...item,
-        apr: apr?.[token] ?? { long: undefined, short: undefined },
+        staked,
+        apr: { long, short },
+        recommended: long && short && gt(short, long) ? "short" : "long",
         pair: {
           price: pair,
           change: calcChange({
@@ -67,17 +79,19 @@ const FarmList = () => {
         {
           key: "apr.long",
           title: "Long",
-          render: (value) => (
+          render: (value, { recommended }) => (
             <>
-              <Percent color={"blue"}>{value}</Percent>
-              <p className="small">Long Farm</p>
+              <Percent color={recommended === "long" ? "blue" : undefined}>
+                {value}
+              </Percent>
+              <p className={styles.link}>
+                Long Farm
+                <Icon name="ChevronRight" size={8} className={styles.chevron} />
+              </p>
             </>
           ),
-          cell: (_, { token, apr }) => ({
-            background:
-              apr.long && apr.short && gt(apr.long, apr.short)
-                ? "darker"
-                : undefined,
+          cell: (_, { token, recommended }) => ({
+            background: recommended === "long" ? "darker" : undefined,
             to: { hash: FarmType.LONG, state: { token } },
           }),
           align: "right",
@@ -85,20 +99,26 @@ const FarmList = () => {
         {
           key: "apr.short",
           title: "Short",
-          render: (value, { token }) =>
+          render: (value, { token, recommended }) =>
             getSymbol(token) !== MIR && (
               <>
-                <Percent color={"red"}>{value}</Percent>
-                <p className="small">Short Farm</p>
+                <Percent color={recommended === "short" ? "red" : undefined}>
+                  {value}
+                </Percent>
+                <p className={styles.link}>
+                  Short Farm
+                  <Icon
+                    name="ChevronRight"
+                    size={8}
+                    className={styles.chevron}
+                  />
+                </p>
               </>
             ),
-          cell: (_, { token, apr }) =>
+          cell: (_, { token, recommended }) =>
             getSymbol(token) !== MIR
               ? {
-                  background:
-                    apr.long && apr.short && gt(apr.short, apr.long)
-                      ? "darker"
-                      : undefined,
+                  background: recommended === "short" ? "darker" : undefined,
                   to: { hash: FarmType.SHORT, state: { token } },
                 }
               : {},
@@ -106,10 +126,21 @@ const FarmList = () => {
         },
         {
           key: "premium",
-          dataIndex: "premium",
           title: "Premium",
           render: (value) => <Percent>{value}</Percent>,
           align: "right",
+        },
+        {
+          key: "staked",
+          title: "Staked",
+          render: (value) => (
+            <Icon
+              name="Check"
+              size={24}
+              className={cx(styles.check, { checked: gt(value, 0) })}
+            />
+          ),
+          align: "center",
         },
       ]}
       dataSource={dataSource}

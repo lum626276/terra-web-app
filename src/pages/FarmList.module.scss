@@ -1,21 +1,20 @@
 @import "mixins";
 
-.asset {
-  @include flex(flex-start);
+.link {
+  color: $white-52;
+  font-size: 12px;
+  font-weight: 500;
+}
 
-  .title {
-    margin-left: 12px;
-  }
+.chevron {
+  fill: $blue;
+  margin-left: 2px;
+}
 
-  .symbol {
-    color: $white-92;
-    font-size: 16px;
-    font-weight: 500;
-  }
+.check {
+  fill: $gray-34;
+}
 
-  .name {
-    color: $white-44;
-    font-size: 12px;
-    font-weight: 500;
-  }
+.checked {
+  fill: $blue;
 }
