@@ -1,6 +1,6 @@
 import styles from "./AssetIcon.module.scss"
 
-const ICON_URL = "https://whitelist.mirror.finance/images"
+const ICON_URL = "https://whitelist-v2.mirror.finance/images"
 
 interface Props {
   symbol: string

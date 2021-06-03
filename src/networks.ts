@@ -33,7 +33,7 @@ const networks: Record<string, MirrorNetworkInfo> = {
     name: "moonshine",
     chainID: "localterra",
     lcd: "https://moonshine-lcd-02.interus.net",
-    contract: "https://whitelist.mirror.finance/moonshine.json",
+    contract: "https://whitelist-v2.mirror.finance/moonshine.json",
     mantle: "https://moonshine-mantle-02.interus.net",
     stats: "https://moonshine-mirror-graph-02.interus.net/graphql",
     shuttle: {
