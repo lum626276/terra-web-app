@@ -35,7 +35,7 @@ $padding: 20px;
 .clickable:hover,
 .clickable:hover .cell {
   cursor: pointer;
-  background-color: lighten($gray-18, 10%);
+  background-color: $gray-22;
 }
 
 .caption {
