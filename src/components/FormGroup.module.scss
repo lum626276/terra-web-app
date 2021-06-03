@@ -6,10 +6,6 @@
 }
 
 .component {
-  input {
-    text-align: right;
-  }
-
   input,
   textarea {
     width: 100%;
@@ -105,6 +101,11 @@ $padding: 18px 24px;
 
 .icon {
   margin-right: 12px;
+}
+
+.field,
+.field input {
+  text-align: right;
 }
 
 /* assets */

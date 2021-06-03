@@ -1,3 +1,4 @@
+import { useState } from "react"
 import classNames from "classnames/bind"
 import styles from "./AssetIcon.module.scss"
 
@@ -12,9 +13,16 @@ interface Props {
 }
 
 const AssetIcon = ({ symbol, small, className }: Props) => {
-  return (
+  const [error, setError] = useState(false)
+
+  return error ? null : (
     <div className={cx(styles.bg, { small }, className)}>
-      <img src={getIcon(symbol)} className={styles.icon} alt="" />
+      <img
+        src={getIcon(symbol)}
+        className={styles.icon}
+        alt=""
+        onError={() => setError(true)}
+      />
     </div>
   )
 }
