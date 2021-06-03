@@ -43,34 +43,22 @@
   select {
     appearance: none;
     border: solid 1px fade-out($gray-34, 0.5);
-    border-radius: 3px;
+    border-radius: 6px;
+    color: $white-64;
     font-size: 12px;
-    margin-left: 10px;
-    padding: 5px 10px;
+    margin-left: 12px;
+    letter-spacing: -0.3px;
+    padding: 10px 12px;
     padding-right: 30px;
   }
 
-  i {
+  svg {
+    fill: $blue;
     position: absolute;
     top: 50%;
-    right: 10px;
+    right: 12px;
     transform: translate(0, -50%);
     pointer-events: none;
-  }
-}
-
-.doc {
-  @include flex(flex-start);
-  @include link($gray-34, white);
-  border-left: $border;
-  font-size: 12px;
-  font-weight: 500;
-  margin-left: 20px;
-  padding-left: 15px;
-  text-transform: uppercase;
-
-  &:hover {
-    text-decoration: none;
   }
 }
 

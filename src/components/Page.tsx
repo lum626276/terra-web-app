@@ -1,8 +1,6 @@
 import { FC, ReactNode } from "react"
-import { DOCS } from "../constants"
 import Container from "./Container"
-import ExtLink from "./ExtLink"
-import MaterialIcon from "./MaterialIcon"
+import Icon from "./Icon"
 import styles from "./Page.module.scss"
 
 interface Props {
@@ -15,7 +13,7 @@ interface Props {
 }
 
 const Page: FC<Props> = ({ title, description, children, ...props }) => {
-  const { doc, action, select, sm } = props
+  const { action, select, sm } = props
 
   return (
     <article className={styles.article}>
@@ -27,19 +25,8 @@ const Page: FC<Props> = ({ title, description, children, ...props }) => {
             {select && (
               <div className={styles.select}>
                 {select}
-                <MaterialIcon name="arrow_drop_down" size={18} />
+                <Icon name="ChevronDown" size={8} />
               </div>
-            )}
-
-            {doc && (
-              <ExtLink href={DOCS + doc} className={styles.doc}>
-                <MaterialIcon
-                  name="article"
-                  size={12}
-                  className={styles.icon}
-                />
-                Docs
-              </ExtLink>
             )}
           </section>
           {action && <section className={styles.action}>{action}</section>}
