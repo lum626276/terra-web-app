@@ -21,7 +21,7 @@ const Formatted = ({ symbol, children = "0", className, ...props }: Props) => {
   const [integer, decimal] = isBig ? [formatted] : formatted.split(".")
 
   return (
-    <span className={cx({ big }, className)}>
+    <span className={cx(styles.component, { big }, className)}>
       {integer}
       <small>
         {decimal && "."}
