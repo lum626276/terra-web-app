@@ -6,7 +6,7 @@ import { formatAsset } from "../../libs/parse"
 import { percent } from "../../libs/num"
 import { useGov, useGovState } from "../../graphql/useGov"
 import Progress from "../../components/Progress"
-import MaterialIcon from "../../components/MaterialIcon"
+import Icon from "../../components/Icon"
 import styles from "./PollVotes.module.scss"
 
 const cx = classNames.bind(styles)
@@ -63,7 +63,7 @@ const PollVotes = ({ lg, ...props }: Props) => {
     const danger = !gt(voted, quorum)
     return (
       <span className={cx(styles.help, { danger })}>
-        {danger && <MaterialIcon name="info" size={16} />}
+        {danger && <Icon name="ExclamationCircle" size={16} />}
         <strong>Voted</strong>
         {percent(voted)}
       </span>

@@ -3,7 +3,7 @@ import classNames from "classnames"
 import { useContract, useRefetch } from "../../hooks"
 import { BalanceKey } from "../../hooks/contractKeys"
 import LinkButton from "../../components/LinkButton"
-import MaterialIcon from "../../components/MaterialIcon"
+import Icon from "../../components/Icon"
 import { useGov } from "../../graphql/useGov"
 import { PollStatus } from "./Poll"
 import styles from "./PollHeader.module.scss"
@@ -15,11 +15,11 @@ interface Props extends Poll {
 const PollHeader = ({ titleClassName, ...props }: Props) => {
   const { id, type, title, status, end_height } = props
 
-  const icons: Record<PollStatus, string> = {
-    [PollStatus.InProgress]: "how_to_vote",
-    [PollStatus.Passed]: "check_circle",
-    [PollStatus.Rejected]: "cancel",
-    [PollStatus.Executed]: "verified",
+  const icons: Record<PollStatus, IconNames> = {
+    [PollStatus.InProgress]: "PollSolid",
+    [PollStatus.Passed]: "ArrowRightCircleSolid",
+    [PollStatus.Rejected]: "CloseCircleSolid",
+    [PollStatus.Executed]: "VerifiedSolid",
   }
 
   const { url } = useRouteMatch()
@@ -57,7 +57,7 @@ const PollHeader = ({ titleClassName, ...props }: Props) => {
           strike: status === PollStatus.InProgress && end,
         })}
       >
-        <MaterialIcon name={icons[status as PollStatus]} size={20} />
+        <Icon name={icons[status as PollStatus]} size={20} />
         {status.replace("_", " ")}
       </section>
 

@@ -196,7 +196,7 @@ const StakeForm = ({ type, tab, gov, ...props }: Props) => {
 
         {type === StakeType.UNSTAKE && (
           <>
-            <FormIcon name="arrow_downward" />
+            <FormIcon name="ArrowDown" />
             <FormGroup {...estimatedField} />
           </>
         )}

@@ -29,7 +29,7 @@ import Count from "../components/Count"
 import { TooltipIcon } from "../components/Tooltip"
 import Caution from "../components/Caution"
 import ExtLink from "../components/ExtLink"
-import MaterialIcon from "../components/MaterialIcon"
+import Icon from "../components/Icon"
 import WithPriceChart from "../containers/WithPriceChart"
 import { MintType } from "../types/Types"
 import useMintReceipt from "./receipts/useMintReceipt"
@@ -555,7 +555,7 @@ const MintForm = ({ position, type, tab, message }: Props) => {
       <ExtLink href={TRADING_HOURS} className={styles.link}>
         market hours
       </ExtLink>
-      <MaterialIcon name="launch" size={14} />
+      <Icon name="External" size={14} />
     </p>
   )
 
@@ -597,7 +597,7 @@ const MintForm = ({ position, type, tab, message }: Props) => {
           )}
 
           <FormGroup {...fields[Key.value1]} />
-          {open && <FormIcon name="arrow_downward" />}
+          {open && <FormIcon name="ArrowDown" />}
           {(open || custom) && <FormGroup {...fields[Key.value2]} />}
           <FormGroup {...fields[Key.ratio]} skipFeedback />
 

@@ -5,7 +5,7 @@ import { DataKey } from "../hooks/useContract"
 import Page from "../components/Page"
 import Grid from "../components/Grid"
 import Card from "../components/Card"
-import MaterialIcon from "../components/MaterialIcon"
+import Icon from "../components/Icon"
 import Button from "../components/Button"
 
 const Item = ({ title, content }: Content) => {
@@ -28,12 +28,10 @@ const Item = ({ title, content }: Content) => {
           {title}
           {affix}
         </h1>
+
         {collapsed && (
           <Button onClick={toggle} color="secondary" size="xs" outline>
-            <MaterialIcon
-              name={verbose ? "unfold_less" : "unfold_more"}
-              size={14}
-            />
+            <Icon name={verbose ? "ChevronUp" : "ChevronDown"} size={8} />
           </Button>
         )}
       </header>

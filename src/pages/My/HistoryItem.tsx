@@ -3,7 +3,7 @@ import { format as formatDate } from "date-fns"
 import { useNetwork } from "../../hooks"
 import ExtLink from "../../components/ExtLink"
 import Badge from "../../components/Badge"
-import MaterialIcon from "../../components/MaterialIcon"
+import Icon from "../../components/Icon"
 import useParseTx, { getBadge } from "./useParseTx"
 import styles from "./HistoryItem.module.scss"
 
@@ -26,11 +26,10 @@ const HistoryItem = (tx: Tx) => {
             </span>
           ))}
 
-        <MaterialIcon name="launch" size={16} className={styles.hash} />
+        <Icon name="External" size={16} className={styles.hash} />
       </section>
 
       <footer className={styles.footer}>
-        <MaterialIcon name="calendar_today" size={16} />
         {formatDate(new Date(datetime), "LLL dd, yyyy, HH:mm aa")}
       </footer>
     </ExtLink>

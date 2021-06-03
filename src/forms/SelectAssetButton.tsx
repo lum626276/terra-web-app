@@ -1,7 +1,7 @@
 import { FC } from "react"
 import MESSAGE from "../lang/MESSAGE.json"
 import { lookupSymbol } from "../libs/parse"
-import MaterialIcon from "../components/MaterialIcon"
+import Icon from "../components/Icon"
 import { Config } from "./useSelectAsset"
 import styles from "./SelectAsset.module.scss"
 
@@ -16,10 +16,7 @@ const SelectAsset: FC<Props> = ({ isOpen, symbol, onClick, ...props }) => {
   return (
     <button type="button" className={styles.button} onClick={onClick}>
       {symbol ? formatTokenName(symbol) : MESSAGE.Form.Button.SelectAsset}
-      <MaterialIcon
-        name={isOpen ? "arrow_drop_up" : "arrow_drop_down"}
-        size={24}
-      />
+      <Icon name={isOpen ? "ChevronUp" : "ChevronDown"} size={8} />
     </button>
   )
 }

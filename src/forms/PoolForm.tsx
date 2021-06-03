@@ -180,8 +180,8 @@ const PoolForm = ({
   }
 
   const icons = {
-    [PoolType.PROVIDE]: <FormIcon name="add" />,
-    [PoolType.WITHDRAW]: <FormIcon name="arrow_downward" />,
+    [PoolType.PROVIDE]: <FormIcon name="Plus" />,
+    [PoolType.WITHDRAW]: <FormIcon name="ArrowDown" />,
   }
 
   /* confirm */

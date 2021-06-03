@@ -4,7 +4,7 @@ import { UST, UUSD } from "../constants"
 import { gt } from "../libs/math"
 import { insertIf } from "../libs/utils"
 import { useContractsAddress, useContract, useCombineKeys } from "../hooks"
-import MaterialIcon from "../components/MaterialIcon"
+import Icon from "../components/Icon"
 import { Config } from "./useSelectAsset"
 import Asset from "./Asset"
 import styles from "./Assets.module.scss"
@@ -54,7 +54,7 @@ const Assets = ({ selected, onSelect, ...props }: Props) => {
     <div className={styles.component}>
       <section className={styles.search}>
         <label htmlFor="search">
-          <MaterialIcon name="search" size={16} />
+          <Icon name="Search" size={16} />
         </label>
 
         <input

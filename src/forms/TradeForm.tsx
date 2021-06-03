@@ -417,7 +417,7 @@ const TradeForm = ({ type }: { type: TradeType }) => {
         ) : (
           <>
             <FormGroup {...fields[Key.value1]} />
-            <FormIcon name="arrow_downward" />
+            <FormIcon name="ArrowDown" />
             <FormGroup {...fields[Key.value2]} />
           </>
         )}

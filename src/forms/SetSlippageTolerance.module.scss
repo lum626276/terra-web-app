@@ -2,7 +2,10 @@
 
 .button {
   @include flex;
-  color: $white-44;
+
+  svg {
+    fill: $white-64;
+  }
 }
 
 .card {

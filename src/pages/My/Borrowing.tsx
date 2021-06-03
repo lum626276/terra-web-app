@@ -8,7 +8,7 @@ import { getPath, MenuKey } from "../../routes"
 import Table from "../../components/Table"
 import Caption from "../../components/Caption"
 import Dl from "../../components/Dl"
-import MaterialIcon from "../../components/MaterialIcon"
+import Icon from "../../components/Icon"
 import Button from "../../components/Button"
 import Tooltip, { TooltipIcon } from "../../components/Tooltip"
 import Delisted from "../../components/Delisted"
@@ -81,7 +81,7 @@ const Borrowing = ({ loading, dataSource, ...props }: MyBorrowing) => {
                     <span className={className}>
                       {shouldWarn && (
                         <Tooltip content={tooltip}>
-                          <MaterialIcon name="warning" size={16} />
+                          <Icon name="ExclamationCircleSolid" size={16} />
                         </Tooltip>
                       )}
                       {lookupSymbol(symbol)}

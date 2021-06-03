@@ -11,7 +11,7 @@ import Table from "../components/Table"
 import FormCheck from "../components/FormCheck"
 import ExtLink from "../components/ExtLink"
 import Button from "../components/Button"
-import MaterialIcon from "../components/MaterialIcon"
+import Icon from "../components/Icon"
 import Pre from "../components/Pre"
 
 const Data = () => {
@@ -101,7 +101,7 @@ const Data = () => {
           action={
             contract && (
               <Button onClick={query} size="xs" color="secondary" outline>
-                <MaterialIcon name="play_arrow" size={16} />
+                <Icon name="ChevronRight" size={8} />
               </Button>
             )
           }
