@@ -5,6 +5,11 @@
   @include link(white);
 
   svg {
+    fill: $blue;
     margin-left: 8px;
   }
+}
+
+.icon {
+  margin-right: 12px;
 }

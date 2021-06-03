@@ -17,6 +17,18 @@
   }
 }
 
+.small {
+  @include mobile {
+    width: 24px;
+    height: 24px;
+  }
+
+  @include desktop {
+    width: 24px;
+    height: 24px;
+  }
+}
+
 .icon {
   @include mobile {
     width: 18px;

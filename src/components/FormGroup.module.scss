@@ -6,6 +6,10 @@
 }
 
 .component {
+  input {
+    text-align: right;
+  }
+
   input,
   textarea {
     width: 100%;
@@ -69,13 +73,11 @@ $padding: 18px 24px;
   color: $white-44;
   font-size: 12px;
   font-weight: 500;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .wrapper {
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 2;
+  font-size: 18px;
 }
 
 .label > label {
@@ -85,10 +87,27 @@ $padding: 18px 24px;
 
 .help {
   white-space: pre;
+
+  svg {
+    margin-right: 6px;
+  }
+}
+
+.clickable {
+  color: $blue;
+  cursor: pointer;
+
+  svg {
+    fill: $blue;
+  }
 }
 
 .max {
   margin-right: 10px;
+}
+
+.icon {
+  margin-right: 12px;
 }
 
 /* assets */

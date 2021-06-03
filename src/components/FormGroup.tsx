@@ -1,8 +1,8 @@
 import { useRef } from "react"
 import classNames from "classnames/bind"
-import Button from "./Button"
-import styles from "./FormGroup.module.scss"
 import Icon from "./Icon"
+import AssetIcon from "./AssetIcon"
+import styles from "./FormGroup.module.scss"
 
 const cx = classNames.bind(styles)
 
@@ -30,9 +30,17 @@ const FormGroup = ({ input, textarea, select, value, ...props }: FormGroup) => {
             </section>
 
             {help && (
-              <section className={styles.help} onClick={max}>
-                <Icon name="Wallet" />
-                {help.title}: <strong>{help.content}</strong>
+              <section
+                className={cx(styles.help, { clickable: max })}
+                onClick={max}
+              >
+                {help.title === "Balance" ? (
+                  <Icon name="Wallet" />
+                ) : (
+                  `${help.title}: `
+                )}
+
+                <strong>{help.content}</strong>
               </section>
             )}
           </header>
@@ -40,6 +48,14 @@ const FormGroup = ({ input, textarea, select, value, ...props }: FormGroup) => {
 
         <section className={cx(type === 2 && border)}>
           <section className={styles.wrapper}>
+            <section className={styles.unit}>
+              {typeof unit === "string" && (
+                <AssetIcon symbol={unit} className={styles.icon} small />
+              )}
+
+              {unit}
+            </section>
+
             <section className={styles.field}>
               {input ? (
                 <input {...inputAttrs} />
@@ -51,8 +67,6 @@ const FormGroup = ({ input, textarea, select, value, ...props }: FormGroup) => {
                 <span>{value}</span>
               )}
             </section>
-
-            <section className={styles.unit}>{unit}</section>
           </section>
 
           {assets && <section className={styles.assets}>{assets}</section>}
