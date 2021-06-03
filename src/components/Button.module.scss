@@ -3,7 +3,6 @@
 
 .button {
   @include flex;
-  @include button;
   @include transition;
 
   display: inline-flex;
@@ -78,35 +77,44 @@
 }
 
 /* sizes */
-@mixin button-size($font-size, $height, $padding) {
+@mixin button-size($font-size, $height-mobile, $height-desktop, $padding) {
   border-radius: 8px;
   font-size: $font-size;
-  height: $height;
   padding: 0 $padding;
+
+  @include mobile {
+    height: $height-mobile;
+  }
+
+  @include desktop {
+    height: $height-desktop;
+  }
 }
 
 .xs {
-  @include button-size(10px, 22px, 10px);
+  @include button-size(12px, 32px, 32px, 10px);
+  width: 90px;
 }
 
 .sm {
-  @include button-size(12px, 26px, 10px);
-  min-width: 74px;
+  @include button-size(14px, 36px, 36px, 10px);
+  width: 100%;
 }
 
 .md {
-  @include button-size(14px, 36px, 20px);
+  @include button-size(14px, 48px, 56px, 20px);
   min-width: 160px;
 }
 
 .lg {
-  @include button-size(16px, 50px, 30px);
-  width: 100%;
+  @include button-size(18px, 56px, 64px, 30px);
+  width: 360px;
 }
 
 /* theme */
 .submit {
-  margin-top: 30px;
+  display: block;
+  margin: 56px auto 0;
 }
 
 /* label */

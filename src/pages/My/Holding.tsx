@@ -98,7 +98,7 @@ const Holding = ({ loading, totalValue, dataSource }: MyHolding) => {
                     children: MenuKey.BURN,
                   }
 
-            return <LinkButton {...link} size="sm" outline />
+            return <LinkButton {...link} size="xs" outline />
           },
           align: "right",
           fixed: "right",

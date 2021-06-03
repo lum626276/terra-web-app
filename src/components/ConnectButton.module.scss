@@ -3,13 +3,11 @@
 
 .component {
   @include flex(space-between);
-  @include button;
 
   color: $blue;
   font-size: 11px;
   font-weight: 500;
   letter-spacing: -0.2px;
-  text-transform: none;
 
   &:hover {
     text-decoration: none;

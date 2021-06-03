@@ -100,7 +100,7 @@ const Farming = ({ loading, dataSource, ...props }: MyFarming) => {
                   hash: StakeType.UNSTAKE,
                   state: { token },
                 }}
-                size="sm"
+                size="xs"
                 outline
               >
                 {StakeType.UNSTAKE}

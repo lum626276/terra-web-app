@@ -89,6 +89,7 @@ $padding: 18px 24px;
   white-space: pre;
 
   svg {
+    fill: $blue;
     margin-right: 6px;
   }
 }
@@ -96,10 +97,6 @@ $padding: 18px 24px;
 .clickable {
   color: $blue;
   cursor: pointer;
-
-  svg {
-    fill: $blue;
-  }
 }
 
 .max {

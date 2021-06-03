@@ -86,7 +86,7 @@ const LimitOrder = ({ loading, dataSource, total, more }: MyLimitOrder) => {
               render: (id) => (
                 <LinkButton
                   to={[getPath(MenuKey.LIMIT), id].join("/")}
-                  size="sm"
+                  size="xs"
                   outline
                 >
                   Cancel

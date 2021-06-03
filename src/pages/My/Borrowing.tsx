@@ -165,7 +165,7 @@ const Borrowing = ({ loading, dataSource, ...props }: MyBorrowing) => {
                     search: `idx=${idx}`,
                     hash: MintType.CLOSE,
                   }}
-                  size="sm"
+                  size="xs"
                   outline
                 >
                   Manage

@@ -28,10 +28,6 @@
   }
 }
 
-@mixin button {
-  text-transform: uppercase;
-}
-
 @mixin transition($property: all) {
   transition: $property $transition-duration;
 }

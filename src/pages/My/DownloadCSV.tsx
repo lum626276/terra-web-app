@@ -8,7 +8,7 @@ import ExtLink from "../../components/ExtLink"
 const button: ButtonProps = {
   className: "desktop",
   color: "blue",
-  size: "sm",
+  size: "xs",
   outline: true,
 }
 
