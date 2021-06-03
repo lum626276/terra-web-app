@@ -24,6 +24,7 @@
 
 .header {
   @include flex(flex-start);
+  margin-bottom: 4px;
 }
 
 .label {
