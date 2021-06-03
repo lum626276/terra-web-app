@@ -108,7 +108,8 @@
 
 .lg {
   @include button-size(18px, 56px, 64px, 30px);
-  width: 360px;
+  width: 100%;
+  max-width: 360px;
 }
 
 /* theme */
