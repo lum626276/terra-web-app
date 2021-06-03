@@ -16,14 +16,14 @@
   }
 }
 
-$padding: 10px 20px;
+$padding: 18px 24px;
 
 .border {
   @include transition(border-color);
-  border-radius: 5px;
+  border-radius: 8px;
   border-width: 1px;
   border-style: solid;
-  border-color: fade-out($gray-34, 0.5);
+  border-color: $gray-34;
   padding: $padding;
   position: relative;
 
@@ -80,7 +80,7 @@ $padding: 10px 20px;
 
 .label > label {
   display: block;
-  font-weight: 600;
+  text-transform: uppercase;
 }
 
 .help {

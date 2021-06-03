@@ -2,6 +2,7 @@ import { useRef } from "react"
 import classNames from "classnames/bind"
 import Button from "./Button"
 import styles from "./FormGroup.module.scss"
+import Icon from "./Icon"
 
 const cx = classNames.bind(styles)
 
@@ -18,15 +19,6 @@ const FormGroup = ({ input, textarea, select, value, ...props }: FormGroup) => {
   }
 
   const border = cx(styles.border, { focused, error, readOnly: value })
-  const maxProps = {
-    type: "button",
-    className: styles.max,
-    onClick: max,
-    color: "secondary",
-    size: "xs",
-    outline: true,
-    children: "Max",
-  }
 
   return (
     <div className={classNames(styles.group, styles.component)}>
@@ -38,7 +30,8 @@ const FormGroup = ({ input, textarea, select, value, ...props }: FormGroup) => {
             </section>
 
             {help && (
-              <section className={styles.help}>
+              <section className={styles.help} onClick={max}>
+                <Icon name="Wallet" />
                 {help.title}: <strong>{help.content}</strong>
               </section>
             )}
@@ -59,7 +52,6 @@ const FormGroup = ({ input, textarea, select, value, ...props }: FormGroup) => {
               )}
             </section>
 
-            {max && <Button {...maxProps} />}
             <section className={styles.unit}>{unit}</section>
           </section>
 
