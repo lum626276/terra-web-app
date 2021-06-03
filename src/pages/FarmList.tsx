@@ -1,4 +1,3 @@
-import classNames from "classnames/bind"
 import { MIR, UUSD } from "../constants"
 import { lt, gt, div, minus } from "../libs/math"
 import { useContractsAddress, useContract, useRefetch } from "../hooks"
@@ -12,8 +11,6 @@ import Icon from "../components/Icon"
 import Formatted from "../components/Formatted"
 import { FarmType } from "../types/Types"
 import styles from "./FarmList.module.scss"
-
-const cx = classNames.bind(styles)
 
 const FarmList = () => {
   const balanceKey = BalanceKey.LPSTAKED
