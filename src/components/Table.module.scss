@@ -20,6 +20,14 @@ $padding: 20px;
   color: $white-80;
   padding: $padding;
   white-space: nowrap;
+
+  &:first-child {
+    padding-left: $gutter-horizontal-desktop;
+  }
+
+  &:last-child {
+    padding-right: $gutter-horizontal-desktop;
+  }
 }
 
 .darker,
