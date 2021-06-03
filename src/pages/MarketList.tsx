@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { UST } from "../constants"
+import { UST, UUSD } from "../constants"
 import { lt, gt, div, minus, number } from "../libs/math"
 import { useContractsAddress, useContract, useRefetch } from "../hooks"
 import { AssetInfoKey, PriceKey } from "../hooks/contractKeys"
@@ -132,14 +132,18 @@ const MarketList = () => {
           },
           {
             key: "premium",
-            dataIndex: "premium",
             title: "Premium",
             render: (value) => <Percent>{value}</Percent>,
             align: "right",
           },
           {
+            key: "volume",
+            title: "Volume",
+            render: (value) => <Formatted symbol={UUSD}>{value}</Formatted>,
+            align: "right",
+          },
+          {
             key: "history",
-            dataIndex: "history",
             title: "1D Chart",
             render: (history: PriceHistoryItem[]) => (
               <ChartContainer

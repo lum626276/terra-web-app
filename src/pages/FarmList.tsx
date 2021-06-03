@@ -1,5 +1,5 @@
 import classNames from "classnames/bind"
-import { MIR } from "../constants"
+import { MIR, UUSD } from "../constants"
 import { lt, gt, div, minus } from "../libs/math"
 import { useContractsAddress, useContract, useRefetch } from "../hooks"
 import { AssetInfoKey, BalanceKey, PriceKey } from "../hooks/contractKeys"
@@ -9,6 +9,7 @@ import Table from "../components/Table"
 import Percent from "../components/Percent"
 import AssetItem from "../components/AssetItem"
 import Icon from "../components/Icon"
+import Formatted from "../components/Formatted"
 import { FarmType } from "../types/Types"
 import styles from "./FarmList.module.scss"
 
@@ -128,6 +129,12 @@ const FarmList = () => {
           key: "premium",
           title: "Premium",
           render: (value) => <Percent>{value}</Percent>,
+          align: "right",
+        },
+        {
+          key: "liquidity",
+          title: "Liquidity",
+          render: (value) => <Formatted symbol={UUSD}>{value}</Formatted>,
           align: "right",
         },
         {
