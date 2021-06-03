@@ -21,12 +21,14 @@ $padding: 20px;
   padding: $padding;
   white-space: nowrap;
 
-  &:first-child {
-    padding-left: $gutter-horizontal-desktop;
-  }
+  @include desktop {
+    &:first-child {
+      padding-left: $gutter-horizontal-desktop;
+    }
 
-  &:last-child {
-    padding-right: $gutter-horizontal-desktop;
+    &:last-child {
+      padding-right: $gutter-horizontal-desktop;
+    }
   }
 }
 
@@ -131,6 +133,12 @@ $padding: 20px;
   letter-spacing: -0.3px;
   color: $white-44;
   margin-top: 2px;
+}
+
+.desktop {
+  @include mobile {
+    display: none;
+  }
 }
 
 /* border */

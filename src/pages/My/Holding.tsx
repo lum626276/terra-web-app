@@ -60,7 +60,6 @@ const Holding = ({ loading, totalValue, dataSource }: MyHolding) => {
             <Change>{change}</Change>,
           ],
           align: "right",
-          narrow: ["right"],
         },
         {
           key: "balance",

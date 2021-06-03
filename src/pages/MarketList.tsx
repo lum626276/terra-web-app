@@ -98,15 +98,17 @@ const MarketList = () => {
 
   return !data ? null : (
     <>
-      <Search value={input} onChange={(e) => setInput(e.target.value)}>
-        <select value={sorter} onChange={(e) => setSorter(e.target.value)}>
-          {Object.entries(Sorters).map(([key, { label }]) => (
-            <option value={key} key={key}>
-              {label}
-            </option>
-          ))}
-        </select>
-      </Search>
+      <section className="desktop">
+        <Search value={input} onChange={(e) => setInput(e.target.value)}>
+          <select value={sorter} onChange={(e) => setSorter(e.target.value)}>
+            {Object.entries(Sorters).map(([key, { label }]) => (
+              <option value={key} key={key}>
+                {label}
+              </option>
+            ))}
+          </select>
+        </Search>
+      </section>
 
       <Table
         rows={({ token }) => ({
@@ -128,7 +130,6 @@ const MarketList = () => {
                 <Change align="right">{change}</Change>,
               ],
             align: "right",
-            narrow: ["right"],
           },
           {
             key: "history",
@@ -143,18 +144,21 @@ const MarketList = () => {
               />
             ),
             align: "right",
+            desktop: true,
           },
           {
             key: "premium",
             title: "Premium",
             render: (value) => <Percent>{value}</Percent>,
             align: "right",
+            desktop: true,
           },
           {
             key: "volume",
             title: "Volume",
             render: (value) => <Formatted symbol={UUSD}>{value}</Formatted>,
             align: "right",
+            desktop: true,
           },
         ]}
         dataSource={dataSource}

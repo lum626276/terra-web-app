@@ -44,6 +44,7 @@ interface Column<T> {
   border?: BorderPosition[]
   bold?: boolean
   width?: string | number
+  desktop?: boolean
 }
 
 enum BorderPosition {
@@ -111,10 +112,10 @@ function Table<T extends DefaultRecordType>(props: Props<T>) {
   }
 
   const renderTh = (column: Column<T>): ReactNode => {
-    const { key, title, colSpan, width } = column
+    const { key, title, colSpan, width, desktop } = column
     return (
       <th
-        className={classNames(getClassName(column), styles.th)}
+        className={cx(getClassName(column), styles.th, { desktop })}
         colSpan={colSpan}
         style={{ width }}
         key={key}
@@ -160,9 +161,14 @@ function Table<T extends DefaultRecordType>(props: Props<T>) {
               {dataSource.map((record, index) => {
                 const renderTd = (column: Column<T>): ReactNode => {
                   const { key, dataIndex, render, cell: getCell } = column
-                  const { className, bold, width } = column
+                  const { className, bold, width, desktop } = column
                   const value = path<any>((dataIndex ?? key).split(SEP), record)
-                  const tdClassName = cx({ bold }, styles.td, className)
+                  const tdClassName = cx(
+                    { bold, desktop },
+                    styles.td,
+                    className
+                  )
+
                   const content = render?.(value, record, index)
                   const cell = getCell?.(value, record, index)
 

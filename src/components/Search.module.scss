@@ -1,10 +1,15 @@
 @import "mixins";
 
 .component {
-  @include flex(flex-start, stretch);
+  @include flex(space-between, stretch);
   background: $gray-14;
   border-radius: 8px;
   margin-bottom: $gutter-vertical-desktop;
+}
+
+.wrapper {
+  @include flex(flex-start, stretch);
+  flex: 1;
 }
 
 .icon {
