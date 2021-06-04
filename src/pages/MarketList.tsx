@@ -158,6 +158,7 @@ const MarketList = () => {
             title: "Volume",
             render: (value) => <Formatted symbol={UUSD}>{value}</Formatted>,
             align: "right",
+            width: "19%",
             desktop: true,
           },
         ]}

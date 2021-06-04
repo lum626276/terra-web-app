@@ -133,6 +133,7 @@ const FarmList = () => {
           title: "Liquidity",
           render: (value) => <Formatted symbol={UUSD}>{value}</Formatted>,
           align: "right",
+          width: "18%",
         },
       ]}
       dataSource={dataSource}
