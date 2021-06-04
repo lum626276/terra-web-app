@@ -50,12 +50,14 @@ $gutter: $gutter-vertical $gutter-horizontal;
 }
 
 .button {
+  @include transition(background-color);
+
   padding: $gutter;
   width: 100%;
 
   &.selected,
   &:not(.disabled):hover {
-    background: fade-out(white, 0.95);
+    background-color: fade-out(white, 0.95);
   }
 
   &.disabled {
