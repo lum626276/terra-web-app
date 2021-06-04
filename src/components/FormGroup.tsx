@@ -20,6 +20,16 @@ const FormGroup = ({ input, textarea, select, value, ...props }: FormGroup) => {
 
   const border = cx(styles.border, { focused, error, readOnly: value })
 
+  const renderUnit = () => (
+    <section className={styles.unit}>
+      {typeof unit === "string" && (
+        <AssetIcon symbol={unit} className={styles.icon} small />
+      )}
+
+      {unit}
+    </section>
+  )
+
   return (
     <div className={classNames(styles.group, styles.component)}>
       <div className={cx(type === 1 && border)}>
@@ -48,13 +58,7 @@ const FormGroup = ({ input, textarea, select, value, ...props }: FormGroup) => {
 
         <section className={cx(type === 2 && border)}>
           <section className={styles.wrapper}>
-            <section className={styles.unit}>
-              {typeof unit === "string" && (
-                <AssetIcon symbol={unit} className={styles.icon} small />
-              )}
-
-              {unit}
-            </section>
+            {unit !== "%" && renderUnit()}
 
             <section className={styles.field}>
               {input ? (
@@ -67,6 +71,8 @@ const FormGroup = ({ input, textarea, select, value, ...props }: FormGroup) => {
                 <span>{value}</span>
               )}
             </section>
+
+            {unit === "%" && renderUnit()}
           </section>
 
           {assets && <section className={styles.assets}>{assets}</section>}
