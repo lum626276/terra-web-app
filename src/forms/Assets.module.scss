@@ -9,25 +9,31 @@
 }
 
 /* search */
+$gutter-horizontal: 24px;
+$gutter-vertical: 16px;
+$gutter: $gutter-vertical $gutter-horizontal;
+
 .search {
   @include flex(flex-start, stretch);
   flex: none;
-  margin-bottom: 5px;
+  margin: 20px (-$gutter-horizontal) 0;
+  padding: 0 $gutter-horizontal;
 
   background: fade-out($bg, 0.5);
-  border-radius: 5px;
-  height: 40px;
+  height: 56px;
 
   label {
     @include flex;
   }
 
   svg {
-    margin: 0 15px;
+    fill: $blue;
+    margin-right: 12px;
   }
 
   input {
     flex: 1;
+    font-size: 14px;
   }
 }
 
@@ -44,7 +50,7 @@
 }
 
 .button {
-  padding: 16px 24px;
+  padding: $gutter;
   width: 100%;
 
   &.selected,

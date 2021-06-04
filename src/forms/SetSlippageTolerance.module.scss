@@ -35,7 +35,6 @@
   border: 1px solid $gray-18;
   border-radius: 20px;
   font-size: 14px;
-  font-weight: 500;
   height: 40px;
   width: 60px;
 
@@ -88,11 +87,14 @@
 .active {
   background-color: $blue;
   border-color: $blue;
+  color: $gray-11;
 }
 
 .feedback {
-  font-size: 14px;
-  margin-top: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 8px;
+  text-align: right;
 
   &.error {
     color: $red;
