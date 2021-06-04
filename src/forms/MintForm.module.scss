@@ -4,10 +4,6 @@
   margin-bottom: 30px;
 }
 
-.caution {
-  margin-top: 30px;
-}
-
 .message {
   @include flex(flex-start);
   display: inline-flex;

@@ -21,13 +21,12 @@ import { useContractsAddress, useContract, useRefetch } from "../hooks"
 import { PriceKey, AssetInfoKey } from "../hooks/contractKeys"
 import { BalanceKey } from "../hooks/contractKeys"
 import useTax from "../graphql/useTax"
-import { MenuKey } from "../routes"
 
 import FormGroup from "../components/FormGroup"
 import Dl from "../components/Dl"
 import Count from "../components/Count"
 import { TooltipIcon } from "../components/Tooltip"
-import Caution from "../components/Caution"
+import FormFeedback from "../components/FormFeedback"
 import ExtLink from "../components/ExtLink"
 import Icon from "../components/Icon"
 import WithPriceChart from "../containers/WithPriceChart"
@@ -575,7 +574,7 @@ const MintForm = ({ position, type, tab, message }: Props) => {
   const disabled =
     !!message || isMarketClosed || (!close ? invalid : !!closeMessages)
 
-  const label = open ? MenuKey.MINT : type
+  const label = type
 
   /* result */
   const parseTx = useMintReceipt(type, position)
@@ -605,9 +604,7 @@ const MintForm = ({ position, type, tab, message }: Props) => {
           </section>
 
           {open && (
-            <Caution className={styles.caution}>
-              <strong>Caution</strong>: {Tooltip.Mint.Caution}
-            </Caution>
+            <FormFeedback type="warn">{Tooltip.Mint.Caution}</FormFeedback>
           )}
         </FormContainer>
       )}

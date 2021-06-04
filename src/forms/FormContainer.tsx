@@ -178,7 +178,9 @@ export const FormContainer = ({ data: msgs, memo, ...props }: Props) => {
         )}
 
         {(invalid ?? messages)?.map((message, index) => (
-          <FormFeedback key={index}>{message}</FormFeedback>
+          <FormFeedback type="error" key={index}>
+            {message}
+          </FormFeedback>
         ))}
 
         <Submit>

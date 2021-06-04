@@ -202,7 +202,7 @@ const StakeForm = ({ type, tab, gov, ...props }: Props) => {
         )}
 
         {gov && type === StakeType.STAKE && (
-          <FormFeedback help>{Tooltip.My.GovReward}</FormFeedback>
+          <FormFeedback type="help">{Tooltip.My.GovReward}</FormFeedback>
         )}
       </FormContainer>
     </WithPriceChart>

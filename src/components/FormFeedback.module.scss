@@ -1,26 +1,39 @@
 @import "mixins";
-@import "variables";
 
 .component {
   @include flex(flex-start, flex-start);
-  font-size: 12px;
-  margin-top: 30px;
-}
+  border-radius: 4px;
+  color: $white-80;
+  font-size: 14px;
+  margin-top: 32px;
+  padding: 16px 20px;
+  letter-spacing: -0.2px;
+  line-height: 1.5;
 
-.icon {
-  margin-right: 10px;
+  svg {
+    margin-right: 12px;
+    margin-top: 2px;
+  }
 }
 
 .help {
-  color: $white-44;
-
   svg {
     fill: $white-44;
   }
 }
 
 .warn {
+  background: rgba($orange, 0.15);
+
   svg {
     fill: $orange;
+  }
+}
+
+.error {
+  background: rgba($red, 0.15);
+
+  svg {
+    fill: $red;
   }
 }

@@ -1,21 +1,22 @@
 import { FC } from "react"
-import classNames from "classnames"
+import classNames from "classnames/bind"
 import Icon from "./Icon"
 import styles from "./FormFeedback.module.scss"
 
-const FormFeedback: FC<{ help?: boolean }> = ({ children, help }) => {
-  const icon = { size: 16, className: styles.icon }
+const cx = classNames.bind(styles)
+
+type Type = "error" | "warn" | "help"
+
+const FormFeedback: FC<{ type: Type }> = ({ children, type }) => {
+  const icon = {
+    error: "ExclamationCircleSolid",
+    warn: "ExclamationTriangleSolid",
+    help: "InfoCircle",
+  }[type] as IconNames
 
   return (
-    <div
-      className={classNames(styles.component, help ? styles.help : styles.warn)}
-    >
-      {help ? (
-        <Icon name="InfoCircle" {...icon} />
-      ) : (
-        <Icon name="ExclamationTriangleSolid" {...icon} />
-      )}
-
+    <div className={cx(styles.component, type)}>
+      <Icon name={icon} className={styles.icon} size={16} />
       <div>{children}</div>
     </div>
   )

@@ -9,8 +9,7 @@ const Button = (props: Button) => {
   const { loading, children } = props
   return (
     <button {...getAttrs(props)}>
-      {loading && <Loading className={styles.progress} />}
-      {children}
+      {loading ? <Loading className={styles.progress} /> : children}
     </button>
   )
 }
