@@ -18,7 +18,10 @@
   color: $white-44;
   font-size: 12px;
   margin-top: 2px;
-  width: 100px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+
+  @include mobile {
+    width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }

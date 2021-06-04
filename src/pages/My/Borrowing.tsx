@@ -17,6 +17,7 @@ import Formatted from "../../components/Formatted"
 import { MintType } from "../../types/Types"
 import CollateralRatio from "../../forms/CollateralRatio"
 import NoAssets from "./NoAssets"
+import ShortBadge from "./ShortBadge"
 import { MyBorrowing } from "./types"
 import styles from "./Borrowing.module.scss"
 
@@ -79,18 +80,19 @@ const Borrowing = ({ loading, dataSource, ...props }: MyBorrowing) => {
                   <>
                     {status === "DELISTED" && <Delisted />}
                     <span className={className}>
+                      {is_short && <ShortBadge />}
+
                       {shouldWarn && (
                         <Tooltip content={tooltip}>
                           <Icon name="ExclamationCircleSolid" size={16} />
                         </Tooltip>
                       )}
+
                       {lookupSymbol(symbol)}
                     </span>
                   </>,
-                  <>
-                    {idx}
-                    {is_short && "short"}
-                  </>,
+
+                  idx,
                 ]
               },
               bold: true,

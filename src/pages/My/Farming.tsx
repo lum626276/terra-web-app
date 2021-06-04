@@ -16,6 +16,7 @@ import LinkButton from "../../components/LinkButton"
 import Formatted from "../../components/Formatted"
 import { StakeType } from "../../types/Types"
 import NoAssets from "./NoAssets"
+import ShortBadge from "./ShortBadge"
 import { MyFarming } from "./types"
 
 const Farming = ({ loading, dataSource, ...props }: MyFarming) => {
@@ -54,8 +55,9 @@ const Farming = ({ loading, dataSource, ...props }: MyFarming) => {
             "Pool Name",
             <TooltipIcon content={Tooltip.My.APR}>APR</TooltipIcon>,
           ],
-          render: (symbol, { status, apr, type }) => [
+          render: (symbol, { status, apr, type, is_short }) => [
             <>
+              {is_short && <ShortBadge />}
               {status === "DELISTED" && <Delisted />}
               {getLpName(symbol, type)}
             </>,

@@ -5,7 +5,7 @@ import { MIR } from "../constants"
 import useURL from "../graphql/useURL"
 
 import Page from "../components/Page"
-import Grid from "../components/Grid"
+import Grid, { Gutter } from "../components/Grid"
 import Card from "../components/Card"
 import Table from "../components/Table"
 import FormCheck from "../components/FormCheck"
@@ -82,7 +82,7 @@ const Data = () => {
         ))}
       </Grid>
 
-      <Grid>
+      <Gutter>
         <Card title="Query" full>
           <div style={{ display: "flex", padding: "10px 15px" }}>
             <textarea
@@ -93,9 +93,9 @@ const Data = () => {
             />
           </div>
         </Card>
-      </Grid>
+      </Gutter>
 
-      <Grid>
+      <Gutter>
         <Card
           title="URL"
           action={
@@ -111,9 +111,9 @@ const Data = () => {
 
           <Pre>{result}</Pre>
         </Card>
-      </Grid>
+      </Gutter>
 
-      <Grid>
+      <Gutter>
         <Table
           columns={[
             { key: "symbol" },
@@ -123,7 +123,7 @@ const Data = () => {
           ]}
           dataSource={listed}
         />
-      </Grid>
+      </Gutter>
     </Page>
   )
 }

@@ -12,6 +12,7 @@ import LinkButton from "../../components/LinkButton"
 import DoughnutChart from "../../containers/DoughnutChart"
 import BuyLinks from "../../components/BuyLinks"
 import Icon from "../../components/Icon"
+import { Submit } from "../../components/Button"
 import { My } from "./types"
 import styles from "./TotalValue.module.scss"
 
@@ -23,14 +24,17 @@ const TotalValue = ({ total, holding, borrowing, farming }: My) => {
 
   const claimAll = (
     <CardMain>
-      <LinkButton
-        to={getPath(MenuKey.CLAIM)}
-        disabled={!gt(totalRewards, 0)}
-        size="lg"
-        block
-      >
-        Claim All Rewards
-      </LinkButton>
+      <Submit>
+        <LinkButton
+          to={getPath(MenuKey.CLAIM)}
+          disabled={!gt(totalRewards, 0)}
+          size="md"
+          block
+        >
+          <Icon name="Claim" />
+          Claim All Rewards
+        </LinkButton>
+      </Submit>
     </CardMain>
   )
 

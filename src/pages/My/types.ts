@@ -74,6 +74,7 @@ export interface MyFarmingRow extends ListedItem {
   apr?: string
   staked: string
   reward?: string
+  is_short?: boolean
 }
 
 export interface MyGov {

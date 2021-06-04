@@ -179,6 +179,7 @@ const FarmList = () => {
             title: "Premium",
             render: (value) => <Percent>{value}</Percent>,
             align: "right",
+            desktop: true,
           },
           {
             key: "liquidity",
@@ -186,6 +187,7 @@ const FarmList = () => {
             render: (value) => <Formatted symbol={UUSD}>{value}</Formatted>,
             align: "right",
             width: "18%",
+            desktop: true,
           },
         ]}
         dataSource={dataSource}

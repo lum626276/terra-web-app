@@ -45,9 +45,29 @@
   margin-bottom: 5px;
   text-transform: uppercase;
 
-  i {
+  svg {
     margin-right: 5px;
   }
+}
+
+.blue {
+  color: $blue;
+
+  svg {
+    fill: $blue;
+  }
+}
+
+.red {
+  color: $red;
+
+  svg {
+    fill: $red;
+  }
+}
+
+.strike {
+  text-decoration: line-through;
 }
 
 .title {

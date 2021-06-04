@@ -3,7 +3,7 @@ import { is } from "ramda"
 import { useContract, useContractsAddress, useRefetch } from "../hooks"
 import { DataKey } from "../hooks/useContract"
 import Page from "../components/Page"
-import Grid from "../components/Grid"
+import { Gutter } from "../components/Grid"
 import Card from "../components/Card"
 import Icon from "../components/Icon"
 import Button from "../components/Button"
@@ -48,14 +48,14 @@ const Data = () => {
   return (
     <Page title="Data">
       {Object.entries(parsed).map(([key, value]) => (
-        <Grid key={key}>
+        <Gutter key={key}>
           <Card title={key}>
             {value &&
               Object.entries(value).map(([key, value]) => (
                 <Item title={key} content={value} key={key} />
               ))}
           </Card>
-        </Grid>
+        </Gutter>
       ))}
     </Page>
   )

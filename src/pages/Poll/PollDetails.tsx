@@ -1,7 +1,7 @@
 import { useRouteMatch } from "react-router-dom"
 import { gt, sum } from "../../libs/math"
 import Card from "../../components/Card"
-import Grid from "../../components/Grid"
+import { Gutter } from "../../components/Grid"
 import PollHeader from "./PollHeader"
 import PollMeta from "./PollMeta"
 import PollSummary from "./PollSummary"
@@ -15,20 +15,20 @@ const PollDetails = ({ poll }: { poll: Poll }) => {
 
   return !poll ? null : (
     <>
-      <Grid>
+      <Gutter>
         <Card>
           <PollHeader {...poll} titleClassName={styles.title} />
           <PollMeta {...poll} />
         </Card>
-      </Grid>
+      </Gutter>
 
-      <Grid>
+      <Gutter>
         <Card>
           <PollSummary {...poll} />
         </Card>
-      </Grid>
+      </Gutter>
 
-      <Grid>
+      <Gutter>
         <Card title="Vote Details">
           {!gt(getTotal(poll), 0) ? (
             <p className="empty">No votes found</p>
@@ -36,11 +36,11 @@ const PollDetails = ({ poll }: { poll: Poll }) => {
             <PollVotes {...poll} lg />
           )}
         </Card>
-      </Grid>
+      </Gutter>
 
-      <Grid>
+      <Gutter>
         <PollVoters id={id} />
-      </Grid>
+      </Gutter>
     </>
   )
 }

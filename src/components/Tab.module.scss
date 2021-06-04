@@ -15,16 +15,34 @@ $radius: 10px;
   @include flex;
   @include link;
 
-  border-right: 1px solid $bg;
   color: $gray-34;
   font-size: 14px;
   letter-spacing: -0.2px;
 
   width: 112px;
-  height: 60px;
+
+  @include mobile {
+    height: 52px;
+  }
+
+  @include desktop {
+    height: 60px;
+  }
 
   &.active {
     background: $gray-18;
     color: $white-80;
+  }
+
+  @include mobile {
+    flex: 1;
+
+    &:not(:first-child) {
+      border-left: 1px solid $bg;
+    }
+  }
+
+  @include desktop {
+    border-right: 1px solid $bg;
   }
 }

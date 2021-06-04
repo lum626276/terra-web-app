@@ -23,6 +23,10 @@ $margin: math.div($gutter, 2);
   }
 }
 
+.gutter {
+  margin-top: $gutter;
+}
+
 @include desktop {
   .wrap {
     flex-wrap: wrap;

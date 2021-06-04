@@ -4,7 +4,7 @@ import useLocalStorage from "../../libs/useLocalStorage"
 import useTxs from "../../statistics/useTxs"
 
 import Tab from "../../components/Tab"
-import Grid from "../../components/Grid"
+import { Gutter } from "../../components/Grid"
 
 import useMy from "./useMy"
 import TotalValue from "./TotalValue"
@@ -88,16 +88,16 @@ const MyConnected = () => {
 
       {!!tabs.length && (
         <>
-          <Grid>
+          <Gutter>
             <Tab
               tabs={[Tabs.ALL, ...tabs.map(({ label }) => label)]}
               current={tab}
               onClick={(tab) => setTab({ tab: tab as Tabs })}
             />
-          </Grid>
+          </Gutter>
 
           {contents.map(({ component, label }) => (
-            <Grid key={label}>{component}</Grid>
+            <Gutter key={label}>{component}</Gutter>
           ))}
         </>
       )}

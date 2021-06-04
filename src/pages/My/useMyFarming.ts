@@ -41,6 +41,7 @@ const useMyFarming = (): MyFarming => {
       const { token } = item
       return {
         ...item,
+        is_short: true,
         type: "short" as const,
         apr: apr?.[token]?.short,
         staked: find(BalanceKey.SLPSTAKED, token),

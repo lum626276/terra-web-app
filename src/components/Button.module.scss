@@ -25,6 +25,10 @@
   &.loading {
     opacity: 0.5;
   }
+
+  svg {
+    margin-right: 8px;
+  }
 }
 
 @mixin hover {
@@ -116,7 +120,9 @@
 
 .md {
   @include button-size(14px, 48px, 56px, 20px);
+  width: 100%;
   min-width: 160px;
+  max-width: 360px;
 }
 
 .lg {
