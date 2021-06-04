@@ -110,7 +110,7 @@
 
 .xs {
   @include button-size(12px, 32px, 32px, 10px);
-  width: 90px;
+  min-width: 90px;
 }
 
 .sm {

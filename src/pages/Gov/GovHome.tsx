@@ -12,13 +12,14 @@ const GovHome = () => {
   const forumLink = {
     href: "https://forum.mirror.finance",
     children: "Join Forum",
-    color: "secondary",
+    size: "xs" as const,
     outline: true,
   }
 
   const createLink = {
     to: url + menu[GovMenuKey.CREATE].path,
     children: GovMenuKey.CREATE,
+    size: "xs" as const,
     outline: true,
   }
 
