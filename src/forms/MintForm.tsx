@@ -299,7 +299,7 @@ const MintForm = ({ position, type, tab, message }: Props) => {
       [Key.value2]: {
         label: (
           <TooltipIcon content={Tooltip.Mint.ExpectedMintedAsset}>
-            Minted
+            Borrowed
           </TooltipIcon>
         ),
         input: {
@@ -596,9 +596,9 @@ const MintForm = ({ position, type, tab, message }: Props) => {
           )}
 
           <FormGroup {...fields[Key.value1]} />
+          <FormGroup {...fields[Key.ratio]} skipFeedback />
           {open && <FormIcon name="ArrowDown" />}
           {(open || custom) && <FormGroup {...fields[Key.value2]} />}
-          <FormGroup {...fields[Key.ratio]} skipFeedback />
 
           <section className={styles.ratio}>
             {!custom && <CollateralRatio {...ratioProps} />}
