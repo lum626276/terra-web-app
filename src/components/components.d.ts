@@ -41,6 +41,7 @@ interface FormGroup {
   assets?: ReactNode
   focused?: boolean
   error?: string
+  warn?: ReactNode
   type?: 1 | 2
   skipFeedback?: boolean
 }

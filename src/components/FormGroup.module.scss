@@ -37,6 +37,10 @@ $padding: 18px 24px;
     border-color: $blue;
   }
 
+  &.warn {
+    border-color: $orange;
+  }
+
   &.error {
     border-color: $red;
   }
@@ -121,5 +125,14 @@ $padding: 18px 24px;
 .feedback {
   color: $red;
   font-size: 12px;
-  margin-top: 10px;
+  margin-top: 8px;
+  text-align: right;
+
+  &.warn {
+    color: $orange;
+
+    svg {
+      fill: $orange;
+    }
+  }
 }

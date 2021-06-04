@@ -259,6 +259,22 @@ const MintForm = ({ position, type, tab, message }: Props) => {
       ? lookup(getMaxAmount(find(balanceKey, token1)), UUSD)
       : lookup(find(balanceKey, token1), symbol1)
 
+  /* latest price */
+  const { isClosed } = useLatest()
+  const isMarketClosed1 = getIsDelisted(token1) ? false : isClosed(symbol1)
+  const isMarketClosed2 = getIsDelisted(token2) ? false : isClosed(symbol2)
+  const isMarketClosed = isMarketClosed1 || isMarketClosed2
+
+  const marketClosedMessage = (
+    <p className={styles.message}>
+      Only available during{" "}
+      <ExtLink href={TRADING_HOURS} className={styles.link}>
+        market hours
+      </ExtLink>
+      <Icon name="External" size={14} />
+    </p>
+  )
+
   const fields = {
     ...getFields({
       [Key.value1]: {
@@ -295,6 +311,7 @@ const MintForm = ({ position, type, tab, message }: Props) => {
         assets: select2.assets,
         help: renderBalance(getMax(token2), symbol2),
         focused: select2.isOpen,
+        warn: isMarketClosed ? marketClosedMessage : undefined,
       },
 
       [Key.ratio]: {
@@ -549,25 +566,7 @@ const MintForm = ({ position, type, tab, message }: Props) => {
       ? [`Insufficient ${prevAsset.symbol} balance`]
       : undefined
 
-  const marketClosedMessage = (
-    <p className={styles.message}>
-      Only available during{" "}
-      <ExtLink href={TRADING_HOURS} className={styles.link}>
-        market hours
-      </ExtLink>
-      <Icon name="External" size={14} />
-    </p>
-  )
-
-  /* latest price */
-  const { isClosed } = useLatest()
-  const isMarketClosed1 = getIsDelisted(token1) ? false : isClosed(symbol1)
-  const isMarketClosed2 = getIsDelisted(token2) ? false : isClosed(symbol2)
-  const isMarketClosed = isMarketClosed1 || isMarketClosed2
-
-  const messages = isMarketClosed
-    ? [marketClosedMessage]
-    : touched[Key.ratio]
+  const messages = touched[Key.ratio]
     ? ratioMessages
     : close
     ? closeMessages

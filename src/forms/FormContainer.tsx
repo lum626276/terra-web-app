@@ -163,14 +163,18 @@ export const FormContainer = ({ data: msgs, memo, ...props }: Props) => {
       </Count>
     )
 
+    const renderConfirm = (contents: Content[]) => (
+      <Confirm list={[...contents, { title: txFeeTitle, content: txFee }]} />
+    )
+
     return (
       <>
-        {tab ? <Tab {...tab}>{children}</Tab> : <Card lg>{children}</Card>}
-
-        {contents && (
-          <Confirm
-            list={[...contents, { title: txFeeTitle, content: txFee }]}
-          />
+        {tab ? (
+          <Tab {...tab}>{children}</Tab>
+        ) : (
+          <Card confirm={contents && renderConfirm(contents)} lg>
+            {children}
+          </Card>
         )}
 
         {(invalid ?? messages)?.map((message, index) => (

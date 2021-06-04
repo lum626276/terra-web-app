@@ -7,8 +7,8 @@ import styles from "./FormGroup.module.scss"
 const cx = classNames.bind(styles)
 
 const FormGroup = ({ input, textarea, select, value, ...props }: FormGroup) => {
-  const { label, help, unit, max, assets, focused, error, type = 1 } = props
-  const { skipFeedback } = props
+  const { label, help, unit, max, assets, focused, error, warn } = props
+  const { type = 1, skipFeedback } = props
 
   const inputRef = useRef<HTMLInputElement>()
   const inputAttrs = {
@@ -18,7 +18,7 @@ const FormGroup = ({ input, textarea, select, value, ...props }: FormGroup) => {
     ref: inputRef,
   }
 
-  const border = cx(styles.border, { focused, error, readOnly: value })
+  const border = cx(styles.border, { focused, error, warn, readOnly: value })
 
   const renderUnit = () => (
     <section className={styles.unit}>
@@ -79,7 +79,9 @@ const FormGroup = ({ input, textarea, select, value, ...props }: FormGroup) => {
         </section>
       </div>
 
-      {error && !skipFeedback && <p className={styles.feedback}>{error}</p>}
+      {!skipFeedback && (error || warn) && (
+        <p className={cx(styles.feedback, { warn })}>{error || warn}</p>
+      )}
     </div>
   )
 }

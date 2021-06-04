@@ -15,6 +15,12 @@ export const CardMain: FC<CardMainProps> = ({ full, children, className }) => (
   <section className={cx(styles.main, { full }, className)}>{children}</section>
 )
 
+const CardConfirm: FC = ({ children }) => (
+  <div className={styles.confirm}>
+    <CardMain>{children}</CardMain>
+  </div>
+)
+
 export interface Props {
   /** Icon above title */
   icon?: ReactNode
@@ -22,6 +28,7 @@ export interface Props {
   title?: ReactNode
   description?: ReactNode
   footer?: ReactNode
+  confirm?: ReactNode
 
   /** Card acts as a link */
   to?: string
@@ -50,12 +57,13 @@ interface Badge {
 }
 
 const Card: FC<Props> = (props) => {
-  const { children, footer, to, className, lg, full, shadow } = props
+  const { children, footer, confirm, to, className, lg, full, shadow } = props
 
   const content = (
     <>
       <CardHeader {...props} />
       {full ? children : <CardMain>{children}</CardMain>}
+      {confirm && <CardConfirm>{confirm}</CardConfirm>}
     </>
   )
 
