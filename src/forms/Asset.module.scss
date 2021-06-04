@@ -31,6 +31,14 @@ $line-height: 1.5;
 }
 
 .balance {
-  color: $blue;
+  @include flex;
+
+  color: $white-44;
   font-size: 12px;
+  font-weight: 500;
+
+  svg {
+    fill: $blue;
+    margin-right: 6px;
+  }
 }

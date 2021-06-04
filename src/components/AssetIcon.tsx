@@ -1,5 +1,6 @@
 import { useState } from "react"
 import classNames from "classnames/bind"
+import { UST, UUSD } from "../constants"
 import styles from "./AssetIcon.module.scss"
 
 const cx = classNames.bind(styles)
@@ -30,5 +31,12 @@ const AssetIcon = ({ symbol, small, className }: Props) => {
 export default AssetIcon
 
 /* helpers */
-export const getIcon = (symbol: string) =>
-  `${ICON_URL}/${symbol.startsWith("m") ? symbol.slice(1) : symbol}.png`
+export const getIcon = (symbol: string) => {
+  const ticker = symbol.startsWith("m")
+    ? symbol.slice(1)
+    : symbol === UUSD
+    ? UST
+    : symbol
+
+  return `${ICON_URL}/${ticker}.png`
+}

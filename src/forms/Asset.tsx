@@ -1,7 +1,8 @@
-import Delisted from "../components/Delisted"
+import AssetItem from "../components/AssetItem"
+import Icon from "../components/Icon"
 import { UST } from "../constants"
 import { gt } from "../libs/math"
-import { format, lookupSymbol } from "../libs/parse"
+import { format } from "../libs/parse"
 import styles from "./Asset.module.scss"
 
 interface Props extends AssetItem {
@@ -9,17 +10,10 @@ interface Props extends AssetItem {
 }
 
 const Asset = ({ symbol, name, status, price, balance, ...props }: Props) => {
-  const { formatTokenName } = props
-
   return (
     <article className={styles.asset}>
       <header className={styles.header}>
-        <h1 className={styles.symbol}>
-          {status === "DELISTED" && <Delisted />}
-          {formatTokenName?.(symbol) ?? lookupSymbol(symbol)}{" "}
-        </h1>
-
-        {name !== UST && <h2 className={styles.name}>{name}</h2>}
+        <AssetItem {...props} small />
       </header>
 
       <footer className={styles.footer}>
@@ -31,7 +25,8 @@ const Asset = ({ symbol, name, status, price, balance, ...props }: Props) => {
 
         {balance && gt(balance, 0) && (
           <p className={styles.balance}>
-            Balance: <strong>{format(balance, symbol)}</strong>
+            <Icon name="Wallet" size={16} />
+            <strong>{format(balance, symbol)}</strong>
           </p>
         )}
       </footer>
