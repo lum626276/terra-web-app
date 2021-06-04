@@ -24,9 +24,16 @@ $axis-height: 25px;
 .x {
   position: absolute;
   top: 0;
-  color: $gray-34;
-  font-size: 10px;
+  color: $white-80;
+  font-size: 12px;
   font-weight: 500;
+
+  .compact {
+    color: $white-64;
+    font-weight: normal;
+    letter-spacing: -0.2px;
+  }
+
   height: $axis-height;
   transform: translate(-50%, 0);
   white-space: nowrap;
