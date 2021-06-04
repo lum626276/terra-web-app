@@ -6,7 +6,7 @@ import { GovKey, LIMIT, useGov, useRefetchGov } from "../../graphql/useGov"
 import Card from "../../components/Card"
 import Grid from "../../components/Grid"
 import LoadingTitle from "../../components/LoadingTitle"
-import Button from "../../components/Button"
+import Button, { Submit } from "../../components/Button"
 import Icon from "../../components/Icon"
 import { TooltipIcon } from "../../components/Tooltip"
 import { isEmphasizedPoll } from "./pollHelpers"
@@ -73,9 +73,11 @@ const Polls = ({ title }: { title: string }) => {
       )}
 
       {(!offset || offset - 1 > LIMIT) && (
-        <Button onClick={more} block outline submit>
-          More
-        </Button>
+        <Submit>
+          <Button onClick={more} color="secondary">
+            More
+          </Button>
+        </Submit>
       )}
     </article>
   )

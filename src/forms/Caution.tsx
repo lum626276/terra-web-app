@@ -2,7 +2,7 @@ import { useState } from "react"
 import Contents from "../lang/Caution.json"
 import { useSettings } from "../hooks"
 import Card from "../components/Card"
-import Button from "../components/Button"
+import Button, { Submit } from "../components/Button"
 import Checkbox from "../components/Checkbox"
 import styles from "./Caution.module.scss"
 
@@ -24,46 +24,51 @@ const Caution = ({ onAgree = () => {} }: Props) => {
   }
 
   return (
-    <Card title={title}>
-      <article className={styles.article}>
-        <p>{introduction}</p>
+    <>
+      <Card>
+        <article className={styles.article}>
+          <h1 className={styles.title}>{title}</h1>
 
-        <ol className={styles.list}>
-          {body.map(({ title, content }, index) => (
-            <li key={title}>
-              <article>
-                <h1>
-                  {index + 1}. {title}
-                </h1>
-                <p>{content}</p>
-              </article>
-            </li>
-          ))}
-        </ol>
+          <p>{introduction}</p>
 
-        <p className={styles.conclusion}>{conclusion}</p>
+          <ol className={styles.list}>
+            {body.map(({ title, content }, index) => (
+              <li key={title}>
+                <article>
+                  <h1>
+                    {index + 1}. {title}
+                  </h1>
+                  <p>{content}</p>
+                </article>
+              </li>
+            ))}
+          </ol>
 
-        <footer className={styles.footer}>
-          <button
-            type="button"
-            className={styles.label}
-            onClick={() => setChecked(!checked)}
-          >
-            <Checkbox checked={checked}>{footer}</Checkbox>
-          </button>
-        </footer>
+          <p className={styles.conclusion}>{conclusion}</p>
+        </article>
+      </Card>
 
+      <footer className={styles.footer}>
+        <button
+          type="button"
+          className={styles.label}
+          onClick={() => setChecked(!checked)}
+        >
+          <Checkbox checked={checked}>{footer}</Checkbox>
+        </button>
+      </footer>
+
+      <Submit>
         <Button
           onClick={handleClick}
           disabled={!checked}
           type="button"
           size="lg"
-          submit
         >
           Agree
         </Button>
-      </article>
-    </Card>
+      </Submit>
+    </>
   )
 }
 

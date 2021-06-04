@@ -108,7 +108,7 @@ const LimitOrder = ({ loading, dataSource, total, more }: MyLimitOrder) => {
       )}
 
       {more && (
-        <Button onClick={more} block outline submit>
+        <Button onClick={more} block outline>
           More
         </Button>
       )}

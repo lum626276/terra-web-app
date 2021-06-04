@@ -187,7 +187,7 @@ const Borrowing = ({ loading, dataSource, ...props }: MyBorrowing) => {
       )}
 
       {more && (
-        <Button onClick={more} block outline submit>
+        <Button onClick={more} block outline>
           More
         </Button>
       )}

@@ -26,7 +26,7 @@ const HistoryList = ({ data, loading, more }: Props) => {
       </ul>
 
       {more && (
-        <Button onClick={more} block outline submit>
+        <Button onClick={more} block outline>
           More
         </Button>
       )}

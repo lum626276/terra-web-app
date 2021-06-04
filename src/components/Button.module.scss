@@ -41,6 +41,19 @@
     background-color: fade-out($blue, 0.25);
   }
 
+  &.secondary {
+    background-color: $gray-14;
+    color: $blue;
+
+    svg {
+      fill: $blue;
+    }
+
+    @include hover {
+      background-color: fade-out($gray-14, 0.25);
+    }
+  }
+
   &.disabled {
     background-color: $gray-34;
   }
@@ -67,7 +80,7 @@
   }
 
   &.secondary {
-    @include button-outline-variant(fade-out(white, 0.4));
+    @include button-outline-variant($gray-14);
   }
 }
 

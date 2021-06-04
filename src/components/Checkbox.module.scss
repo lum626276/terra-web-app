@@ -8,6 +8,7 @@
 }
 
 .input {
+  flex: none;
   @include flex;
   border: solid 1px $gray-34;
   border-radius: 3px;

@@ -5,7 +5,6 @@ import useTxs from "../../statistics/useTxs"
 
 import Tab from "../../components/Tab"
 import Grid from "../../components/Grid"
-import Button from "../../components/Button"
 
 import useMy from "./useMy"
 import TotalValue from "./TotalValue"
@@ -15,6 +14,8 @@ import Farming from "./Farming"
 import LimitOrder from "./LimitOrder"
 import Gov from "./Gov"
 import HistoryList from "./HistoryList"
+
+import styles from "./MyConnected.module.scss"
 
 enum Tabs {
   ALL = "All",
@@ -29,7 +30,7 @@ enum Tabs {
 const MyConnected = () => {
   const { disconnect } = useWallet()
   const my = useMy()
-  const { holding, borrowing, farming, gov, limitOrder } = my
+  const { holding, borrowing, farming, gov, limitOrder, loading } = my
 
   const txs = useTxs()
 
@@ -81,7 +82,7 @@ const MyConnected = () => {
 
   const contents = tabs.filter(({ label }) => tab === Tabs.ALL || tab === label)
 
-  return (
+  return loading ? null : (
     <>
       <TotalValue {...my} />
 
@@ -102,9 +103,11 @@ const MyConnected = () => {
       )}
 
       {disconnect && (
-        <Button onClick={disconnect} color="secondary" outline block submit>
-          Disconnect
-        </Button>
+        <p className={styles.footer}>
+          <button className={styles.disconnect} onClick={disconnect}>
+            Disconnect
+          </button>
+        </p>
       )}
     </>
   )

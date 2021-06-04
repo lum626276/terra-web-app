@@ -178,7 +178,7 @@ export const FormContainer = ({ data: msgs, memo, ...props }: Props) => {
         ))}
 
         <Submit>
-          <Button {...next} type="button" size="lg" submit />
+          <Button {...next} type="button" size="lg" />
         </Submit>
       </>
     )
