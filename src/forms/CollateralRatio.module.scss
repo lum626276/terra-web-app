@@ -2,6 +2,9 @@
 
 .component {
   @include flex;
+}
+
+.compact {
   display: inline-flex;
 }
 
