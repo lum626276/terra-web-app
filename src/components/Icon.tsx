@@ -3,6 +3,7 @@ import { ReactComponent as ArrowRightCircleSolid } from "../icons/ArrowRightCirc
 import { ReactComponent as Chart } from "../icons/Chart.svg"
 import { ReactComponent as Chat } from "../icons/Chat.svg"
 import { ReactComponent as Check } from "../icons/Check.svg"
+import { ReactComponent as CheckDouble } from "../icons/CheckDouble.svg"
 import { ReactComponent as ChevronDown } from "../icons/ChevronDown.svg"
 import { ReactComponent as ChevronDownThin } from "../icons/ChevronDownThin.svg"
 import { ReactComponent as ChevronRight } from "../icons/ChevronRight.svg"
@@ -62,6 +63,7 @@ const Icon = ({ name, size = 16, className }: Props) => {
     Chart: <Chart {...props} />,
     Chat: <Chat {...props} />,
     Check: <Check {...props} />,
+    CheckDouble: <CheckDouble {...props} />,
     ChevronDown: <ChevronDown {...props} />,
     ChevronDownThin: <ChevronDownThin {...props} />,
     ChevronRight: <ChevronRight {...props} />,

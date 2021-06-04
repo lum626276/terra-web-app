@@ -2,57 +2,30 @@
 @import "variables";
 
 .wrapper {
-  border-radius: $border-radius;
-  margin-bottom: 15px;
-  padding: 0 20px;
+  background-color: $gray-14;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  padding: 10px 20px;
 }
 
 .row {
   @include flex(space-between);
-  padding: 15px 0;
+  padding: 10px 0;
 }
 
 .title,
 .content {
-  font-size: 14px;
-  font-weight: 500;
-}
+  color: $white-92;
+  font-size: 16px;
+  font-weight: normal;
 
-.title {
-  color: white;
-}
-
-.content {
-  color: $blue;
-}
-
-.children {
-  border-top: 1px dashed fade-out($white-44, 0.5);
-  padding: 10px 0;
-
-  .row {
-    padding: 5px 0;
-  }
-
-  .title,
-  .content {
-    color: $white-44;
+  .children & {
+    color: $white-52;
     font-size: 12px;
     font-weight: normal;
   }
 }
 
 .footer {
-  padding: 10px 0;
-
-  .row {
-    padding: 5px 20px;
-  }
-
-  .title,
-  .content {
-    color: $white-44;
-    font-size: 14px;
-    font-weight: normal;
-  }
+  margin-top: 40px;
 }

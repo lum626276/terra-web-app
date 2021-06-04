@@ -1,0 +1,20 @@
+@import "mixins";
+
+$border: 1px dashed $gray-24;
+
+.row {
+  @include flex(space-between);
+  color: $white-44;
+  padding: 24px 20px;
+  border-bottom: $border;
+
+  &:first-child {
+    border-top: $border;
+  }
+
+  .title {
+    font-size: 14px;
+    font-weight: normal;
+    color: $white-44;
+  }
+}

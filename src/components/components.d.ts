@@ -54,7 +54,6 @@ interface ButtonProps {
   block?: boolean
 
   loading?: boolean
-  submit?: boolean
 
   disabled?: boolean
   className?: string
@@ -118,6 +117,7 @@ type IconNames =
   | "Chart"
   | "Chat"
   | "Check"
+  | "CheckDouble"
   | "ChevronDown"
   | "ChevronDownThin"
   | "ChevronRight"

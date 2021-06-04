@@ -3,8 +3,9 @@ import classNames from "classnames/bind"
 import Card from "./Card"
 import Icon from "./Icon"
 import Loading from "./Loading"
-import Button from "./Button"
+import Button, { Submit } from "./Button"
 import LinkButton, { LinkProps } from "./LinkButton"
+import ResultFooter from "./ResultFooter"
 import styles from "./Wait.module.scss"
 
 const cx = classNames.bind(styles)
@@ -30,9 +31,9 @@ const Wait: FC<Props> = ({ status, hash, link, button, children }) => {
   }[status]
 
   const iconName: IconNames | undefined = {
-    [STATUS.SUCCESS]: "Check" as const,
+    [STATUS.SUCCESS]: "CheckDouble" as IconNames,
     [STATUS.LOADING]: undefined,
-    [STATUS.FAILURE]: "ExclamationCircle" as const,
+    [STATUS.FAILURE]: "ExclamationCircle" as IconNames,
   }[status]
 
   const icon = iconName ? (
@@ -42,27 +43,31 @@ const Wait: FC<Props> = ({ status, hash, link, button, children }) => {
   )
 
   return (
-    <Card icon={icon} title={title} lg>
-      <section className={styles.contents}>
-        {hash && <div className={styles.hash}>{hash}</div>}
+    <>
+      <Card icon={icon} title={title} lg>
+        <section className={styles.contents}>
+          {hash && (
+            <ResultFooter list={[{ title: "Tx Hash", content: hash }]} />
+          )}
 
-        {status === STATUS.FAILURE ? (
-          <p className={styles.feedback}>{children}</p>
-        ) : (
-          children
-        )}
-      </section>
+          {status === STATUS.FAILURE ? (
+            <p className={styles.feedback}>{children}</p>
+          ) : (
+            children
+          )}
+        </section>
+      </Card>
 
       {(link || button) && (
-        <footer>
+        <Submit>
           {link ? (
-            <LinkButton {...link} size="lg" submit />
+            <LinkButton {...link} size="lg" />
           ) : (
-            <Button {...button} size="lg" submit />
+            <Button {...button} size="lg" />
           )}
-        </footer>
+        </Submit>
       )}
-    </Card>
+    </>
   )
 }
 

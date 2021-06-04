@@ -6,10 +6,11 @@ import { TxResult } from "@terra-money/wallet-provider"
 import { UserDenied, CreateTxFailed } from "@terra-money/wallet-provider"
 import { TxFailed, TxUnspecifiedError } from "@terra-money/wallet-provider"
 
+import { UUSD } from "../constants"
 import MESSAGE from "../lang/MESSAGE.json"
 import Tooltip from "../lang/Tooltip.json"
-import { UUSD } from "../constants"
 import { gt, plus, sum } from "../libs/math"
+import { capitalize } from "../libs/utils"
 import useHash from "../libs/useHash"
 import { useContract, useSettings, useAddress } from "../hooks"
 import useTax from "../graphql/useTax"
@@ -21,7 +22,7 @@ import Tab from "../components/Tab"
 import Card from "../components/Card"
 import Confirm from "../components/Confirm"
 import FormFeedback from "../components/FormFeedback"
-import Button from "../components/Button"
+import Button, { Submit } from "../components/Button"
 import Count from "../components/Count"
 import { TooltipIcon } from "../components/Tooltip"
 
@@ -143,7 +144,7 @@ export const FormContainer = ({ data: msgs, memo, ...props }: Props) => {
     const next = address
       ? {
           onClick: confirm,
-          children: label ?? hash ?? "Submit",
+          children: capitalize(label ?? hash ?? "Submit"),
           loading: submitted,
           disabled,
         }
@@ -176,7 +177,9 @@ export const FormContainer = ({ data: msgs, memo, ...props }: Props) => {
           <FormFeedback key={index}>{message}</FormFeedback>
         ))}
 
-        <Button {...next} type="button" size="lg" submit />
+        <Submit>
+          <Button {...next} type="button" size="lg" submit />
+        </Submit>
       </>
     )
   }
