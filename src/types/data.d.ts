@@ -45,6 +45,8 @@ interface RewardInfo {
 
 interface GovStaker extends Balance {
   locked_balance: LockedBalance[]
+  withdrawable_polls: [number, string][]
+  pending_voting_rewards: string
 }
 
 type LockedBalance = [number, { balance: string; vote: VoteAnswer }]

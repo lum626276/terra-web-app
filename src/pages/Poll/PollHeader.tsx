@@ -24,32 +24,15 @@ const PollHeader = ({ titleClassName, ...props }: Props) => {
     [PollStatus.Executed]: "VerifiedSolid",
   }
 
-  const { url } = useRouteMatch()
-  const params = useParams<{ id: string }>()
-  const { parsed } = useContract()
   const { polls } = useGov()
   const { height } = polls
   const end = height && height > end_height
 
-  useRefetch([BalanceKey.GOVSTAKED])
-
-  const alreadyVoted = parsed[BalanceKey.GOVSTAKED]?.locked_balance.some(
-    ([lockedId]: LockedBalance) => id === lockedId
-  )
-
   return (
     <header className={styles.header}>
-      <section className={styles.wrapper}>
-        <section className={styles.meta}>
-          <span className={styles.id}>ID: {id}</span>
-          <span className={styles.type}>{type}</span>
-        </section>
-
-        {params.id && !end && (
-          <LinkButton to={url + "/vote"} disabled={alreadyVoted}>
-            {alreadyVoted ? "Voted" : "Vote"}
-          </LinkButton>
-        )}
+      <section className={styles.meta}>
+        <span className={styles.id}>ID: {id}</span>
+        <span className={styles.type}>{type}</span>
       </section>
 
       <section

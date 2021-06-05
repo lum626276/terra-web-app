@@ -10,7 +10,8 @@ const useMyGov = (): MyGov => {
 
   const { loading } = useCombineKeys(keys)
   const { getToken } = useContractsAddress()
-  const { find } = useContract()
+  const { find, parsed } = useContract()
+  const govStake: GovStaker = parsed[BalanceKey.GOVSTAKED]
 
   const mir = getToken(MIR)
 
@@ -24,7 +25,10 @@ const useMyGov = (): MyGov => {
     loading,
     staked: valid ? staked : "0",
     stakedValue: valid ? stakedValue : "0",
-    dataSource: [],
+    votingTotal: govStake?.pending_voting_rewards ?? "0",
+    dataSource:
+      govStake?.withdrawable_polls.map(([id, reward]) => ({ id, reward })) ??
+      [],
   }
 }
 

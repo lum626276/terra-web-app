@@ -7,6 +7,7 @@ import PollMeta from "./PollMeta"
 import PollSummary from "./PollSummary"
 import PollVotes from "./PollVotes"
 import PollVoters from "./PollVoters"
+import VoteLink from "./VoteLink"
 import styles from "./PollDetails.module.scss"
 
 const PollDetails = ({ poll }: { poll: Poll }) => {
@@ -19,6 +20,7 @@ const PollDetails = ({ poll }: { poll: Poll }) => {
         <Card>
           <PollHeader {...poll} titleClassName={styles.title} />
           <PollMeta {...poll} />
+          <VoteLink {...poll} />
         </Card>
       </Gutter>
 

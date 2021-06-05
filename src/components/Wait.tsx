@@ -43,7 +43,7 @@ const Wait: FC<Props> = ({ status, hash, link, button, children }) => {
   )
 
   return (
-    <>
+    <article>
       <Card icon={icon} title={title} lg>
         <section className={styles.contents}>
           {hash && (
@@ -67,7 +67,7 @@ const Wait: FC<Props> = ({ status, hash, link, button, children }) => {
           )}
         </Submit>
       )}
-    </>
+    </article>
   )
 }
 

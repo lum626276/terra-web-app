@@ -31,7 +31,7 @@ const FormGroup = ({ input, textarea, select, value, ...props }: FormGroup) => {
   )
 
   return (
-    <div className={classNames(styles.group, styles.component)}>
+    <div className={cx(styles.group, styles.component, `type-${type}`)}>
       <div className={cx(type === 1 && border)}>
         {label && (
           <header className={styles.header}>

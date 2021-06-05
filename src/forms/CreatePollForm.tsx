@@ -13,6 +13,7 @@ import { GovKey, useGov } from "../graphql/useGov"
 import useContractQuery from "../graphql/useContractQuery"
 import { TooltipIcon } from "../components/Tooltip"
 import FormGroup from "../components/FormGroup"
+import Formatted from "../components/Formatted"
 import { PollType } from "../pages/Poll/CreatePoll"
 import useGovReceipt from "./receipts/useGovReceipt"
 import useSelectAsset, { Config } from "./useSelectAsset"
@@ -279,7 +280,6 @@ const CreatePollForm = ({ type, headings }: Props) => {
   const { recipient, amount } = values
 
   const deposit = config?.proposal_deposit ?? "0"
-  const value = lookup(deposit, MIR)
 
   /* render:form */
   const selectAssetConfig: Config = {
@@ -326,8 +326,7 @@ const CreatePollForm = ({ type, headings }: Props) => {
     deposit: {
       help: renderBalance(find(balanceKey, getToken(MIR)), MIR),
       label: <TooltipIcon content={Tooltip.Gov.Deposit}>Deposit</TooltipIcon>,
-      value,
-      unit: MIR,
+      value: <Formatted symbol={MIR}>{deposit}</Formatted>,
     },
 
     ...getFields({

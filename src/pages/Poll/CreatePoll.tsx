@@ -73,7 +73,7 @@ const polls = {
 }
 
 const CreatePoll = () => {
-  const { hash: type } = useHash<PollType>(PollType.TEXT_WHITELIST)
+  const { hash: type } = useHash<PollType>(PollType.TEXT)
 
   return (
     <Page>

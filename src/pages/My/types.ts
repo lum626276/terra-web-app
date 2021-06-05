@@ -82,10 +82,14 @@ export interface MyGov {
   loading: boolean
   staked: string
   stakedValue: string
+  votingTotal: string
   dataSource: MyGovRow[]
 }
 
-export interface MyGovRow {}
+export interface MyGovRow {
+  id: number
+  reward: string
+}
 
 export interface MyLimitOrder {
   keys: DataKey[]
