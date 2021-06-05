@@ -5,6 +5,7 @@ import Grid from "../../components/Grid"
 import List from "../../components/List"
 import CreatePollForm from "../../forms/CreatePollForm"
 import ForumLink from "./ForumLink"
+import styles from "./CreatePoll.module.scss"
 
 export enum PollType {
   TEXT = "TEXT",
@@ -80,7 +81,7 @@ const CreatePoll = () => {
         <ForumLink />
 
         <Grid>
-          <section>
+          <section className={styles.nav}>
             <List
               groups={Groups.map(({ title, items }) => ({
                 title,
