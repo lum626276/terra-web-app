@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { MIR, UUSD } from "../constants"
-import { lt, gt, div, minus } from "../libs/math"
+import { gt, div, minus, max, number } from "../libs/math"
 import { useContractsAddress, useContract, useRefetch } from "../hooks"
 import { AssetInfoKey, BalanceKey, PriceKey } from "../hooks/contractKeys"
 import useAssetStats from "../statistics/useAssetStats"
@@ -15,6 +15,7 @@ import { FarmType } from "../types/Types"
 import styles from "./FarmList.module.scss"
 
 interface Item extends ListedItem {
+  apr: { long?: string; short?: string }
   liquidity?: string
   volume?: string
   totalStaked?: string
@@ -26,9 +27,23 @@ interface Sorter {
 }
 
 const Sorters: Dictionary<Sorter> = {
-  TOPFARMING: {
-    label: "Top Farming",
-    compare: (a, b) => (lt(a.totalStaked ?? 0, b.totalStaked ?? 0) ? 1 : -1),
+  HIGHESTAPR: {
+    label: "Highest APR",
+    compare: ({ apr: a }, { apr: b }) =>
+      number(
+        minus(
+          max([b.long ?? 0, b.short ?? 0]),
+          max([a.long ?? 0, a.short ?? 0])
+        )
+      ),
+  },
+  LPAPR: {
+    label: "LP APR",
+    compare: ({ apr: a }, { apr: b }) => number(minus(b.long, a.long)),
+  },
+  SLPAPR: {
+    label: "sLP APR",
+    compare: ({ apr: a }, { apr: b }) => number(minus(b.short, a.short)),
   },
 }
 
@@ -50,7 +65,7 @@ const FarmList = () => {
   const { data } = useRefetch(keys)
 
   const [input, setInput] = useState("")
-  const [sorter, setSorter] = useState("TOPFARMING")
+  const [sorter, setSorter] = useState("HIGHESTAPR")
 
   const dataSource = listed
     .filter(({ token }) => gt(liquidity?.[token] ?? 0, 0))
