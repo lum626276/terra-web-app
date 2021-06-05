@@ -1,8 +1,4 @@
-import { useParams, useRouteMatch } from "react-router-dom"
 import classNames from "classnames/bind"
-import { useContract, useRefetch } from "../../hooks"
-import { BalanceKey } from "../../hooks/contractKeys"
-import LinkButton from "../../components/LinkButton"
 import Icon from "../../components/Icon"
 import { useGov } from "../../graphql/useGov"
 import { PollStatus } from "./Poll"
