@@ -21,7 +21,7 @@ enum Tabs {
   ALL = "All",
   HOLDING = "Holding",
   LIMITORDER = "Limit Order",
-  BORROW = "Borrow",
+  BORROWING = "Borrowing",
   FARMING = "Farming",
   GOVERN = "Govern",
   HISTORY = "History",
@@ -59,7 +59,7 @@ const MyConnected = () => {
       component: <LimitOrder {...limitOrder} />,
     },
     {
-      label: Tabs.BORROW,
+      label: Tabs.BORROWING,
       hidden: !hasBorrowing,
       component: <Borrowing {...borrowing} />,
     },
