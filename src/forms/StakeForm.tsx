@@ -43,7 +43,7 @@ const StakeForm = ({ type, tab, gov, ...props }: Props) => {
         }
       : {
           [StakeType.STAKE]: BalanceKey.TOKEN,
-          [StakeType.UNSTAKE]: BalanceKey.MIRGOVSTAKED,
+          [StakeType.UNSTAKE]: BalanceKey.GOVSTAKED,
         }
   )[type as StakeType]
 
@@ -52,16 +52,16 @@ const StakeForm = ({ type, tab, gov, ...props }: Props) => {
   const token = props.token ?? state?.token
   const { contracts, whitelist, getSymbol } = useContractsAddress()
   const { find, parsed } = useContract()
-  useRefetch([balanceKey, !gov ? BalanceKey.LPSTAKED : BalanceKey.MIRGOVSTAKED])
+  useRefetch([balanceKey, !gov ? BalanceKey.LPSTAKED : BalanceKey.GOVSTAKED])
 
   const getLocked = () =>
     findMax(
-      parsed[BalanceKey.MIRGOVSTAKED]?.locked_balance?.map(
+      parsed[BalanceKey.GOVSTAKED]?.locked_balance?.map(
         ([, { balance }]: LockedBalance) => balance
       ) ?? [0]
     )
 
-  const lockedIds = parsed[BalanceKey.MIRGOVSTAKED]?.locked_balance
+  const lockedIds = parsed[BalanceKey.GOVSTAKED]?.locked_balance
     ?.map(([id]: LockedBalance) => id)
     .join(", ")
 
@@ -119,10 +119,7 @@ const StakeForm = ({ type, tab, gov, ...props }: Props) => {
   }
 
   /* confirm */
-  const staked = find(
-    !gov ? BalanceKey.LPSTAKED : BalanceKey.MIRGOVSTAKED,
-    token
-  )
+  const staked = find(!gov ? BalanceKey.LPSTAKED : BalanceKey.GOVSTAKED, token)
 
   const contents = !value
     ? undefined

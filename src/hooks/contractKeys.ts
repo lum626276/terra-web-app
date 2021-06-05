@@ -20,7 +20,7 @@ export enum BalanceKey {
   LPSTAKABLE = "lpStakable",
   LPSTAKED = "lpStaked",
   SLPSTAKED = "slpStaked",
-  MIRGOVSTAKED = "MIRGovStaked",
+  GOVSTAKED = "MIRGovStaked",
   REWARD = "reward",
   SLPREWARD = "slpReward",
 }

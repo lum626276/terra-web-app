@@ -31,9 +31,9 @@ const PollHeader = ({ titleClassName, ...props }: Props) => {
   const { height } = polls
   const end = height && height > end_height
 
-  useRefetch([BalanceKey.MIRGOVSTAKED])
+  useRefetch([BalanceKey.GOVSTAKED])
 
-  const alreadyVoted = parsed[BalanceKey.MIRGOVSTAKED]?.locked_balance.some(
+  const alreadyVoted = parsed[BalanceKey.GOVSTAKED]?.locked_balance.some(
     ([lockedId]: LockedBalance) => id === lockedId
   )
 

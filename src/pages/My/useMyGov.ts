@@ -6,7 +6,7 @@ import { MyGov } from "./types"
 
 const useMyGov = (): MyGov => {
   const priceKey = PriceKey.PAIR
-  const keys = [BalanceKey.MIRGOVSTAKED]
+  const keys = [BalanceKey.GOVSTAKED]
 
   const { loading } = useCombineKeys(keys)
   const { getToken } = useContractsAddress()
@@ -15,7 +15,7 @@ const useMyGov = (): MyGov => {
   const mir = getToken(MIR)
 
   const price = find(priceKey, mir)
-  const staked = find(BalanceKey.MIRGOVSTAKED, mir)
+  const staked = find(BalanceKey.GOVSTAKED, mir)
   const valid = gt(staked, 1)
   const stakedValue = times(staked, price)
 

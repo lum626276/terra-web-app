@@ -41,7 +41,7 @@ export default () => {
       reduceStakingReward(stakingReward, "bond_amount"),
     [BalanceKey.SLPSTAKED]: (stakingReward: StakingReward) =>
       reduceStakingReward(stakingReward, "bond_amount", true),
-    [BalanceKey.MIRGOVSTAKED]: (govStake: Balance) => {
+    [BalanceKey.GOVSTAKED]: (govStake: Balance) => {
       const token = getToken(MIR)
       return { [token]: govStake.balance }
     },

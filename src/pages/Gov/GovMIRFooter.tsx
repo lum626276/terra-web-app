@@ -14,8 +14,8 @@ const GovMIRFooter = () => {
     {
       title: `Staked ${MIR}`,
       content: (
-        <WithResult keys={[BalanceKey.MIRGOVSTAKED]}>
-          {formatAsset(find(BalanceKey.MIRGOVSTAKED, getToken(MIR)), MIR)}
+        <WithResult keys={[BalanceKey.GOVSTAKED]}>
+          {formatAsset(find(BalanceKey.GOVSTAKED, getToken(MIR)), MIR)}
         </WithResult>
       ),
     },

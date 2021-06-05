@@ -32,7 +32,7 @@ enum AnswerKey {
 }
 
 const VoteForm = ({ tab }: { tab: Tab }) => {
-  const balanceKey = BalanceKey.MIRGOVSTAKED
+  const balanceKey = BalanceKey.GOVSTAKED
   const symbol = MIR
 
   /* context */

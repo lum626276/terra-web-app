@@ -90,7 +90,7 @@ export const useContractState = (address: string): Contract => {
     [BalanceKey.LPSTAKABLE]: lpTokenBalance.result,
     [BalanceKey.LPSTAKED]: stakingReward.result,
     [BalanceKey.SLPSTAKED]: stakingReward.result,
-    [BalanceKey.MIRGOVSTAKED]: govStake.result,
+    [BalanceKey.GOVSTAKED]: govStake.result,
     [BalanceKey.REWARD]: stakingReward.result,
     [BalanceKey.SLPREWARD]: stakingReward.result,
 
@@ -108,7 +108,7 @@ export const useContractState = (address: string): Contract => {
     [BalanceKey.LPSTAKABLE]: lpTokenBalance.parsed,
     [BalanceKey.LPSTAKED]: stakingReward.parsed,
     [BalanceKey.SLPSTAKED]: stakingReward.parsed,
-    [BalanceKey.MIRGOVSTAKED]: govStake.parsed,
+    [BalanceKey.GOVSTAKED]: govStake.parsed,
     [BalanceKey.REWARD]: stakingReward.parsed,
     [BalanceKey.SLPREWARD]: stakingReward.parsed,
   }
@@ -148,8 +148,8 @@ export const useContractState = (address: string): Contract => {
     [BalanceKey.SLPSTAKED]:
       stakingReward.parsed &&
       balance[BalanceKey.SLPSTAKED](stakingReward.parsed),
-    [BalanceKey.MIRGOVSTAKED]:
-      govStake.parsed && balance[BalanceKey.MIRGOVSTAKED](govStake.parsed),
+    [BalanceKey.GOVSTAKED]:
+      govStake.parsed && balance[BalanceKey.GOVSTAKED](govStake.parsed),
     [BalanceKey.REWARD]:
       stakingReward.parsed && balance[BalanceKey.REWARD](stakingReward.parsed),
     [BalanceKey.SLPREWARD]:

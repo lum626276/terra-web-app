@@ -62,7 +62,7 @@ const useMyFarming = (): MyFarming => {
     dataSource.map(({ withdrawable }) => withdrawable?.value ?? 0)
   )
 
-  const govStakedValue = times(find(BalanceKey.MIRGOVSTAKED, mir), price)
+  const govStakedValue = times(find(BalanceKey.GOVSTAKED, mir), price)
 
   return {
     keys,
