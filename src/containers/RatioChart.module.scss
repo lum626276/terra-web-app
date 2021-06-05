@@ -9,21 +9,12 @@
   height: 56px;
 }
 
-.text {
+.list {
+  @include flex(flex-start);
+  flex-wrap: wrap;
+}
+
+.item {
   margin-top: 16px;
-  white-space: nowrap;
-}
-
-.label {
-  color: $white-44;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: -0.2px;
-  margin-bottom: 4px;
-  text-transform: uppercase;
-}
-
-.value {
-  color: $white-92;
-  font-size: 14px;
+  margin-right: 28px;
 }

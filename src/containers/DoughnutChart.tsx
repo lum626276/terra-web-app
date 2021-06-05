@@ -1,14 +1,8 @@
 import { ChartData, ChartOptions } from "chart.js"
 import { Doughnut } from "react-chartjs-2"
 import { number } from "../libs/math"
+import Legend, { colors } from "./Legend"
 import styles from "./DoughnutChart.module.scss"
-
-const $blue38 = "#4a5460"
-const $blue62 = "#55779d"
-const $blue100 = "#66adff"
-const $gray24 = "#3d3d3d"
-
-const colors = [$blue100, $blue62, $blue38, $gray24]
 
 interface Props {
   list: { label: string; value: string }[]
@@ -45,15 +39,9 @@ const DoughnutChart = ({ list, format }: Props) => {
       <ul>
         {list.map(({ label, value }, index) => (
           <li className={styles.item} key={label}>
-            <header className={styles.header}>
-              <div
-                className={styles.square}
-                style={{ backgroundColor: colors[index] }}
-              />
-              <h1 className={styles.label}>{label}</h1>
-            </header>
-
-            <p className={styles.value}>{format(value)}</p>
+            <Legend label={label} index={index}>
+              {format(value)}
+            </Legend>
           </li>
         ))}
       </ul>
