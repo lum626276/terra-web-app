@@ -3,7 +3,7 @@ import { Dictionary } from "ramda"
 import { AccAddress } from "@terra-money/terra.js"
 
 import { UUSD } from "../constants"
-import { sum } from "../libs/math"
+import { plus, sum } from "../libs/math"
 
 import usePairPool from "../graphql/queries/usePairPool"
 import useOraclePrice from "../graphql/queries/useOraclePrice"
@@ -182,7 +182,11 @@ export const useContractState = (address: string): Contract => {
     return result ?? (isUSTPrice ? USTPrice : isUSTBalance ? USTBalance : "0")
   }
 
-  const rewards = sum(Object.values(dictionary[BalanceKey.REWARD] ?? {}))
+  const rewards = plus(
+    sum(Object.values(dictionary[BalanceKey.REWARD] ?? {})),
+    sum(Object.values(dictionary[BalanceKey.SLPREWARD] ?? {}))
+  )
+
   return { result, parsed, ...data, find, rewards }
 }
 
